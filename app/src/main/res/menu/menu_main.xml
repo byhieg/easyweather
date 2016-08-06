@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+
+    <item android:id="@+id/location"
+        android:title="@string/location"
+        android:orderInCategory="80"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/feedback"
+        android:title="@string/feedback"
+        android:orderInCategory="90"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/like"
+        android:title="@string/like"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
+</menu>

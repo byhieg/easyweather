@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">EasyWeather</string>
+
+
+    <!--menu菜单中的文字-->
+    <string name="location">定位</string>
+    <string name="feedback">期待反馈</string>
+    <string name="like">喜欢</string>
+
+
+    <!--侧边栏list中的文字-->
+    <string name="scenic_spot">景点</string>
+    <string name="setting">设置</string>
+    <string name="share">分享</string>
+    <string name="help">帮助</string>
+    <string name="laboratory">实验室</string>
+    <string name="wiki">天气百科</string>
+    <string name="future">未来天气走向</string>
+    <string name="about">关于</string>
+
+
 </resources>

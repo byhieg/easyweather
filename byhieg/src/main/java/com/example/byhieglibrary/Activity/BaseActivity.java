@@ -57,8 +57,9 @@ public abstract class BaseActivity extends AppCompatActivity implements InitUI, 
         mDensity = metric.density;
         ButterKnife.bind(this);
         initData();
-        initEvent();
         initView();
+        initEvent();
+
     }
 
     /**
