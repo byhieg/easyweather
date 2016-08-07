@@ -13,9 +13,6 @@ import com.weather.byhieg.easyweather.R;
 
 import java.util.ArrayList;
 
-/**
- * Created by byhieg on 16-8-6.
- */
 public class DrawerListAdapter extends RecyclerView.Adapter{
 
     private ArrayList<DrawerContext> drawerList;
@@ -27,7 +24,7 @@ public class DrawerListAdapter extends RecyclerView.Adapter{
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_drawer_list, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_drawer_list, parent,false);
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         view.setLayoutParams(lp);
         return new DrawerViewHolder(view);
@@ -35,8 +32,8 @@ public class DrawerListAdapter extends RecyclerView.Adapter{
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        DrawerViewHolder drawerViewHolder = (DrawerViewHolder)holder;
-        drawerViewHolder.position = position;
+//        DrawerViewHolder drawerViewHolder = (DrawerViewHolder)holder;
+//        drawerViewHolder.position = position;
         DrawerContext drawerContext = drawerList.get(position);
         ((DrawerViewHolder) holder).arrow.setVisibility(View.GONE);
         ((DrawerViewHolder) holder).icon.setImageResource(drawerContext.getImage());
@@ -53,8 +50,6 @@ public class DrawerListAdapter extends RecyclerView.Adapter{
         public ImageView icon;
         public TextView name;
         public ImageView arrow;
-        public int position;
-
 
         public DrawerViewHolder(View itemView) {
             super(itemView);

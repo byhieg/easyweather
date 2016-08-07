@@ -2,9 +2,6 @@ package com.weather.byhieg.easyweather.Bean;
 
 import java.io.Serializable;
 
-/**
- * Created by byhieg on 16-8-6.
- */
 public class DrawerContext implements Serializable{
     public int image;
     public int name;
