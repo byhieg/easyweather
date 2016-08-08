@@ -80,8 +80,8 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initView() {
         toolbar.setTitle("成都");
+        setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
-            setSupportActionBar(toolbar);
             getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -121,11 +121,15 @@ public class MainActivity extends BaseActivity {
             public void onClick(View v) {
                 if (rotateCount % 2 == 0) {
                     Animation animation = new RotateAnimation(0, 180,50,50);
-                    animation.setDuration(300);
+                    animation.setDuration(10);
                     animation.setFillAfter(true);
                     animation.setAnimationListener(new Animation.AnimationListener() {
                         @Override
                         public void onAnimationStart(Animation animation) {
+
+                        }
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
                             if(convertView == null){
                                 convertView = viewStub.inflate();
                                 ListView listView = (ListView) convertView.findViewById(R.id.view_spot_list);
@@ -133,10 +137,6 @@ public class MainActivity extends BaseActivity {
 //                                recyclerView.setAdapter(drawerListAdapter);
                             }
                             convertView.setVisibility(View.VISIBLE);
-                        }
-                        @Override
-                        public void onAnimationEnd(Animation animation) {
-
                         }
 
                         @Override
@@ -148,17 +148,17 @@ public class MainActivity extends BaseActivity {
                 }
                 else{
                     Animation animation = new RotateAnimation(180, 360, 50, 50);
-                    animation.setDuration(300);
+                    animation.setDuration(10);
                     animation.setFillAfter(true);
                     animation.setAnimationListener(new Animation.AnimationListener() {
                         @Override
                         public void onAnimationStart(Animation animation) {
-                           viewStub.setVisibility(View.GONE);
+
                         }
 
                         @Override
                         public void onAnimationEnd(Animation animation) {
-
+                            viewStub.setVisibility(View.GONE);
                         }
 
                         @Override
