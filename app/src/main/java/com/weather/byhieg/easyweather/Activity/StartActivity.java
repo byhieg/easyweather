@@ -28,7 +28,7 @@ public class StartActivity extends Activity {
                 Intent intent = new Intent(StartActivity.this, MainActivity.class);
                 startActivity(intent);
             }
-        },3000);
+        },3500);
 
     }
 

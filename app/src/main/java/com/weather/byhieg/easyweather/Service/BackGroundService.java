@@ -125,13 +125,13 @@ public class BackGroundService extends IntentService {
                 where(LoveCityDao.Properties.Order.eq(1)).list().get(0);
 
         if (firstCity != null) {
-            CityWeather weather = MyApplication.
+            List<CityWeather> weather = MyApplication.
                     getDaoSession(this).
                     getCityWeatherDao().
                     queryBuilder().
-                    where(CityWeatherDao.Properties.CityName.eq(firstCity)).list().get(0);
+                    where(CityWeatherDao.Properties.CityName.eq(firstCity)).list();
 
-            if (weather == null) {
+            if (weather != null && weather.size() == 0) {
                 try {
                     doNetWeather(firstCity.getCitynName());
                 } catch (Exception e) {
