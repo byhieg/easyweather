@@ -6,6 +6,7 @@
     <dimen name="toolbarTextSize">16sp</dimen>
 
     <dimen name="itemTextSize">16sp</dimen>
+    <dimen name="toastTextSize">18sp</dimen>
 
     <dimen name="startActivityTextSize">50sp</dimen>
 </resources>
