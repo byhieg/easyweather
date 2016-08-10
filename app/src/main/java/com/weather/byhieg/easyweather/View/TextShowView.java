@@ -112,7 +112,7 @@ public class TextShowView extends View {
 
         Bitmap descBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvasTemp = new Canvas(descBitmap);
-        int [] easyPosition = {width / 2 + getPx(10), height / 2 - getPx(10.0)};
+        int [] easyPosition = {width / 2 + getPx(10), height / 2 - getPx(8.0)};
         int [] weatherPosition = {width / 2 + getPx(10),  height / 2 + getPx(42.0)};
         canvasTemp.drawText("Eaaaasy",easyPosition[0],easyPosition[1],mPaint);
         canvasTemp.drawText("Weather",weatherPosition[0],weatherPosition[1],mPaint);

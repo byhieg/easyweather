@@ -5,7 +5,7 @@
     android:paddingRight="@dimen/activity_vertical_margin"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/selector_item"
+    android:background="@drawable/ripple_item"
     android:clickable="true">
 
     <ImageView

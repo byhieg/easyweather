@@ -16,15 +16,15 @@ public class MyApplication extends Application{
     private static final String heweatherKey = "93d476b872724a9681a642dce28c6523";
 
 
-    public static DaoMaster getDaoMaster(Context context) {
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, "Weather-db", null);
+    public static DaoMaster getDaoMaster() {
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(getAppContext(), "Weather-db", null);
         daoMaster = new DaoMaster(helper.getWritableDatabase());
         return daoMaster;
     }
-    public static DaoSession getDaoSession(Context context) {
+    public static DaoSession getDaoSession() {
         if (daoSession == null) {
             if (daoMaster == null) {
-                daoMaster = getDaoMaster(context);
+                daoMaster = getDaoMaster();
             }
             daoSession = daoMaster.newSession();
         }

@@ -19,4 +19,15 @@
     <string name="about">关于</string>
 
 
+    <!--主界面中的文字-->
+    <string name="sunrise">日出</string>
+    <string name="sunset">日落</string>
+    <string name="press">气压</string>
+    <string name="uv">紫外线指数</string>
+    <string name="qlty">空气质量级别</string>
+    <string name="vis">可见度</string>
+    <string name="pm">PM2.5</string>
+    <string name="hum">湿度</string>
+
+
 </resources>

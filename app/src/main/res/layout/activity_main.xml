@@ -9,14 +9,23 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white">
 
         <include layout="@layout/toolbar"
             android:id="@+id/toolbar"/>
-        <TextView
-            android:layout_width="wrap_content"
+
+
+        <ScrollView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="nihao"/>
+            android:id="@+id/scrollView">
+
+            <include layout="@layout/layout_expand_view" />
+        </ScrollView>
+
+
     </LinearLayout>
 
 

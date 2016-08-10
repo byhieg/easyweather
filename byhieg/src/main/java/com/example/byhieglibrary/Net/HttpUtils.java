@@ -151,17 +151,13 @@ public  class HttpUtils {
     /**
      * 同步的get请求
      */
-    private Response _getAsyn(String url) {
+    private Response _getAsyn(String url) throws Exception{
         Request request = new Request.Builder().url(url).build();
         Call call = okHttpClient.newCall(request);
-        try {
-            Response response = call.execute();
-            return response;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Response response = call.execute();
+        return response;
 
-        return  null;
+
     }
 
 
@@ -338,7 +334,7 @@ public  class HttpUtils {
         getInstance()._download(url,destFileDir,callback);
     }
 
-    public static Response getAsyn(String url) {
+    public static Response getAsyn(String url) throws Exception{
        return getInstance()._getAsyn(url);
     }
 

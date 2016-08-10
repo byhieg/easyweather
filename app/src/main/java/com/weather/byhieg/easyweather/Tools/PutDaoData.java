@@ -12,6 +12,7 @@ import java.util.Locale;
 
 
 public class PutDaoData {
+
     public static CityWeather putWeatherData(WeatherBean weatherBean) throws Exception {
         CityWeather weather = new CityWeather();
 

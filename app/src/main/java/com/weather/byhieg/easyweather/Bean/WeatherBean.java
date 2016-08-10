@@ -7,7 +7,7 @@ import java.util.List;
  * Created by byhieg on 16-5-10.
  */
 public class WeatherBean implements Serializable{
-    
+
     private List<Weather> HeWeatherdataservice30;
 
     public List<Weather> getHeWeatherdataservice30() {
