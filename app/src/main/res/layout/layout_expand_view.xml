@@ -26,14 +26,14 @@
                 android:layout_alignParentLeft="true"
                 android:text="今天 08/10/2016"/>
 
-            <TextView
-                android:id="@+id/updateTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/lightgray"
-                android:textSize="@dimen/describeTextSize"
-                android:layout_alignParentRight="true"
-                android:text="最近更新：0分钟之前"/>
+            <!--<TextView-->
+                <!--android:id="@+id/updateTime"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textColor="@color/lightgray"-->
+                <!--android:textSize="@dimen/describeTextSize"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:text="最近更新：0分钟之前"/>-->
         </RelativeLayout>
 
         <RelativeLayout
@@ -118,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_alignParentLeft="true"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="15dp"
                 android:id="@+id/left">
                 <TextView
                     android:layout_width="wrap_content"
@@ -142,7 +142,7 @@
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="15dp"
                 android:layout_toRightOf="@id/left">
                 <TextView
                     android:layout_width="wrap_content"
@@ -209,9 +209,10 @@
 
                 <ImageView
                     android:id="@+id/arrow_detail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_keyboard_arrow_down_white_36dp"/>
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@mipmap/ic_keyboard_arrow_down_white_24dp"
+                    android:scaleType="center"/>
             </LinearLayout>
 
         </RelativeLayout>

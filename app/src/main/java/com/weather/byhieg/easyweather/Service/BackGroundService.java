@@ -2,32 +2,24 @@ package com.weather.byhieg.easyweather.Service;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 
-import com.example.byhieglibrary.Net.HttpUtils;
-import com.example.byhieglibrary.Utils.LogUtils;
-import com.example.byhieglibrary.Utils.StringUtils;
 import com.google.gson.Gson;
 import com.weather.byhieg.easyweather.Activity.StartActivity;
 import com.weather.byhieg.easyweather.Bean.UrlCity;
-import com.weather.byhieg.easyweather.Bean.WeatherBean;
 import com.weather.byhieg.easyweather.Db.City;
-import com.weather.byhieg.easyweather.Db.CityWeather;
-import com.weather.byhieg.easyweather.Db.CityWeatherDao;
 import com.weather.byhieg.easyweather.Db.LoveCity;
-import com.weather.byhieg.easyweather.Db.LoveCityDao;
 import com.weather.byhieg.easyweather.Db.Province;
-import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
-import com.weather.byhieg.easyweather.Tools.PutDaoData;
+import com.weather.byhieg.easyweather.Tools.HandleDaoData;
+import com.weather.byhieg.easyweather.Tools.NetTool;
+import com.weather.byhieg.easyweather.View.MyToast;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import okhttp3.Response;
 
 
 public class BackGroundService extends IntentService {
@@ -60,25 +52,16 @@ public class BackGroundService extends IntentService {
         String[] provinces = {"北京", "天津", "河北", "山西", "山东", "辽宁", "吉林", "黑龙江", "上海", "江苏", "浙江", "安徽", "福建", "江西",
                 "河南", "湖北", "湖南", "广东", "广西", "海南", "重庆", "四川", "贵州", "云南", "陕西", "甘肃", "青海", "内蒙古",
                 "西藏", "宁夏", "新疆", "香港", "澳门", "台湾"};
-        Province tempProvince = MyApplication.
-                getDaoSession().
-                getProvinceDao().
-                loadByRowId(1);
-
-        if (tempProvince == null) {
+        if (!HandleDaoData.isExistInProvince()) {
             for (String item : provinces) {
                 Province province = new Province();
                 province.setProvinceName(item);
-                MyApplication.getDaoSession().getProvinceDao().insert(province);
+                HandleDaoData.insertProvince(province);
             }
         }
 
-        City tempCity = MyApplication.
-                getDaoSession().
-                getCityDao().
-                loadByRowId(1);
 
-        if (tempCity == null) {
+        if (!HandleDaoData.isExistInCity()) {
             Gson gson = new Gson();
             InputStream inputStream = getResources().openRawResource(R.raw.city);
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -94,83 +77,48 @@ public class BackGroundService extends IntentService {
                 city.setProvinceName(urlCity.getCity_info().get(i).getProv());
                 city.setCitynName(urlCity.getCity_info().get(i).getCity());
                 city.setLove("no");
-                MyApplication.getDaoSession().getCityDao().insert(city);
+                HandleDaoData.insertCity(city);
             }
         }
     }
 
     /**
      * 获取天气
-     * <p>
+     * <p/>
      * 先检测喜欢城市的数据库是否为空，是的话，添加默认城市成都。
      * 查询天气数据库，必要时进行网络请求
      */
     private void getWeatherData() {
-        List<LoveCity> city = MyApplication.
-                getDaoSession().
-                getLoveCityDao().
-                loadAll();
+        List<LoveCity> city = HandleDaoData.getLoveCity();
         if (city != null) {
             if (city.size() == 0) {
                 LoveCity chengdu = new LoveCity();
                 chengdu.setCitynName("成都");
                 chengdu.setOrder(1);
-                MyApplication.getDaoSession().getLoveCityDao().insert(chengdu);
+                HandleDaoData.insertLoveCity(chengdu);
             }
         }
-        LoveCity firstCity = MyApplication.
-                getDaoSession().
-                getLoveCityDao().
-                queryBuilder().
-                where(LoveCityDao.Properties.Order.eq(1)).list().get(0);
+        LoveCity firstCity = HandleDaoData.getLoveCity(1);
 
         if (firstCity != null) {
-            List<CityWeather> weather = MyApplication.
-                    getDaoSession().
-                    getCityWeatherDao().
-                    queryBuilder().
-                    where(CityWeatherDao.Properties.CityName.eq(firstCity)).list();
-
-            if (weather != null && weather.size() == 0) {
-                doNetWeather(firstCity.getCitynName());
-
+            if (! HandleDaoData.isExistInCityWeather(firstCity.getCitynName())) {
+                try {
+                    NetTool.doNetWeather(firstCity.getCitynName());
+                } catch (Exception e) {
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            MyToast myToast = MyToast.createMyToast();
+                            myToast.ToastShow(BackGroundService.this, "网络异常,请检查网络");
+                        }
+                    });
+                }
             }
 
         }
     }
 
-    /**
-     * 从网络获取order为1的城市的天气，并把天气放入数据库中
-     *
-     * @param cityName 根据城市名字进行网络请求
-     *
-     */
-    private void doNetWeather(String cityName) {
-        Gson gson = new Gson();
-        int[] pos = {11, 15, 22, 23};
-        Map<String, String> params = new HashMap<>();
-        params.put("city", cityName);
-        params.put("key", MyApplication.getHeweatherKey());
-        try {
-            String url = HttpUtils.url(MyApplication.getCityUrl(), null, params);
-            Response netResponse = HttpUtils.getAsyn(url);
-            LogUtils.e("myurl",url);
-            String response = StringUtils.delPosOfString(netResponse.body().string(), pos);
-            WeatherBean weatherBean = gson.fromJson(response, WeatherBean.class);
-            MyApplication.getDaoSession().getCityWeatherDao().insert(PutDaoData.putWeatherData(weatherBean));
-        } catch (Exception e) {
-            LogUtils.e("myToast","我中枪了");
-//            new Handler().post(new Runnable() {
-//                @Override
-//                public void run() {
-//                    MyToast myToast = MyToast.createMyToast();
-//                    myToast.ToastShow(BackGroundService.this, "网络异常,请检查网络");
-//                }
-//            });
-
-        }
-
-    }
 
 }
 

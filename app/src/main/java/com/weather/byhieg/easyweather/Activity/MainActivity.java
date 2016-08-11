@@ -1,5 +1,13 @@
 package com.weather.byhieg.easyweather.Activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
 import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,6 +33,7 @@ import com.weather.byhieg.easyweather.Bean.WeatherBean;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.Tools.HandleDaoData;
 import com.weather.byhieg.easyweather.Tools.MyJson;
+import com.weather.byhieg.easyweather.Tools.NetTool;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,7 +42,7 @@ import java.util.Locale;
 
 import butterknife.Bind;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity{
 
 
     @Bind(R.id.toolbar)
@@ -52,45 +62,47 @@ public class MainActivity extends BaseActivity {
     @Bind(R.id.detail)
     public LinearLayout detail;
     @Bind(R.id.date)
-    TextView date;
-    @Bind(R.id.updateTime)
-    TextView updateTime;
+    public TextView date;
     @Bind(R.id.temp)
-    TextView temp;
+    public TextView temp;
     @Bind(R.id.tempImage)
-    ImageView tempImage;
+    public ImageView tempImage;
     @Bind(R.id.tempHigh)
-    TextView tempHigh;
+    public TextView tempHigh;
     @Bind(R.id.tempLow)
-    TextView tempLow;
+    public TextView tempLow;
     @Bind(R.id.cloth)
-    TextView cloth;
+    public TextView cloth;
     @Bind(R.id.pm)
-    TextView pm;
+    public TextView pm;
     @Bind(R.id.hum)
-    TextView hum;
+    public TextView hum;
     @Bind(R.id.wind)
-    TextView wind;
+    public TextView wind;
     @Bind(R.id.wind_dir)
-    TextView windDir;
+    public TextView windDir;
     @Bind(R.id.to_detail)
-    TextView toDetail;
+    public TextView toDetail;
     @Bind(R.id.qlty)
-    TextView qlty;
+    public TextView qlty;
     @Bind(R.id.vis)
-    TextView vis;
+    public TextView vis;
     @Bind(R.id.pres)
-    TextView pres;
+    public TextView pres;
     @Bind(R.id.uv)
-    TextView uv;
+    public TextView uv;
     @Bind(R.id.sunrise)
-    TextView sunrise;
+    public TextView sunrise;
     @Bind(R.id.sunset)
-    TextView sunset;
+    public TextView sunset;
     @Bind(R.id.condition)
-    TextView condition;
+    public TextView condition;
     @Bind(R.id.scrollView)
-    ScrollView scrollView;
+    public ScrollView scrollView;
+    @Bind(R.id.refresh)
+    public ImageView refresh;
+    @Bind(R.id.main_layout)
+    public LinearLayout mainLayout;
 
 
     private DrawerListAdapter drawerListAdapter;
@@ -98,6 +110,9 @@ public class MainActivity extends BaseActivity {
     private WeatherBean weatherBean;
     private int[] rotateCount = {0, 0};
     private View convertView;
+
+    private NetworkChangeReceiver networkChangeReceiver;
+
 
     @Override
     public int getLayoutId() {
@@ -139,6 +154,11 @@ public class MainActivity extends BaseActivity {
             e.printStackTrace();
         }
 
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        networkChangeReceiver = new NetworkChangeReceiver();
+        registerReceiver(networkChangeReceiver, intentFilter);
+
     }
 
     @Override
@@ -158,23 +178,9 @@ public class MainActivity extends BaseActivity {
         recyclerView.setAdapter(drawerListAdapter);
 
         if (weatherBean != null) {
-            temp.setText(MyJson.getWeather(weatherBean).getNow().getTmp() + "°");
-            tempHigh.setText("高 " + MyJson.getWeather(weatherBean).getDaily_forecast().get(0).getTmp().getMax() + "°");
-            tempLow.setText("低 " + MyJson.getWeather(weatherBean).getDaily_forecast().get(0).getTmp().getMin() + "°");
-            cloth.setText(MyJson.getWeather(weatherBean).getSuggestion().getDrsg().getBrf());
-            condition.setText(MyJson.getWeather(weatherBean).getNow().getCond().getTxt());
-            pm.setText(MyJson.getWeather(weatherBean).getAqi().getCity().getPm25());
-            hum.setText(MyJson.getWeather(weatherBean).getNow().getHum() + "%");
-            wind.setText(MyJson.getWeather(weatherBean).getNow().getWind().getSpd() + "km/h");
-            windDir.setText(MyJson.getWeather(weatherBean).getNow().getWind().getDir());
-            qlty.setText(MyJson.getWeather(weatherBean).getAqi().getCity().getQlty());
-            vis.setText(MyJson.getWeather(weatherBean).getNow().getVis() + "km");
-            pres.setText(MyJson.getWeather(weatherBean).getNow().getPres() + "帕");
-            uv.setText(MyJson.getWeather(weatherBean).getSuggestion().getUv().getBrf());
-            sunrise.setText(MyJson.getWeather(weatherBean).getDaily_forecast().get(0).getAstro().getSr());
-            sunset.setText(MyJson.getWeather(weatherBean).getDaily_forecast().get(0).getAstro().getSs());
+            updateView(weatherBean);
         } else {
-            scrollView.setVisibility(View.GONE);
+            doRefreshInNoData();
         }
 
     }
@@ -202,7 +208,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (rotateCount[0] % 2 == 0) {
-                    Animation animation = new RotateAnimation(0, 180, 50, 50);
+                    Animation animation = new RotateAnimation(0, 180, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                     animation.setDuration(10);
                     animation.setFillAfter(true);
                     animation.setAnimationListener(new Animation.AnimationListener() {
@@ -228,7 +234,7 @@ public class MainActivity extends BaseActivity {
                     });
                     arrow.startAnimation(animation);
                 } else {
-                    Animation animation = new RotateAnimation(180, 360, 50, 50);
+                    Animation animation = new RotateAnimation(180, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                     animation.setDuration(10);
                     animation.setFillAfter(true);
                     animation.setAnimationListener(new Animation.AnimationListener() {
@@ -259,7 +265,7 @@ public class MainActivity extends BaseActivity {
                 if (rotateCount[1] % 2 == 0) {
                     expandView.setVisibility(View.VISIBLE);
                     toDetail.setText("简略");
-                    Animation animation = new RotateAnimation(0, 180, 50, 50);
+                    Animation animation = new RotateAnimation(0, 180, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                     animation.setDuration(10);
                     animation.setFillAfter(true);
                     arrowDetail.startAnimation(animation);
@@ -267,7 +273,7 @@ public class MainActivity extends BaseActivity {
                 } else {
                     expandView.setVisibility(View.GONE);
                     toDetail.setText("详情");
-                    Animation animation = new RotateAnimation(180, 360, 50, 50);
+                    Animation animation = new RotateAnimation(180, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                     animation.setDuration(10);
                     animation.setFillAfter(true);
                     arrowDetail.startAnimation(animation);
@@ -275,7 +281,16 @@ public class MainActivity extends BaseActivity {
                 rotateCount[1]++;
             }
         });
+
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doRefreshInNoData();
+            }
+        });
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -283,4 +298,98 @@ public class MainActivity extends BaseActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * 将天气数据放入视图中
+     *
+     * @param weatherBean 天气的数据
+     */
+    private void updateView(WeatherBean weatherBean) {
+        scrollView.setVisibility(View.VISIBLE);
+        refresh.clearAnimation();
+        refresh.setVisibility(View.GONE);
+        temp.setText(MyJson.getWeather(weatherBean).getNow().getTmp() + "°");
+        tempHigh.setText("高 " + MyJson.getWeather(weatherBean).getDaily_forecast().get(0).getTmp().getMax() + "°");
+        tempLow.setText("低 " + MyJson.getWeather(weatherBean).getDaily_forecast().get(0).getTmp().getMin() + "°");
+        cloth.setText(MyJson.getWeather(weatherBean).getSuggestion().getDrsg().getBrf());
+        condition.setText(MyJson.getWeather(weatherBean).getNow().getCond().getTxt());
+        pm.setText(MyJson.getWeather(weatherBean).getAqi().getCity().getPm25());
+        hum.setText(MyJson.getWeather(weatherBean).getNow().getHum() + "%");
+        wind.setText(MyJson.getWeather(weatherBean).getNow().getWind().getSpd() + "km/h");
+        windDir.setText(MyJson.getWeather(weatherBean).getNow().getWind().getDir());
+        qlty.setText(MyJson.getWeather(weatherBean).getAqi().getCity().getQlty());
+        vis.setText(MyJson.getWeather(weatherBean).getNow().getVis() + "km");
+        pres.setText(MyJson.getWeather(weatherBean).getNow().getPres() + "帕");
+        uv.setText(MyJson.getWeather(weatherBean).getSuggestion().getUv().getBrf());
+        sunrise.setText(MyJson.getWeather(weatherBean).getDaily_forecast().get(0).getAstro().getSr());
+        sunset.setText(MyJson.getWeather(weatherBean).getDaily_forecast().get(0).getAstro().getSs());
+
+    }
+
+    /**
+     * 没有数据时 刷新
+     */
+
+    private void doRefreshInNoData() {
+        scrollView.setVisibility(View.GONE);
+        refresh.setVisibility(View.VISIBLE);
+        Animation animation = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        animation.setDuration(1000);
+        animation.setRepeatCount(-1);
+        animation.setInterpolator(new LinearInterpolator());
+        refresh.startAnimation(animation);
+        new MyAsyncTask().execute(HandleDaoData.getShowCity());
+    }
+
+
+    class MyAsyncTask  extends AsyncTask<String, Void, String>{
+
+        @Override
+        protected void onPostExecute(String city) {
+            if (HandleDaoData.isExistInCityWeather(city)) {
+                try {
+                    updateView(HandleDaoData.getWeatherBean(HandleDaoData.getShowCity()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Snackbar.make(mainLayout, "还是没有网络 QAQ", Snackbar.LENGTH_LONG).
+                        setAction("点我设置网络", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(android.provider.Settings.ACTION_SETTINGS);
+                                startActivity(intent);
+                            }
+                        }).show();
+            }
+
+        }
+
+        @Override
+        protected String doInBackground(String[] params) {
+            try {
+                NetTool.doNetWeather(HandleDaoData.getShowCity());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return HandleDaoData.getShowCity();
+        }
+    }
+
+    class NetworkChangeReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            if (networkInfo != null && networkInfo.isAvailable()) {
+                new MyAsyncTask().execute(HandleDaoData.getShowCity());
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(networkChangeReceiver);
+    }
 }

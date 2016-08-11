@@ -8,6 +8,7 @@
     tools:context=".Activity.MainActivity">
 
     <LinearLayout
+        android:id="@+id/main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -15,17 +16,21 @@
 
         <include layout="@layout/toolbar"
             android:id="@+id/toolbar"/>
-
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/scrollView">
-
             <include layout="@layout/layout_expand_view" />
         </ScrollView>
 
-
+        <ImageView
+            android:id="@+id/refresh"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="300dp"
+            android:src="@mipmap/ic_refresh_green_800_48dp"
+            android:visibility="gone"/>
     </LinearLayout>
 
 
