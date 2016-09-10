@@ -14,21 +14,29 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".Activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.StartActivity"
             android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <service
+            android:name=".Service.BackGroundService"
+            android:exported="false" />
+
+        <activity
+            android:name=".Activity.Main2Activity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+
+        <activity android:name=".Activity.SplashActivity"
+            android:theme="@style/AppTheme.TranslucentNoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <service
-            android:name=".Service.BackGroundService"
-            android:exported="false"></service>
-
     </application>
 
 </manifest>

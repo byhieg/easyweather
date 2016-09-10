@@ -92,7 +92,11 @@ public class HandleDaoData {
      * @param cityWeather 天气数据
      */
     public static void updateCityWeather(CityWeather cityWeather) {
-        MyApplication.getDaoSession().getCityWeatherDao().update(cityWeather);
+        String name = cityWeather.getCityName();
+        CityWeather temp = getCityWeather(name);
+        temp.setWeatherBean(cityWeather.getWeatherBean());
+        temp.setUpdateTime(cityWeather.getUpdateTime());
+        MyApplication.getDaoSession().getCityWeatherDao().update(temp);
     }
 
 

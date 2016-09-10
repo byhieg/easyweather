@@ -3,16 +3,18 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <dimen name="mainactivity_padding">10dp</dimen>
+
     <dimen name="toolbarTextSize">16sp</dimen>
 
     <dimen name="itemTextSize">16sp</dimen>
     <dimen name="toastTextSize">18sp</dimen>
 
     <dimen name="startActivityTextSize">50sp</dimen>
-    
+
     <!--主界面卡片文字大小-->
-    
-    <dimen name="describeTextSize">14sp</dimen>
-    <dimen name="showTextSize">16sp</dimen>
+
+    <dimen name="describeTextSize">12sp</dimen>
+    <dimen name="showTextSize">14sp</dimen>
     <dimen name="tempTextSize">50sp</dimen>
 </resources>

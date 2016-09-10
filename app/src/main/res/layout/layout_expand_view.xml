@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/lightgray"
-    android:layout_margin="@dimen/activity_horizontal_margin"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:layout_margin="@dimen/mainactivity_padding"
     android:clickable="true">
 
     <LinearLayout
@@ -11,12 +11,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/maincolor"
-        android:padding="@dimen/activity_vertical_margin">
+        android:elevation="10dp"
+        android:translationZ="20dp"
+        android:padding="@dimen/mainactivity_padding">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="0dp">
             <TextView
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
@@ -26,14 +28,14 @@
                 android:layout_alignParentLeft="true"
                 android:text="今天 08/10/2016"/>
 
-            <!--<TextView-->
-                <!--android:id="@+id/updateTime"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textColor="@color/lightgray"-->
-                <!--android:textSize="@dimen/describeTextSize"-->
-                <!--android:layout_alignParentRight="true"-->
-                <!--android:text="最近更新：0分钟之前"/>-->
+            <TextView
+                android:id="@+id/updateTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/lightgray"
+                android:textSize="@dimen/describeTextSize"
+                android:layout_alignParentRight="true"
+                android:text="最近更新：0分钟之前"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -226,6 +228,8 @@
         android:background="@color/secondcolor"
         android:id="@+id/expand_view"
         android:visibility="gone"
+        android:elevation="10dp"
+        android:translationZ="20dp"
         android:baselineAligned="false">
 
         <LinearLayout
@@ -250,7 +254,7 @@
                 android:textSize="@dimen/describeTextSize"
                 android:text="@string/qlty"
                 android:gravity="center_horizontal"
-                android:layout_marginBottom="0dp"/>
+                android:layout_marginBottom="5dp"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -290,7 +294,7 @@
                 android:textSize="@dimen/describeTextSize"
                 android:text="@string/press"
                 android:gravity="center_horizontal"
-                android:layout_marginBottom="0dp"/>
+                android:layout_marginBottom="5dp"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -331,7 +335,7 @@
                 android:textSize="@dimen/describeTextSize"
                 android:text="@string/sunrise"
                 android:gravity="center_horizontal"
-                android:layout_marginBottom="0dp"/>
+                android:layout_marginBottom="5dp"/>
 
             <TextView
                 android:layout_width="match_parent"

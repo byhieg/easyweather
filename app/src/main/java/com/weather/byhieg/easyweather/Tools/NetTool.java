@@ -24,7 +24,7 @@ public class NetTool {
      *
      * @param cityName 根据城市名字进行网络请求
      */
-    public static  void doNetWeather(String cityName) throws Exception {
+    public static void doNetWeather(String cityName) throws Exception {
         Gson gson = new Gson();
         int[] pos = {11, 15, 22, 23};
         Map<String, String> params = new HashMap<>();
@@ -39,7 +39,7 @@ public class NetTool {
         }else{
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
             Date date = simpleDateFormat.parse(MyJson.getWeather(weatherBean).getBasic().getUpdate().getLoc());
-            if((date.getTime() - (HandleDaoData.getCityWeather(cityName)).getUpdateTime().getTime()) > 60000 * 60){
+            if((date.getTime() - (HandleDaoData.getCityWeather(cityName)).getUpdateTime().getTime()) > 1000 * 60 * 30){
                 HandleDaoData.updateCityWeather(PutDaoData.putWeatherData(weatherBean));
             }
 

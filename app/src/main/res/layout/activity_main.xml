@@ -16,12 +16,24 @@
 
         <include layout="@layout/toolbar"
             android:id="@+id/toolbar"/>
-        <ScrollView
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/scrollView">
-            <include layout="@layout/layout_expand_view" />
-        </ScrollView>
+            android:layout_height="match_parent">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/scrollView">
+                <include layout="@layout/layout_expand_view" />
+            </ScrollView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <!--<com.weather.byhieg.easyweather.View.ScrollRefreshLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+            <!--&lt;!&ndash;android:id="@+id/scrollView">&ndash;&gt;-->
+            <!--&lt;!&ndash;<include layout="@layout/layout_expand_view" />&ndash;&gt;-->
+        <!--</com.weather.byhieg.easyweather.View.ScrollRefreshLayout>-->
 
         <ImageView
             android:id="@+id/refresh"
