@@ -10,6 +10,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -113,9 +114,12 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     public SwipeRefreshLayout mSwipeLayout;
     @Bind(R.id.updateTime)
     public TextView updateTime;
-
+    @Bind(R.id.add_city)
+    public FloatingActionButton addCity;
 
     public static final int COMPLETE_REFRESH = 0x100;
+
+    public static final int FAILURE_REFRESH = 0x101;
     private DrawerListAdapter drawerListAdapter;
     private ArrayList<DrawerContext> drawerList = new ArrayList<>();
     private WeatherBean weatherBean;
@@ -215,7 +219,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.feedback:
-                        startActivity(Main2Activity.class);
                         break;
 
                     case R.id.location:
@@ -312,6 +315,12 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 doRefreshInNoData();
             }
         });
+        addCity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(CityManageActivity.class);
+            }
+        });
 
     }
 
@@ -381,6 +390,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                     handler.sendEmptyMessage(COMPLETE_REFRESH);
                 } catch (Exception e) {
                     e.printStackTrace();
+                    handler.sendEmptyMessage(FAILURE_REFRESH);
                 }
 
             }
@@ -399,14 +409,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                     e.printStackTrace();
                 }
             } else {
-                Snackbar.make(mainLayout, "还是没有网络 QAQ", Snackbar.LENGTH_LONG).
-                        setAction("点我设置网络", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(android.provider.Settings.ACTION_SETTINGS);
-                                startActivity(intent);
-                            }
-                        }).show();
+                setNetWork();
             }
 
         }
@@ -448,6 +451,10 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                         e.printStackTrace();
                     }
                     break;
+
+                case FAILURE_REFRESH:
+                    mSwipeLayout.setRefreshing(false);
+                    setNetWork();
             }
 
         }
@@ -457,5 +464,16 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(networkChangeReceiver);
+    }
+
+    private void setNetWork(){
+        Snackbar.make(mainLayout, "还是没有网络 QAQ", Snackbar.LENGTH_LONG).
+                setAction("点我设置网络", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(android.provider.Settings.ACTION_SETTINGS);
+                        startActivity(intent);
+                    }
+                }).show();
     }
 }

@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:layout_margin="@dimen/mainactivity_padding"
+    android:layout_marginTop="@dimen/mainactivity_padding"
     android:clickable="true">
 
     <LinearLayout
@@ -11,8 +11,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/maincolor"
-        android:elevation="10dp"
-        android:translationZ="20dp"
         android:padding="@dimen/mainactivity_padding">
 
         <RelativeLayout
@@ -228,8 +226,6 @@
         android:background="@color/secondcolor"
         android:id="@+id/expand_view"
         android:visibility="gone"
-        android:elevation="10dp"
-        android:translationZ="20dp"
         android:baselineAligned="false">
 
         <LinearLayout

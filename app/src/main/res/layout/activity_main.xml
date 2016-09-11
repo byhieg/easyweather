@@ -23,17 +23,23 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:fillViewport="true"
                 android:id="@+id/scrollView">
-                <include layout="@layout/layout_expand_view" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <include layout="@layout/layout_expand_view" />
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/add_city"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_margin="@dimen/activity_horizontal_margin"
+                        android:src="@drawable/ic_add_black_24dp"/>
+                </RelativeLayout>
             </ScrollView>
         </android.support.v4.widget.SwipeRefreshLayout>
-
-        <!--<com.weather.byhieg.easyweather.View.ScrollRefreshLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent">-->
-            <!--&lt;!&ndash;android:id="@+id/scrollView">&ndash;&gt;-->
-            <!--&lt;!&ndash;<include layout="@layout/layout_expand_view" />&ndash;&gt;-->
-        <!--</com.weather.byhieg.easyweather.View.ScrollRefreshLayout>-->
 
         <ImageView
             android:id="@+id/refresh"
