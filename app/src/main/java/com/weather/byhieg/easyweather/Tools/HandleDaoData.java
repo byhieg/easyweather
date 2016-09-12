@@ -179,11 +179,13 @@ public class HandleDaoData {
     //// TODO: 2016/9/12 按照Order顺序得到List
     public static List<LoveCity> getLoveCity(){
 
-//        MyApplication.getDaoSession().getLoveCityDao().queryBuilder().where();
-        return  MyApplication.
+        return MyApplication.
                 getDaoSession().
                 getLoveCityDao().
-                loadAll();
+                queryBuilder().
+                orderAsc(LoveCityDao.Properties.Order).
+                list();
+
     }
 
     /**
