@@ -3,6 +3,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <dimen name="common_horizontal_margin">10dp</dimen>
+    <dimen name="common_vertical_margin">10dp</dimen>
     <dimen name="mainactivity_padding">10dp</dimen>
 
     <dimen name="toolbarTextSize">16sp</dimen>
@@ -17,4 +19,7 @@
     <dimen name="describeTextSize">12sp</dimen>
     <dimen name="showTextSize">14sp</dimen>
     <dimen name="tempTextSize">50sp</dimen>
+
+    <!--城市管理界面文字大小-->
+    <dimen name="citynameTextSize">25sp</dimen>
 </resources>

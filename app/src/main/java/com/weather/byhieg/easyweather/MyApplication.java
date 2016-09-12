@@ -14,9 +14,15 @@ public class MyApplication extends Application{
 
     private static final String cityUrl = "https://api.heweather.com/x3/weather";
     private static final String heweatherKey = "93d476b872724a9681a642dce28c6523";
+    private static final String weatherCodeUrl = "http://files.heweather.com/cond_icon/";
 
+
+    public static String getWeatherCodeUrl() {
+        return weatherCodeUrl;
+    }
 
     public static DaoMaster getDaoMaster() {
+
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(getAppContext(), "Weather-db", null);
         daoMaster = new DaoMaster(helper.getWritableDatabase());
         return daoMaster;
