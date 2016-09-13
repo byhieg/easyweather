@@ -23,7 +23,7 @@ public class CardViewGroup extends ViewGroup{
     private int height,width;
     private int mStart,mEnd;
     private Scroller scroller;
-    private int distance;
+    private int downDistance,upDistance;
 
     public CardViewGroup(Context context) {
         super(context);
@@ -120,7 +120,7 @@ public class CardViewGroup extends ViewGroup{
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mStart = getScrollY();
-                LogUtils.e("down","downnnnnnnnnnnnnnnnnnnnnnnn");
+                LogUtils.e("start","" + mStart);
                 lastY = y;
                 if (scroller.isFinished()) {
                     scroller.abortAnimation();
@@ -136,9 +136,10 @@ public class CardViewGroup extends ViewGroup{
                 break;
 
             case MotionEvent.ACTION_UP:
+                LogUtils.e("up",getScrollY() + "");
                 int dScrollY = checkAlignment();
                 if (dScrollY >= 0) {
-                    scroller.startScroll(0,getScrollY(),0,- dScrollY);
+                    scroller.startScroll(0,getScrollY(),0,- dScrollY,100);
                 }
                 break;
 
@@ -152,6 +153,7 @@ public class CardViewGroup extends ViewGroup{
         //从上向下滑动,滑动到最顶部就不能滑了
         if (deltaY < 0) {
             if(scrollY < 0){
+                upDistance = scrollY;
                 return false;
             } else if (deltaY + scrollY < 0) {
                 scrollTo(0,0);
@@ -159,13 +161,10 @@ public class CardViewGroup extends ViewGroup{
             }
         }
         int bottomY = this.height + 20;
-        LogUtils.e("bottomY",bottomY + "");
-        LogUtils.e("height",getMeasuredHeight() + "");
         if (deltaY >= 0) {
             LogUtils.e("scrollY", scrollY + "");
             if (scrollY >= bottomY - getMeasuredHeight()) {
-                LogUtils.e("cha",(bottomY - getMeasuredHeight()) + "");
-                distance = scrollY - (bottomY - getMeasuredHeight());
+                downDistance = scrollY - (bottomY - getMeasuredHeight());
                 return false;
             }
         }
@@ -184,12 +183,11 @@ public class CardViewGroup extends ViewGroup{
 
     private int checkAlignment(){
         mEnd = getScrollY();
-        //
         boolean isUp = ((mEnd - mStart) > 0);
         if (isUp) {
-            return 0;
+            return downDistance;
         }else{
-            return distance;
+            return - upDistance;
         }
     }
 }

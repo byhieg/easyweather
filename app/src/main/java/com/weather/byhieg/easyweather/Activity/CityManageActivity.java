@@ -63,7 +63,7 @@ public class CityManageActivity extends BaseActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         cardViewGroup.removeAllViews();
-        for(int i = 0 ;i < 5;i++) {
+        for(int i = 0 ;i < 50;i++) {
             try {
                 View v = LayoutInflater.from(this).inflate(R.layout.item_city_manage,cardViewGroup,false);
 //                LinearLayout cardView = new LinearLayout(this);
