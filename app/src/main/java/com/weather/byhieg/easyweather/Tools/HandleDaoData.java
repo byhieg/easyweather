@@ -176,7 +176,6 @@ public class HandleDaoData {
      * 无参数，得到所有喜欢的城市
      * @return List<LoveCity> 喜欢城市的集合
      */
-    //// TODO: 2016/9/12 按照Order顺序得到List
     public static List<LoveCity> getLoveCity(){
 
         return MyApplication.

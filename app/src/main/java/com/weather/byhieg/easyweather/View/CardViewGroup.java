@@ -2,9 +2,12 @@ package com.weather.byhieg.easyweather.View;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Scroller;
 
+import com.example.byhieglibrary.Utils.LogUtils;
 import com.example.byhieglibrary.Utils.ScreenUtil;
 
 /**
@@ -16,6 +19,11 @@ public class CardViewGroup extends ViewGroup{
 
     private int screenWidth;
     private int screenHeight;
+    private int lastY;
+    private int height,width;
+    private int mStart,mEnd;
+    private Scroller scroller;
+    private int distance;
 
     public CardViewGroup(Context context) {
         super(context);
@@ -35,6 +43,8 @@ public class CardViewGroup extends ViewGroup{
     private void init(Context context){
         screenWidth = ScreenUtil.getScreenW(context);
         screenHeight = ScreenUtil.getScreenH(context);
+        scroller = new Scroller(context);
+
     }
 
     @Override
@@ -84,7 +94,7 @@ public class CardViewGroup extends ViewGroup{
             height += child.getMeasuredHeight() + bottomMargin;
         }
 
-
+        this.height = height;
 
     }
 
@@ -104,5 +114,82 @@ public class CardViewGroup extends ViewGroup{
         return new MarginLayoutParams(p);
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        int y = (int) event.getY();
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                mStart = getScrollY();
+                LogUtils.e("down","downnnnnnnnnnnnnnnnnnnnnnnn");
+                lastY = y;
+                if (scroller.isFinished()) {
+                    scroller.abortAnimation();
+                }
+                break;
+            case MotionEvent.ACTION_MOVE:
+                int deltaY = lastY - y;
+                LogUtils.e("move",deltaY + "");
+                if (isMove(deltaY)) {
+                    scrollBy(0,deltaY);
+                }
+                lastY = y;
+                break;
 
+            case MotionEvent.ACTION_UP:
+                int dScrollY = checkAlignment();
+                if (dScrollY >= 0) {
+                    scroller.startScroll(0,getScrollY(),0,- dScrollY);
+                }
+                break;
+
+        }
+        invalidate();
+        return true;
+    }
+
+    private boolean isMove(int deltaY) {
+        int scrollY = getScrollY();
+        //从上向下滑动,滑动到最顶部就不能滑了
+        if (deltaY < 0) {
+            if(scrollY < 0){
+                return false;
+            } else if (deltaY + scrollY < 0) {
+                scrollTo(0,0);
+                return false;
+            }
+        }
+        int bottomY = this.height + 20;
+        LogUtils.e("bottomY",bottomY + "");
+        LogUtils.e("height",getMeasuredHeight() + "");
+        if (deltaY >= 0) {
+            LogUtils.e("scrollY", scrollY + "");
+            if (scrollY >= bottomY - getMeasuredHeight()) {
+                LogUtils.e("cha",(bottomY - getMeasuredHeight()) + "");
+                distance = scrollY - (bottomY - getMeasuredHeight());
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    @Override
+    public void computeScroll() {
+        super.computeScroll();
+        if (scroller.computeScrollOffset()) {
+            scrollTo(scroller.getCurrX(),scroller.getCurrY());
+            invalidate();
+        }
+    }
+
+    private int checkAlignment(){
+        mEnd = getScrollY();
+        //
+        boolean isUp = ((mEnd - mStart) > 0);
+        if (isUp) {
+            return 0;
+        }else{
+            return distance;
+        }
+    }
 }

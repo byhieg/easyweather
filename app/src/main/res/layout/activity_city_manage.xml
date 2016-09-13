@@ -13,12 +13,14 @@
     <com.weather.byhieg.easyweather.View.CardViewGroup
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/card_view_group"
         android:background="@android:color/white">
 
-        <include layout="@layout/item_city_manage" />
-        <include layout="@layout/item_city_manage" />
-        <include layout="@layout/item_city_manage" />
-
-
+        <include layout="@layout/item_city_manage"/>
+        <include layout="@layout/item_city_manage"/>
+        <include layout="@layout/item_city_manage"/>
+        <include layout="@layout/item_city_manage"/>
+        <include layout="@layout/item_city_manage"/>
+        <include layout="@layout/item_city_manage"/>
     </com.weather.byhieg.easyweather.View.CardViewGroup>
 </LinearLayout>

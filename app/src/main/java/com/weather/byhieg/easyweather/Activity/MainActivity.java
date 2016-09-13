@@ -344,7 +344,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         Date sqlDate = HandleDaoData.getCityWeather(HandleDaoData.getShowCity()).getUpdateTime();
         long time = DateUtil.getDifferenceofDate(new Date(), sqlDate) / (1000 * 60) ;
         if (time > 1000 * 60 * 60 || time < 0) {
-            updateTime.setText("最近更新：" + new SimpleDateFormat("MM-dd hh:mm:ss").format(sqlDate));
+            updateTime.setText("最近更新：" + new SimpleDateFormat("MM-dd HH:mm:ss").format(sqlDate));
         }else{
             updateTime.setText("最近更新：" + time + "分钟之前");
         }
