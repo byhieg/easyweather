@@ -30,4 +30,9 @@
     <string name="hum">湿度</string>
 
 
+    <!--城市列表界面-->
+    <string name="search_title">搜索城市</string>
+    <string name="search_hint">搜索城市</string>
+
+
 </resources>

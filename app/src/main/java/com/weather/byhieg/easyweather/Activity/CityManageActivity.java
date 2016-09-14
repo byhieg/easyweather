@@ -63,7 +63,7 @@ public class CityManageActivity extends BaseActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         cardViewGroup.removeAllViews();
-        for(int i = 0 ;i < 50;i++) {
+        for(int i = 0 ;i < loveCities.size();i++) {
             try {
                 View v = LayoutInflater.from(this).inflate(R.layout.item_city_manage,cardViewGroup,false);
 //                LinearLayout cardView = new LinearLayout(this);
@@ -76,7 +76,7 @@ public class CityManageActivity extends BaseActivity {
                 updateTime = (TextView) v.findViewById(R.id.updateTime);
                 wet = (TextView) v.findViewById(R.id.wet);
                 cardViewGroup.addView(v);
-                putDataInCard(loveCities.get(0).getCitynName());
+                putDataInCard(loveCities.get(i).getCitynName());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -97,6 +97,7 @@ public class CityManageActivity extends BaseActivity {
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.add_city:
+                        startActivity(CityActivity.class);
                         break;
                 }
                 return true;
