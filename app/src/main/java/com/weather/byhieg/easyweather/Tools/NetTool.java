@@ -24,7 +24,7 @@ public class NetTool {
      *
      * @param cityName 根据城市名字进行网络请求
      */
-    public static void doNetWeather(String cityName) throws Exception {
+    public static synchronized void doNetWeather(String cityName) throws Exception {
         Gson gson = new Gson();
         int[] pos = {11, 15, 22, 23};
         Map<String, String> params = new HashMap<>();

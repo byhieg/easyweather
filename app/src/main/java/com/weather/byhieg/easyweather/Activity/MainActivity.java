@@ -36,6 +36,7 @@ import com.example.byhieglibrary.Utils.DateUtil;
 import com.weather.byhieg.easyweather.Adapter.DrawerListAdapter;
 import com.weather.byhieg.easyweather.Bean.DrawerContext;
 import com.weather.byhieg.easyweather.Bean.WeatherBean;
+import com.weather.byhieg.easyweather.Db.LoveCity;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.Tools.HandleDaoData;
 import com.weather.byhieg.easyweather.Tools.MyJson;
@@ -45,6 +46,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.Bind;
@@ -383,19 +385,25 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    NetTool.doNetWeather(HandleDaoData.getShowCity());
-                    handler.sendEmptyMessage(COMPLETE_REFRESH);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    handler.sendEmptyMessage(FAILURE_REFRESH);
-                }
+        final List<LoveCity> cityList = HandleDaoData.getLoveCity();
+        for(int i = 0 ; i < cityList.size();i++) {
+            final int index = i;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        NetTool.doNetWeather(cityList.get(index).getCitynName());
 
-            }
-        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        handler.sendEmptyMessage(FAILURE_REFRESH);
+                    }
+
+                }
+            }).start();
+        }
+        handler.sendEmptyMessage(COMPLETE_REFRESH);
+
     }
 
 

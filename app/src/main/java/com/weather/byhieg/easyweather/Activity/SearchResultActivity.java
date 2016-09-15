@@ -1,15 +1,48 @@
 package com.weather.byhieg.easyweather.Activity;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
+import com.example.byhieglibrary.Activity.BaseActivity;
 import com.weather.byhieg.easyweather.R;
 
-public class SearchResultActivity extends AppCompatActivity {
+import butterknife.Bind;
+
+public class SearchResultActivity extends BaseActivity {
+
+    @Bind(R.id.result_toolbar)
+    public Toolbar toolbar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_result);
+    public int getLayoutId() {
+
+        return R.layout.activity_search_result;
     }
+
+    @Override
+    public void initData() {
+
+    }
+
+    @Override
+    public void initView() {
+        toolbar.setTitle("搜索结果");
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    @Override
+    public void initEvent() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
+
 }
