@@ -1,11 +1,15 @@
-package com.weather.byhieg.easyweather.Activity;
+package com.weather.byhieg.easyweather.Fragment;
 
-import android.app.SearchManager;
+
+import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
@@ -14,14 +18,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-import com.example.byhieglibrary.Activity.BaseActivity;
-import com.example.byhieglibrary.Utils.LogUtils;
+import com.weather.byhieg.easyweather.Activity.CityManageActivity;
 import com.weather.byhieg.easyweather.Adapter.CityListAdapter;
 import com.weather.byhieg.easyweather.Bean.CityContext;
 import com.weather.byhieg.easyweather.Db.City;
 import com.weather.byhieg.easyweather.Db.LoveCity;
-import com.weather.byhieg.easyweather.Db.Province;
-import com.weather.byhieg.easyweather.Fragment.CityFragment;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.Tools.HandleDaoData;
 import com.weather.byhieg.easyweather.Tools.NetTool;
@@ -29,86 +30,56 @@ import com.weather.byhieg.easyweather.Tools.NetTool;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class CityFragment extends Fragment {
 
-public class SearchResultActivity extends BaseActivity {
 
-    @Bind(R.id.result_toolbar)
-    public Toolbar toolbar;
-    @Bind(R.id.result_list)
-    public ListView listView;
-    @Bind(R.id.search_result)
+
+    public static final String TAG = "com.weather.byhieg.easyweather.Fragment.CityFragment";
+    public static final int UPDATE_CITY = 0x103;
+    private List<CityContext> cities = new ArrayList<>();
+    private CityListAdapter adapter;
     public RelativeLayout mainLayout;
-    @Bind(R.id.refresh_bar)
     public RelativeLayout refreshBar;
-    @Bind(R.id.refresh)
     public ImageView refresh;
-
     private Handler handler;
     private CityManageActivity.MyHandler myHandler;
 
-
-    private List<CityContext> cityList = new ArrayList<>();
-    private CityListAdapter adapter;
-
-
-    @Override
-    public int getLayoutId() {
-
-        return R.layout.activity_search_result;
+    public CityFragment() {
+        // Required empty public constructor
     }
 
     @Override
-    public void initData() {
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        initData();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         handler = new Handler();
         myHandler = new CityManageActivity.MyHandler(new CityManageActivity());
-
-        Intent intent = getIntent();
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            List<City> cities = HandleDaoData.getCities(query);
-            LogUtils.e("city",cities.size() + "");
-            List<Province> provinces = HandleDaoData.getProvince(query);
-            LogUtils.e("province",provinces.size() + "");
-            for(int i = 0 ;i < cities.size();i++) {
-                CityContext context = new CityContext();
-                context.setCityName(cities.get(i).getCitynName());
-                cityList.add(context);
-            }
-            for(int i = 0 ;i < provinces.size();i++) {
-                CityContext context = new CityContext();
-                context.setCityName(provinces.get(i).getProvinceName());
-                if(!isInCityList(context.getCityName())){
-                    cityList.add(context);
-                }
-            }
-        }
-        LogUtils.e("SearchResult",cityList.size() + "");
-        adapter = new CityListAdapter(cityList,this);
-
+        adapter = new CityListAdapter(cities, getActivity());
+        View view = inflater.inflate(R.layout.fragment_city, container, false);
+        initView(view);
+        return view;
     }
 
-    @Override
-    public void initView() {
-        toolbar.setTitle("搜索结果");
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-
+    private void initView(View view) {
+        ListView listView = (ListView) view.findViewById(R.id.city_list);
+        mainLayout = (RelativeLayout) view.findViewById(R.id.fragment_city);
+        refreshBar = (RelativeLayout) view.findViewById(R.id.refresh_bar);
+        refresh = (ImageView) view.findViewById(R.id.refresh);
         listView.setAdapter(adapter);
-        listView.setEmptyView(findViewById(R.id.empty_view));
-    }
-
-    @Override
-    public void initEvent() {
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -140,7 +111,7 @@ public class SearchResultActivity extends BaseActivity {
                             try {
                                 NetTool.doNetWeather(cityName);
                                 Thread.sleep(3000);
-                                myHandler.sendEmptyMessage(CityFragment.UPDATE_CITY);
+                                myHandler.sendEmptyMessage(UPDATE_CITY);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -170,17 +141,19 @@ public class SearchResultActivity extends BaseActivity {
                 }else{
                     Snackbar.make(mainLayout,"该城市已经添加，你忘记了？",Snackbar.LENGTH_SHORT).show();
                 }
+
             }
         });
     }
 
-
-    private boolean isInCityList(String name){
-        List<String> str = new ArrayList<>();
-        for(int i = 0 ;i < cityList.size();i++) {
-            str.add(cityList.get(i).getCityName());
+    private void initData() {
+        String provinceName = getArguments().getString("ProvinceName");
+        List<City> cityList = HandleDaoData.getCityFromProvince(provinceName);
+        for (City item : cityList) {
+            CityContext cityContext = new CityContext();
+            cityContext.setCityName(item.getCitynName());
+            cities.add(cityContext);
         }
-        return str.contains(name);
     }
 
 }

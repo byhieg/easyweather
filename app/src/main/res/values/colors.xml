@@ -7,8 +7,8 @@
 
     <color name="maincolor">#2e8b57</color> <!--主色调-->
     <color name="secondcolor">#2e8159</color>
-
-
+    <color name="loadColor">#EFEBEF</color>
+    <color name="sunny">#E5644C</color>
 
     <color name="white">#ffffff</color><!--白色 -->
     <color name="ivory">#fffff0</color><!--象牙色 -->

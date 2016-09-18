@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.example.byhieglibrary.Utils.LogUtils;
 import com.google.gson.Gson;
 import com.weather.byhieg.easyweather.Activity.StartActivity;
 import com.weather.byhieg.easyweather.Bean.UrlCity;
@@ -99,24 +100,40 @@ public class BackGroundService extends IntentService {
             }
         }
         LoveCity firstCity = HandleDaoData.getLoveCity(1);
-
         if (firstCity != null) {
-            if (! HandleDaoData.isExistInCityWeather(firstCity.getCitynName())) {
-                try {
-                    NetTool.doNetWeather(firstCity.getCitynName());
-                } catch (Exception e) {
-                    Handler handler = new Handler(Looper.getMainLooper());
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            MyToast myToast = MyToast.createMyToast();
-                            myToast.ToastShow(BackGroundService.this, "网络异常,请检查网络");
+            final List<LoveCity> cityList = HandleDaoData.getLoveCity();
+            Thread[] threads = new Thread[cityList.size()];
+            for (int i = 0; i < cityList.size(); i++) {
+                final int index = i;
+                threads[i] = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            NetTool.doNetWeather(cityList.get(index).getCitynName());
+                        } catch (Exception e) {
+                            Handler handler = new Handler(Looper.getMainLooper());
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    MyToast myToast = MyToast.createMyToast();
+                                    myToast.ToastShow(BackGroundService.this, "网络异常,请检查网络");
+                                }
+                            });
                         }
-                    });
+
+                    }
+                });
+                threads[i].start();
+                try {
+                    threads[i].join();
+                } catch (InterruptedException e) {
+
+                    LogUtils.e("线程异常!!!", getClass().getSimpleName());
                 }
             }
-
         }
+
+
     }
 
 

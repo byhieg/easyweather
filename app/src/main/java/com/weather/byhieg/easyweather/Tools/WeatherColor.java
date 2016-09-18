@@ -11,15 +11,15 @@ public class WeatherColor {
     public static int getWeatherColor(String weatherCode){
         int code = Integer.parseInt(weatherCode);
         if (code == 100) {
-            return R.color.bisque;
+            return R.color.sunny;
         } else if (code > 100 && code < 200) {
             return R.color.lightskyblue;
         } else if (code >= 200 && code < 300) {
             return R.color.maincolor;
         } else if (code >= 300 && code < 400) {
-            return R.color.deepskyblue;
+            return R.color.royalblue;
         } else if (code >= 500 && code < 600) {
-            return R.color.peru;
+            return R.color.lightgrey;
         }else {
             return R.color.violet;
         }

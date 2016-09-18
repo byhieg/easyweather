@@ -1,36 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:id="@+id/search_result"
-    tools:context="com.weather.byhieg.easyweather.Activity.SearchResultActivity">
+    android:id="@+id/fragment_city"
+    android:background="@color/white"
+    tools:context="com.weather.byhieg.easyweather.Fragment.CityFragment">
 
-    <include
-        layout="@layout/toolbar"
-        android:id="@+id/result_toolbar" />
+    <!-- TODO: Update blank fragment layout -->
+   <ListView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:clickable="true"
+       android:divider="@color/maincolor"
+       android:dividerHeight="1dp"
+       android:id="@+id/city_list">
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:divider="@color/maincolor"
-        android:layout_below="@id/result_toolbar"
-        android:dividerHeight="1dp"
-        android:id="@+id/result_list">
-    </ListView>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/citynameTextSize"
-        android:textColor="@color/black"
-        android:id="@+id/empty_view"
-        android:layout_marginTop="@dimen/activity_horizontal_margin"
-        android:layout_centerInParent="true"
-        android:gravity="center_horizontal"
-        android:text="暂无搜索的城市"/>
+   </ListView>
 
     <RelativeLayout
         android:id="@+id/refresh_bar"

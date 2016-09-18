@@ -12,6 +12,7 @@
     <SOURCES>
       <root url="jar://E:/AndroidSDK/extras/android/m2repository/com/android/support/support-v4/23.3.0/support-v4-23.3.0-sources.jar!/" />
       <root url="jar://E:/software/android-sdk-linux/extras/android/m2repository/com/android/support/support-v4/23.3.0/support-v4-23.3.0-sources.jar!/" />
+      <root url="jar://E:/software/android-sdk-linux/extras/android/m2repository/com/android/support/support-v4/23.3.0/support-v4-23.3.0-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
