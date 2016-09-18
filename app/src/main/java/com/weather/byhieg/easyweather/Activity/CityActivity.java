@@ -69,7 +69,7 @@ public class CityActivity extends BaseActivity {
         MenuItem searchItem = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         if(searchView == null) return false;
-        searchView.setSearchableInfo( searchManager.getSearchableInfo(getComponentName()) );
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()) );
 //        SearchView searchView = (SearchView)menu.findItem(R.id.search).getActionView();
 //        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         return true;
