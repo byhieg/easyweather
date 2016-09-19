@@ -4,6 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Activity.MainActivity">
 
+    <item android:id="@+id/add_city"
+        android:title="添加城市"
+        android:icon="@mipmap/ic_add_white_24dp"
+        app:showAsAction="ifRoom" />
+
     <item android:id="@+id/location"
         android:title="@string/location"
         android:orderInCategory="80"
