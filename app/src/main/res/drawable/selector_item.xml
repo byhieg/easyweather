@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 没有焦点时的背景图片-->
+    <item android:state_window_focused="false" android:drawable="@color/white" />
+    <!-- 非触摸模式下获得焦点并单击时的背景图片-->
+    <item android:state_focused="true" android:state_pressed="true"
+        android:drawable="@color/white" />
+    <!-- 触摸模式下单击时的背景图片-->
+    <item android:state_focused="false" android:state_pressed="true"
+        android:drawable="@color/lightgray" />
+    <!--选中时的图片背景-->
+    <item android:state_selected="true" android:drawable="@color/lightgray" />
+    <!--获得焦点时的图片背景-->
+    <item android:state_focused="true" android:drawable="@color/white" />
+
+
+    <!-- 默认时的背景图片-->
+    <item android:drawable="@color/white" />
+
+</selector>

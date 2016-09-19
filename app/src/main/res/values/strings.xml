@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">EasyWeather</string>
+
+
+    <!--menu菜单中的文字-->
+    <string name="location">定位</string>
+    <string name="feedback">期待反馈</string>
+    <string name="like">喜欢</string>
+
+
+    <!--侧边栏list中的文字-->
+    <string name="scenic_spot">景点</string>
+    <string name="setting">设置</string>
+    <string name="share">分享</string>
+    <string name="help">帮助</string>
+    <string name="laboratory">实验室</string>
+    <string name="wiki">天气百科</string>
+    <string name="future">未来天气走向</string>
+    <string name="about">关于</string>
+
+
+    <!--主界面中的文字-->
+    <string name="sunrise">日出</string>
+    <string name="sunset">日落</string>
+    <string name="press">气压</string>
+    <string name="uv">紫外线指数</string>
+    <string name="qlty">空气质量级别</string>
+    <string name="vis">可见度</string>
+    <string name="pm">PM2.5</string>
+    <string name="hum">湿度</string>
+
+
+    <!--城市列表界面-->
+    <string name="search_title">搜索城市</string>
+    <string name="search_hint">搜索城市</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    
+    <!--实验室中的文字-->
+    <string name="skin">皮肤设置</string>
+
+    <!--夜间模式-->
+    <string name="action_settings">夜间模式</string>
+    <string name="night_action_settings">夜间模式</string>
+
+
+</resources>

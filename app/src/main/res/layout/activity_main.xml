@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:id="@+id/drawer_layout"
+    tools:context=".Activity.MainActivity">
+
+    <LinearLayout
+        android:id="@+id/main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="?attr/backgroundColor">
+
+        <include layout="@layout/toolbar"
+            android:id="@+id/toolbar"/>
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                android:id="@+id/scrollView">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <include layout="@layout/layout_expand_view" />
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/add_city"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_margin="@dimen/activity_horizontal_margin"
+                        android:src="@drawable/ic_add_black_24dp"/>
+                </RelativeLayout>
+            </ScrollView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <ImageView
+            android:id="@+id/refresh"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="300dp"
+            android:src="@mipmap/ic_refresh_green_800_48dp"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+
+    <include layout="@layout/layout_left_drawer"/>
+
+</android.support.v4.widget.DrawerLayout>

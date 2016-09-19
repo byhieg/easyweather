@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/common_horizontal_margin"
+    android:layout_marginLeft="@dimen/common_horizontal_margin"
+    android:layout_marginRight="@dimen/common_horizontal_margin"
+    android:orientation="vertical"
+    android:id="@+id/item_card"
+    android:background="@drawable/shape_card">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:id="@+id/city_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/citynameTextSize"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="成都市"
+            android:textColor="@android:color/white"/>
+
+        <TextView
+            android:id="@+id/weather_cond"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_centerVertical="true"
+            android:text="天气:阵雨"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/otherTextSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_margin="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:id="@+id/weather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/otherTextSize"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:text="气温: 26°"
+            android:textColor="@android:color/white"/>
+
+        <TextView
+            android:id="@+id/wet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/otherTextSize"
+            android:layout_centerVertical="true"
+            android:text="湿度: 43%"
+            android:layout_toRightOf="@id/weather"
+            android:layout_marginLeft="@dimen/common_horizontal_margin"
+            android:textColor="@android:color/white"
+            />
+
+        <TextView
+            android:id="@+id/updateTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/otherTextSize"
+            android:text="15:53"
+            android:textColor="@android:color/white"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

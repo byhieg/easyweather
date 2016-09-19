@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    tools:context="com.weather.byhieg.easyweather.Activity.CityManageActivity">
+
+
+    <include layout="@layout/toolbar"
+        android:id ="@+id/city_toolbar"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.weather.byhieg.easyweather.View.CardViewGroup
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/card_view_group"
+            android:paddingBottom="@dimen/common_horizontal_margin"
+            android:background="@android:color/white">
+
+        </com.weather.byhieg.easyweather.View.CardViewGroup>
+
+</ScrollView>
+</LinearLayout>
