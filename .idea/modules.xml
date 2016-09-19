@@ -4,7 +4,11 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/byhieg/byhieg.iml" filepath="$PROJECT_DIR$/byhieg/byhieg.iml" />
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/easyweather-master.iml" filepath="$PROJECT_DIR$/easyweather-master.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/easyweather.iml" filepath="$PROJECT_DIR$/easyweather.iml" />
+>>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
     </modules>
   </component>
 </project>

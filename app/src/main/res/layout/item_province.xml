@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:minHeight="55dp"
@@ -20,8 +22,13 @@
         />
 
     <ImageView
+<<<<<<< HEAD
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+=======
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+>>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
         android:id="@+id/enter"
         android:src="@mipmap/ic_keyboard_arrow_right_black_24dp"
         android:layout_alignParentRight="true"

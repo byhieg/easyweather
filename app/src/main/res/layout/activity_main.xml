@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+
     android:id="@+id/drawer_layout"
     tools:context=".Activity.MainActivity">
 
@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="?attr/backgroundColor">
+        android:background="@color/lightgray">
 
         <include layout="@layout/toolbar"
             android:id="@+id/toolbar"/>
@@ -20,25 +20,53 @@
             android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <ScrollView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true"
-                android:id="@+id/scrollView">
-                <RelativeLayout
+                android:layout_height="wrap_content">
+                <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <include layout="@layout/layout_expand_view" />
-                    <android.support.design.widget.FloatingActionButton
-                        android:id="@+id/add_city"
-                        android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true"
+                    android:id="@+id/scrollView">
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_margin="@dimen/activity_horizontal_margin"
-                        android:src="@drawable/ic_add_black_24dp"/>
-                </RelativeLayout>
-            </ScrollView>
+                        android:orientation="vertical">
+                        <include layout="@layout/layout_expand_view"
+                        android:id="@+id/view"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/common_vertical_margin">
+                        </LinearLayout>
+                        <include layout="@layout/item_cloths"
+                            android:id="@+id/item_cloths"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/common_vertical_margin">
+                        </LinearLayout>
+                        <include layout="@layout/item_sports"
+                            android:id="@+id/item_sports"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/common_vertical_margin">
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/action_bar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:background="@color/blueviolet"
+                            android:orientation="vertical">
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/common_vertical_margin">
+                        </LinearLayout>
+                        <include layout="@layout/item_flux"/>
+                    </LinearLayout>
+                </ScrollView>
+            </RelativeLayout>
+
         </android.support.v4.widget.SwipeRefreshLayout>
 
         <ImageView

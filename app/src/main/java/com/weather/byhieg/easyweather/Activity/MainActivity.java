@@ -10,18 +10,33 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
+
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
+
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
+
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewStub;
+import android.view.ViewTreeObserver;
+
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
@@ -33,12 +48,18 @@ import android.widget.TextView;
 
 import com.example.byhieglibrary.Activity.BaseActivity;
 import com.example.byhieglibrary.Utils.DateUtil;
+
+import com.example.byhieglibrary.Utils.DisplayUtil;
+import com.example.byhieglibrary.Utils.LogUtils;
+
 import com.weather.byhieg.easyweather.Adapter.DrawerListAdapter;
 import com.weather.byhieg.easyweather.Bean.DrawerContext;
 import com.weather.byhieg.easyweather.Bean.WeatherBean;
 import com.weather.byhieg.easyweather.Db.LoveCity;
+
 import com.weather.byhieg.easyweather.Interface.MyItemClickListener;
 import com.weather.byhieg.easyweather.MyApplication;
+
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.Tools.HandleDaoData;
 import com.weather.byhieg.easyweather.Tools.MyJson;
@@ -118,10 +139,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     public SwipeRefreshLayout mSwipeLayout;
     @Bind(R.id.updateTime)
     public TextView updateTime;
-    @Bind(R.id.add_city)
-    public FloatingActionButton addCity;
-
-    public static final int COMPLETE_REFRESH = 0x100;
 
     public static final int FAILURE_REFRESH = 0x101;
     private DrawerListAdapter drawerListAdapter;
@@ -132,6 +149,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     private NetworkChangeReceiver networkChangeReceiver;
     private MyHandler handler = new MyHandler();
+    private TextView textView;
 
 
 
@@ -184,6 +202,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     @Override
     public void initView() {
+        textView = generateTextView();
         toolbar.setTitle("成都");
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -248,6 +267,9 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                         break;
 
                     case R.id.like:
+                        break;
+                    case R.id.add_city:
+                        startActivity(CityManageActivity.class);
                         break;
                 }
                 return true;
@@ -319,6 +341,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                     animation.setDuration(10);
                     animation.setFillAfter(true);
                     arrowDetail.startAnimation(animation);
+                    action_bar.setVisibility(View.GONE);
 
                 } else {
                     expandView.setVisibility(View.GONE);
@@ -327,6 +350,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                     animation.setDuration(10);
                     animation.setFillAfter(true);
                     arrowDetail.startAnimation(animation);
+                    action_bar.setVisibility(View.VISIBLE);
                 }
                 rotateCount[1]++;
             }
@@ -336,12 +360,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             @Override
             public void onClick(View v) {
                 doRefreshInNoData();
-            }
-        });
-        addCity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(CityManageActivity.class);
             }
         });
 
@@ -371,6 +389,8 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         }else{
             updateTime.setText("最近更新：" + time + "分钟之前");
         }
+        //主卡片
+
         temp.setText(MyJson.getWeather(weatherBean).getNow().getTmp() + "°");
         tempHigh.setText("高 " + MyJson.getWeather(weatherBean).getDaily_forecast().get(0).getTmp().getMax() + "°");
         tempLow.setText("低 " + MyJson.getWeather(weatherBean).getDaily_forecast().get(0).getTmp().getMin() + "°");
@@ -387,6 +407,15 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         sunrise.setText(MyJson.getWeather(weatherBean).getDaily_forecast().get(0).getAstro().getSr());
         sunset.setText(MyJson.getWeather(weatherBean).getDaily_forecast().get(0).getAstro().getSs());
 
+        //穿衣指数
+        clothBrf.setText(MyJson.getWeather(weatherBean).getSuggestion().getDrsg().getBrf());
+        clothTxt.setText(MyJson.getWeather(weatherBean).getSuggestion().getDrsg().getTxt());
+
+        sportBrf.setText(MyJson.getWeather(weatherBean).getSuggestion().getSport().getBrf());
+        sportTxt.setText(MyJson.getWeather(weatherBean).getSuggestion().getSport().getTxt());
+
+        codeBrf.setText(MyJson.getWeather(weatherBean).getSuggestion().getFlu().getBrf());
+        coldTxt.setText(MyJson.getWeather(weatherBean).getSuggestion().getFlu().getTxt());
     }
 
     /**
@@ -407,9 +436,10 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     @Override
     public void onRefresh() {
         final List<LoveCity> cityList = HandleDaoData.getLoveCity();
+        Thread[] threads = new Thread[cityList.size()];
         for(int i = 0 ; i < cityList.size();i++) {
             final int index = i;
-            new Thread(new Runnable() {
+            threads[i] = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
@@ -421,7 +451,14 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                     }
 
                 }
-            }).start();
+            });
+            threads[i].start();
+            try {
+                threads[i].join();
+            } catch (InterruptedException e) {
+
+                LogUtils.e("线程异常!!!",getClass().getSimpleName());
+            }
         }
         handler.sendEmptyMessage(COMPLETE_REFRESH);
 
@@ -506,4 +543,38 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                     }
                 }).show();
     }
+
+    public TextView generateTextView(){
+        TextView textView = new TextView(this);
+        textView.setText("天气易变，注意天气变化");
+        View[] view = {findViewById(R.id.toolbar),findViewById(R.id.view),findViewById(R.id.item_cloths),findViewById(R.id.item_sports)};
+        int totalHeight = 0;
+        for (View aView : view) {
+            totalHeight += DisplayUtil.getViewHeight(aView, true) + DisplayUtil.dip2px(this, 10);
+        }
+        int pxHeight = getmScreenHeight() - totalHeight;
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,pxHeight / 2);
+        textView.setGravity(Gravity.CENTER);
+        textView.setTextColor(ContextCompat.getColor(this,R.color.white));
+        textView.setLayoutParams(lp);
+        action_bar.addView(textView);
+        return textView;
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(scrollView != null){
+            scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+                @Override
+                public void onScrollChanged() {
+                    if (mSwipeLayout != null) {
+                        mSwipeLayout.setEnabled(scrollView.getScrollY() == 0);
+                    }
+                }
+            });
+        }
+    }
+
 }

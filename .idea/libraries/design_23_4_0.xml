@@ -9,7 +9,13 @@
     </CLASSES>
     <JAVADOC />
     <SOURCES>
+<<<<<<< HEAD
       <root url="jar://$USER_HOME$/AppData/Local/Android/sdk/extras/android/m2repository/com/android/support/design/23.4.0/design-23.4.0-sources.jar!/" />
+=======
+      <root url="jar://E:/AndroidSDK/extras/android/m2repository/com/android/support/design/23.4.0/design-23.4.0-sources.jar!/" />
+      <root url="jar://E:/software/android-sdk-linux/extras/android/m2repository/com/android/support/design/23.4.0/design-23.4.0-sources.jar!/" />
+      <root url="jar://E:/software/android-sdk-linux/extras/android/m2repository/com/android/support/design/23.4.0/design-23.4.0-sources.jar!/" />
+>>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
     </SOURCES>
   </library>
 </component>

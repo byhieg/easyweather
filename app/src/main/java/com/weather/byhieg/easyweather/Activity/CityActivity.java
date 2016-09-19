@@ -4,7 +4,10 @@ package com.weather.byhieg.easyweather.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.SearchManager;
+<<<<<<< HEAD
 import android.os.Bundle;
+=======
+>>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -12,16 +15,27 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+<<<<<<< HEAD
+=======
+import android.view.inputmethod.InputMethodManager;
+>>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
 import android.widget.AutoCompleteTextView;
 
 import com.example.byhieglibrary.Activity.BaseActivity;
 import com.weather.byhieg.easyweather.Fragment.ProvinceFragment;
+<<<<<<< HEAD
 import com.weather.byhieg.easyweather.MyApplication;
+=======
+>>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
 import com.weather.byhieg.easyweather.R;
 
 import butterknife.Bind;
 
+<<<<<<< HEAD
 public class CityActivity extends BaseActivity {
+=======
+public class CityActivity extends BaseActivity{
+>>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
 
 
     @Bind(R.id.city_list_toolbar)
@@ -60,6 +74,7 @@ public class CityActivity extends BaseActivity {
     }
 
     @Override
+<<<<<<< HEAD
     public void initTheme() {
         if(MyApplication.nightMode()){
             setTheme(R.style.NightTheme);
@@ -69,6 +84,8 @@ public class CityActivity extends BaseActivity {
     }
 
     @Override
+=======
+>>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
     public void initEvent() {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,14 +111,22 @@ public class CityActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_city_list,menu);
         SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
+<<<<<<< HEAD
         MenuItem searchItem = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         if(searchView == null) return false;
+=======
+        final MenuItem searchItem = menu.findItem(R.id.search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        if(searchView == null) return false;
+
+>>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
         searchView.setSearchableInfo( searchManager.getSearchableInfo(CityActivity.this.getComponentName()) );
         AutoCompleteTextView textView = (AutoCompleteTextView)searchView.findViewById(R.id.search_src_text);
         if (textView != null){
             textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         }
+<<<<<<< HEAD
         return true;
     }
 
@@ -127,5 +152,28 @@ public class CityActivity extends BaseActivity {
 //            }
 //        }
 //    }
+=======
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+                }
+                searchView.clearFocus();
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        return true;
+    }
+
+>>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
 }
 

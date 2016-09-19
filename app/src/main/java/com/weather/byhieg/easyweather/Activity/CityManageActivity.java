@@ -75,6 +75,7 @@ public class CityManageActivity extends BaseActivity {
         updateView();
     }
 
+
     @Override
     public void initTheme() {
 
