@@ -8,10 +8,7 @@ import com.weather.byhieg.easyweather.Db.CityWeatherDao;
 import com.weather.byhieg.easyweather.Db.LoveCity;
 import com.weather.byhieg.easyweather.Db.LoveCityDao;
 import com.weather.byhieg.easyweather.Db.Province;
-<<<<<<< HEAD
-=======
 import com.weather.byhieg.easyweather.Db.ProvinceDao;
->>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
 import com.weather.byhieg.easyweather.MyApplication;
 
 import java.io.ByteArrayInputStream;
@@ -147,8 +144,6 @@ public class HandleDaoData {
                 list();
     }
 
-<<<<<<< HEAD
-=======
     public static List<City> getCities(String name) {
         return MyApplication.
                 getDaoSession().
@@ -157,8 +152,6 @@ public class HandleDaoData {
                 where(CityDao.Properties.CitynName.like("%" + name + "%")).
                 list();
     }
-
->>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
 
     /******************************************************************************************
      * 对ProvinceDao进行的操作
@@ -186,8 +179,6 @@ public class HandleDaoData {
         return MyApplication.getDaoSession().getProvinceDao().loadAll();
     }
 
-<<<<<<< HEAD
-=======
     public static List<Province> getProvince(String name) {
         return MyApplication.
                 getDaoSession().
@@ -196,8 +187,6 @@ public class HandleDaoData {
                 where(ProvinceDao.Properties.ProvinceName.like("%" + name + "%")).
                 list();
     }
-
->>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
 
     /******************************************************************************************
      *  对LoveCityDao进行的操作

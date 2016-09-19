@@ -1,12 +1,10 @@
 package com.weather.byhieg.easyweather.Activity;
 
-<<<<<<< HEAD
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.example.byhieglibrary.Activity.BaseActivity;
 import com.weather.byhieg.easyweather.R;
-=======
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Handler;
@@ -35,7 +33,6 @@ import com.weather.byhieg.easyweather.Tools.NetTool;
 
 import java.util.ArrayList;
 import java.util.List;
->>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
 
 import butterknife.Bind;
 
@@ -43,8 +40,6 @@ public class SearchResultActivity extends BaseActivity {
 
     @Bind(R.id.result_toolbar)
     public Toolbar toolbar;
-<<<<<<< HEAD
-=======
     @Bind(R.id.result_list)
     public ListView listView;
     @Bind(R.id.search_result)
@@ -61,7 +56,6 @@ public class SearchResultActivity extends BaseActivity {
     private List<CityContext> cityList = new ArrayList<>();
     private CityListAdapter adapter;
 
->>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
 
     @Override
     public int getLayoutId() {
@@ -71,8 +65,6 @@ public class SearchResultActivity extends BaseActivity {
 
     @Override
     public void initData() {
-<<<<<<< HEAD
-=======
         handler = new Handler();
         myHandler = new CityManageActivity.MyHandler(new CityManageActivity());
 
@@ -98,7 +90,6 @@ public class SearchResultActivity extends BaseActivity {
         }
         LogUtils.e("SearchResult",cityList.size() + "");
         adapter = new CityListAdapter(cityList,this);
->>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
 
     }
 
@@ -110,17 +101,15 @@ public class SearchResultActivity extends BaseActivity {
             getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-<<<<<<< HEAD
+        listView.setAdapter(adapter);
+        listView.setEmptyView(findViewById(R.id.empty_view));
     }
 
     @Override
     public void initTheme() {
 
-=======
 
-        listView.setAdapter(adapter);
-        listView.setEmptyView(findViewById(R.id.empty_view));
->>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
+
     }
 
     @Override
@@ -131,11 +120,6 @@ public class SearchResultActivity extends BaseActivity {
                 finish();
             }
         });
-<<<<<<< HEAD
-    }
-
-
-=======
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -210,5 +194,4 @@ public class SearchResultActivity extends BaseActivity {
         return str.contains(name);
     }
 
->>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
 }

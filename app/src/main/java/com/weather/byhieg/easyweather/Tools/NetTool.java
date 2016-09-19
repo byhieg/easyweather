@@ -1,10 +1,7 @@
 package com.weather.byhieg.easyweather.Tools;
 
 import com.example.byhieglibrary.Net.HttpUtils;
-<<<<<<< HEAD
-=======
 import com.example.byhieglibrary.Utils.LogUtils;
->>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
 import com.example.byhieglibrary.Utils.StringUtils;
 import com.google.gson.Gson;
 import com.weather.byhieg.easyweather.Bean.WeatherBean;
@@ -23,11 +20,7 @@ import okhttp3.Response;
  */
 public class NetTool {
 
-<<<<<<< HEAD
-=======
     private final static int UPDATERATE = 60;
-
->>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
     /**
      * 从网络获取order为1的城市的天气，并把天气放入数据库中
      *
@@ -40,20 +33,6 @@ public class NetTool {
         params.put("city", cityName);
         params.put("key", MyApplication.getHeweatherKey());
         String url = HttpUtils.url(MyApplication.getCityUrl(), null, params);
-<<<<<<< HEAD
-        Response netResponse = HttpUtils.getAsyn(url);
-        String response = StringUtils.delPosOfString(netResponse.body().string(), pos);
-        WeatherBean weatherBean = gson.fromJson(response, WeatherBean.class);
-        if(!HandleDaoData.isExistInCityWeather(cityName)){
-            HandleDaoData.insertCityWeather(PutDaoData.putWeatherData(weatherBean));
-        }else{
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
-            Date date = simpleDateFormat.parse(MyJson.getWeather(weatherBean).getBasic().getUpdate().getLoc());
-            if((date.getTime() - (HandleDaoData.getCityWeather(cityName)).getUpdateTime().getTime()) > 1000 * 60 * 30){
-                HandleDaoData.updateCityWeather(PutDaoData.putWeatherData(weatherBean));
-            }
-
-=======
 
         if(!HandleDaoData.isExistInCityWeather(cityName)){
             Response netResponse = HttpUtils.getAsyn(url);
@@ -70,7 +49,6 @@ public class NetTool {
                 WeatherBean weatherBean = gson.fromJson(response, WeatherBean.class);
                 HandleDaoData.updateCityWeather(PutDaoData.putWeatherData(weatherBean));
             }
->>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
         }
     }
 }

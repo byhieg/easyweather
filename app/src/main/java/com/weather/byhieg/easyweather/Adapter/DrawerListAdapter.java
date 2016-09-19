@@ -9,10 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.weather.byhieg.easyweather.Bean.DrawerContext;
-<<<<<<< HEAD
 import com.weather.byhieg.easyweather.Interface.MyItemClickListener;
-=======
->>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
 import com.weather.byhieg.easyweather.R;
 
 import java.util.ArrayList;
@@ -20,16 +17,12 @@ import java.util.ArrayList;
 public class DrawerListAdapter extends RecyclerView.Adapter{
 
     private ArrayList<DrawerContext> drawerList;
-<<<<<<< HEAD
     private MyItemClickListener listener;
-=======
->>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
+
 
     public DrawerListAdapter(ArrayList<DrawerContext> drawerList) {
         this.drawerList = drawerList;
     }
-
-<<<<<<< HEAD
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_drawer_list, parent,false);
@@ -43,14 +36,6 @@ public class DrawerListAdapter extends RecyclerView.Adapter{
                 }
             }
         });
-=======
-
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_drawer_list, parent,false);
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        view.setLayoutParams(lp);
->>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
         return new DrawerViewHolder(view);
     }
 
@@ -62,10 +47,8 @@ public class DrawerListAdapter extends RecyclerView.Adapter{
         ((DrawerViewHolder) holder).arrow.setVisibility(View.GONE);
         ((DrawerViewHolder) holder).icon.setImageResource(drawerContext.getImage());
         ((DrawerViewHolder) holder).name.setText(drawerContext.getName());
-<<<<<<< HEAD
         ((DrawerViewHolder) holder).itemView.setTag(position);
-=======
->>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
+
     }
 
     @Override
@@ -73,13 +56,10 @@ public class DrawerListAdapter extends RecyclerView.Adapter{
         return drawerList.size();
     }
 
-<<<<<<< HEAD
     public void setOnItemClickListener(MyItemClickListener listener) {
         this.listener = listener;
     }
 
-=======
->>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
     class DrawerViewHolder extends RecyclerView.ViewHolder{
 
         public ImageView icon;

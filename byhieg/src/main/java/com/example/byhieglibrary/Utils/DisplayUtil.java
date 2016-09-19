@@ -1,10 +1,7 @@
 package com.example.byhieglibrary.Utils;
 
 import android.content.Context;
-<<<<<<< HEAD
-=======
 import android.view.View;
->>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
 
 /**
  * Created by byhieg on 16-8-7.
@@ -57,8 +54,6 @@ public class DisplayUtil {
         final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
         return (int) (spValue * fontScale + 0.5f);
     }
-<<<<<<< HEAD
-=======
 
     /**
      * 获取控件的高度或者宽度  isHeight=true则为测量该控件的高度，isHeight=false则为测量该控件的宽度
@@ -80,5 +75,4 @@ public class DisplayUtil {
         }
         return result;
     }
->>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
 }

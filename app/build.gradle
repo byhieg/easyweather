@@ -25,16 +25,10 @@ dependencies {
     compile project(':byhieg')
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:design:23.4.0'
-<<<<<<< HEAD
     compile 'org.greenrobot:greendao:2.2.0'
     compile 'org.greenrobot:greendao-generator:2.2.0'
     compile 'com.android.support:support-v4:23.4.0'
     compile 'com.android.support:recyclerview-v7:23.+'
     compile 'com.android.support:cardview-v7:23.+'
-=======
-    compile 'com.github.bumptech.glide:glide:3.5.2'
-    compile 'org.greenrobot:greendao:2.2.0'
-    compile 'org.greenrobot:greendao-generator:2.2.0'
-    compile 'com.android.support:support-v4:23.4.0'
->>>>>>> 7e55415be6a31b4803128d39eb37797f18228839
+
 }

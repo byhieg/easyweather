@@ -10,25 +10,14 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
-
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewStub;
-
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,7 +25,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.ViewTreeObserver;
-
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
@@ -48,18 +36,13 @@ import android.widget.TextView;
 
 import com.example.byhieglibrary.Activity.BaseActivity;
 import com.example.byhieglibrary.Utils.DateUtil;
-
 import com.example.byhieglibrary.Utils.DisplayUtil;
 import com.example.byhieglibrary.Utils.LogUtils;
-
 import com.weather.byhieg.easyweather.Adapter.DrawerListAdapter;
 import com.weather.byhieg.easyweather.Bean.DrawerContext;
 import com.weather.byhieg.easyweather.Bean.WeatherBean;
 import com.weather.byhieg.easyweather.Db.LoveCity;
-
 import com.weather.byhieg.easyweather.Interface.MyItemClickListener;
-import com.weather.byhieg.easyweather.MyApplication;
-
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.Tools.HandleDaoData;
 import com.weather.byhieg.easyweather.Tools.MyJson;
@@ -139,6 +122,23 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     public SwipeRefreshLayout mSwipeLayout;
     @Bind(R.id.updateTime)
     public TextView updateTime;
+    @Bind(R.id.cloth_brf)
+    public TextView clothBrf;
+    @Bind(R.id.cloth_txt)
+    public TextView clothTxt;
+    @Bind(R.id.sport_brf)
+    public TextView sportBrf;
+    @Bind(R.id.sport_txt)
+    public TextView sportTxt;
+    @Bind(R.id.action_bar)
+    public LinearLayout action_bar;
+    @Bind(R.id.cold_brf)
+    public TextView codeBrf;
+    @Bind(R.id.cold_txt)
+    public TextView coldTxt;
+
+    public static final int COMPLETE_REFRESH = 0x100;
+
 
     public static final int FAILURE_REFRESH = 0x101;
     private DrawerListAdapter drawerListAdapter;
@@ -150,7 +150,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private NetworkChangeReceiver networkChangeReceiver;
     private MyHandler handler = new MyHandler();
     private TextView textView;
-
 
 
     @Override
@@ -229,9 +228,9 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
         mSwipeLayout.setOnRefreshListener(this);
         mSwipeLayout.setColorSchemeResources(android.R.color.holo_blue_light,
-                                             android.R.color.holo_red_light,
-                                             android.R.color.holo_orange_light,
-                                             android.R.color.holo_green_light);
+                android.R.color.holo_red_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_green_light);
 
         if (weatherBean != null) {
             try {
@@ -247,11 +246,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     @Override
     public void initTheme() {
-        if(MyApplication.nightMode()){
-            setTheme(R.style.NightTheme);
-        }else {
-            setTheme(R.style.DayTheme);
-        }
+
     }
 
     @Override
@@ -390,7 +385,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             updateTime.setText("最近更新：" + time + "分钟之前");
         }
         //主卡片
-
         temp.setText(MyJson.getWeather(weatherBean).getNow().getTmp() + "°");
         tempHigh.setText("高 " + MyJson.getWeather(weatherBean).getDaily_forecast().get(0).getTmp().getMax() + "°");
         tempLow.setText("低 " + MyJson.getWeather(weatherBean).getDaily_forecast().get(0).getTmp().getMin() + "°");
@@ -457,8 +451,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 threads[i].join();
             } catch (InterruptedException e) {
 
-                LogUtils.e("线程异常!!!",getClass().getSimpleName());
-            }
+                LogUtils.e("线程异常!!!",getClass().getSimpleName());            }
         }
         handler.sendEmptyMessage(COMPLETE_REFRESH);
 
@@ -576,5 +569,4 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             });
         }
     }
-
 }
