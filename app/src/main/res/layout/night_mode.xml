@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item2"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/common_horizontal_margin"
+    card_view:cardBackgroundColor="?attr/backgroundColor"
+    card_view:cardElevation="2dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/top"
+        android:paddingBottom="@dimen/top">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/lab_image"
+            android:background="@drawable/ic_cached_grey_500_24dp"
+            android:layout_marginLeft="@dimen/common_horizontal_margin"
+            android:layout_gravity="center_vertical" />
+
+        <TextView
+            android:id="@+id/lab_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_toRightOf="@id/lab_image"
+            android:layout_marginLeft="@dimen/common_horizontal_margin"
+            android:textColor="?attr/textColor"
+            android:typeface="normal"
+            android:text="夜间模式二"
+            android:textSize="@dimen/otherTextSize" />
+
+        <CheckBox
+            android:id="@+id/cb"
+            android:layout_marginRight="@dimen/common_horizontal_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:layout_gravity="center_vertical"
+            android:layout_alignParentRight="true"
+            android:textColor="?attr/textColor"
+            android:text="开"/>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

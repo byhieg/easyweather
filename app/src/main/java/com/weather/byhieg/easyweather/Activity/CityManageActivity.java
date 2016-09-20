@@ -75,6 +75,12 @@ public class CityManageActivity extends BaseActivity {
         updateView();
     }
 
+
+    @Override
+    public void initTheme() {
+
+    }
+
     private static void updateView() {
         if (cardViewGroup.getChildCount() == 0) {
             for (int i = 0; i < loveCities.size(); i++) {
@@ -96,7 +102,6 @@ public class CityManageActivity extends BaseActivity {
             }
         } else {
             for (int i = 0; i < addCities.size(); i++) {
-                LogUtils.e("addCities",addCities.get(i).getCitynName() + "");
                 try {
                     View v = LayoutInflater.from(MyApplication.getAppContext()).inflate(R.layout.item_city_manage, cardViewGroup, false);
                     itemCard = (LinearLayout) v.findViewById(R.id.item_card);
@@ -112,7 +117,6 @@ public class CityManageActivity extends BaseActivity {
                     e.printStackTrace();
                 }
             }
-            addCities.clear();
         }
 
     }
@@ -198,7 +202,6 @@ public class CityManageActivity extends BaseActivity {
                         }
                     }
                     updateView();
-                    loveCities = HandleDaoData.getLoveCity();
                     break;
             }
         }

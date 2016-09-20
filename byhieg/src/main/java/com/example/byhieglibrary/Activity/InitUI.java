@@ -21,4 +21,6 @@ public interface InitUI {
      */
     void initView();
 
+    void initTheme();
+
 }

@@ -23,4 +23,8 @@
     <!--城市管理界面文字大小-->
     <dimen name="citynameTextSize">25sp</dimen>
     <dimen name="otherTextSize">18sp</dimen>
+
+    <!--实验室界面距离-->
+    <dimen name="top">5dp</dimen>
+
 </resources>

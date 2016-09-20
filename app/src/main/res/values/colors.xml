@@ -13,6 +13,7 @@
     <color name="sports">#FB500F</color>
     <color name="flux">#51B9D6</color>
 
+
     <color name="white">#ffffff</color><!--白色 -->
     <color name="ivory">#fffff0</color><!--象牙色 -->
     <color name="lightyellow">#ffffe0</color><!--亮黄色 -->
@@ -159,5 +160,10 @@
     <color name="darkblue">#00008b</color><!--暗蓝色 -->
     <color name="navy">#000080</color><!--海军色 -->
     <color name="black">#000000</color><!--黑色 -->
+
+    <!--夜间模式相关颜色-->
+    <color name="background">@android:color/white</color>
+    <color name="night_background">#FF0E0E0E</color>
+
 
 </resources>

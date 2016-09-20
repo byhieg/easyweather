@@ -21,7 +21,6 @@ import okhttp3.Response;
 public class NetTool {
 
     private final static int UPDATERATE = 60;
-
     /**
      * 从网络获取order为1的城市的天气，并把天气放入数据库中
      *

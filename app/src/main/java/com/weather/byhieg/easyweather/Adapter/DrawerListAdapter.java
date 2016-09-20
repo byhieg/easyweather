@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.weather.byhieg.easyweather.Bean.DrawerContext;
+import com.weather.byhieg.easyweather.Interface.MyItemClickListener;
 import com.weather.byhieg.easyweather.R;
 
 import java.util.ArrayList;
@@ -16,17 +17,25 @@ import java.util.ArrayList;
 public class DrawerListAdapter extends RecyclerView.Adapter{
 
     private ArrayList<DrawerContext> drawerList;
+    private MyItemClickListener listener;
+
 
     public DrawerListAdapter(ArrayList<DrawerContext> drawerList) {
         this.drawerList = drawerList;
     }
-
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_drawer_list, parent,false);
+        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_drawer_list, parent,false);
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         view.setLayoutParams(lp);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listener!=null){
+                    listener.onItemClick(view,(int)view.getTag());
+                }
+            }
+        });
         return new DrawerViewHolder(view);
     }
 
@@ -38,11 +47,17 @@ public class DrawerListAdapter extends RecyclerView.Adapter{
         ((DrawerViewHolder) holder).arrow.setVisibility(View.GONE);
         ((DrawerViewHolder) holder).icon.setImageResource(drawerContext.getImage());
         ((DrawerViewHolder) holder).name.setText(drawerContext.getName());
+        ((DrawerViewHolder) holder).itemView.setTag(position);
+
     }
 
     @Override
     public int getItemCount() {
         return drawerList.size();
+    }
+
+    public void setOnItemClickListener(MyItemClickListener listener) {
+        this.listener = listener;
     }
 
     class DrawerViewHolder extends RecyclerView.ViewHolder{

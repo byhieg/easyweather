@@ -42,6 +42,7 @@ import com.weather.byhieg.easyweather.Adapter.DrawerListAdapter;
 import com.weather.byhieg.easyweather.Bean.DrawerContext;
 import com.weather.byhieg.easyweather.Bean.WeatherBean;
 import com.weather.byhieg.easyweather.Db.LoveCity;
+import com.weather.byhieg.easyweather.Interface.MyItemClickListener;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.Tools.HandleDaoData;
 import com.weather.byhieg.easyweather.Tools.MyJson;
@@ -212,13 +213,23 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+        drawerListAdapter.setOnItemClickListener(new MyItemClickListener() {
+            @Override
+            public void onItemClick(View view, int postion) {
+
+                Intent intent=new Intent(getApplicationContext(),SlideMenuActivity.class);
+                intent.putExtra("itemid",postion);
+                startActivity(intent);
+
+            }
+        });
         recyclerView.setAdapter(drawerListAdapter);
 
         mSwipeLayout.setOnRefreshListener(this);
         mSwipeLayout.setColorSchemeResources(android.R.color.holo_blue_light,
-                                             android.R.color.holo_red_light,
-                                             android.R.color.holo_orange_light,
-                                             android.R.color.holo_green_light);
+                android.R.color.holo_red_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_green_light);
 
         if (weatherBean != null) {
             try {
@@ -229,6 +240,11 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         } else {
             doRefreshInNoData();
         }
+
+    }
+
+    @Override
+    public void initTheme() {
 
     }
 

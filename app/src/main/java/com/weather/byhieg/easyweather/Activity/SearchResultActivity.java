@@ -1,5 +1,10 @@
 package com.weather.byhieg.easyweather.Activity;
 
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+
+import com.example.byhieglibrary.Activity.BaseActivity;
+import com.weather.byhieg.easyweather.R;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Handler;
@@ -96,9 +101,15 @@ public class SearchResultActivity extends BaseActivity {
             getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
         listView.setAdapter(adapter);
         listView.setEmptyView(findViewById(R.id.empty_view));
+    }
+
+    @Override
+    public void initTheme() {
+
+
+
     }
 
     @Override

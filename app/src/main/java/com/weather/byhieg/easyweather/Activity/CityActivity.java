@@ -4,6 +4,7 @@ package com.weather.byhieg.easyweather.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.SearchManager;
+import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -16,9 +17,11 @@ import android.widget.AutoCompleteTextView;
 
 import com.example.byhieglibrary.Activity.BaseActivity;
 import com.weather.byhieg.easyweather.Fragment.ProvinceFragment;
+import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 
 import butterknife.Bind;
+
 
 public class CityActivity extends BaseActivity{
 
@@ -59,6 +62,16 @@ public class CityActivity extends BaseActivity{
     }
 
     @Override
+    public void initTheme() {
+        if(MyApplication.nightMode()){
+            setTheme(R.style.NightTheme);
+        }else {
+            setTheme(R.style.DayTheme);
+        }
+    }
+
+    @Override
+
     public void initEvent() {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +100,6 @@ public class CityActivity extends BaseActivity{
         final MenuItem searchItem = menu.findItem(R.id.search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         if(searchView == null) return false;
-
         searchView.setSearchableInfo( searchManager.getSearchableInfo(CityActivity.this.getComponentName()) );
         AutoCompleteTextView textView = (AutoCompleteTextView)searchView.findViewById(R.id.search_src_text);
         if (textView != null){

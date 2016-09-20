@@ -49,6 +49,8 @@ public abstract class BaseActivity extends AppCompatActivity implements InitUI, 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initTheme();
+
         setContentView(getLayoutId());
         DisplayMetrics metric = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metric);

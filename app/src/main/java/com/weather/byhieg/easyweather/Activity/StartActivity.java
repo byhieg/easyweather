@@ -36,6 +36,11 @@ public class StartActivity extends BaseActivity {
     }
 
     @Override
+    public void initTheme() {
+
+    }
+
+    @Override
     public int getLayoutId() {
         return R.layout.activity_start;
     }

@@ -3,6 +3,9 @@ package com.weather.byhieg.easyweather;
 import android.app.Application;
 import android.content.Context;
 
+import android.content.SharedPreferences;
+
+
 import com.weather.byhieg.easyweather.Db.DaoMaster;
 import com.weather.byhieg.easyweather.Db.DaoSession;
 
@@ -15,6 +18,10 @@ public class MyApplication extends Application{
     private static final String cityUrl = "https://api.heweather.com/x3/weather";
     private static final String heweatherKey = "93d476b872724a9681a642dce28c6523";
     private static final String weatherCodeUrl = "http://files.heweather.com/cond_icon/";
+
+    public static final String shareFilename1 ="nightMode";
+    public static final String shareFilename2 ="nightMode2";
+
 
 
     public static String getWeatherCodeUrl() {
@@ -53,5 +60,18 @@ public class MyApplication extends Application{
 
     public static String getHeweatherKey() {
         return heweatherKey;
+    }
+
+
+    public static boolean nightMode(){
+        SharedPreferences share = mcontext.getSharedPreferences(shareFilename1, MODE_PRIVATE);
+        boolean ischecked=share.getBoolean("ischecked",false);
+        return ischecked;
+    }
+
+    public static boolean nightMode2(){
+        SharedPreferences share = mcontext.getSharedPreferences(shareFilename2, MODE_PRIVATE);
+        boolean ischecked=share.getBoolean("ischecked",false);
+        return ischecked;
     }
 }
