@@ -133,7 +133,6 @@ public class BackGroundService extends IntentService {
             }
         }
 
-
     }
 
 

@@ -21,4 +21,35 @@
     </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <!--夜间模式主题-->
+    <style name="DayTheme" parent="AppTheme.NoActionBar">
+        <item name="backgroundColor">@color/background</item>
+        <item name="layoutBackground">@color/lightgray</item>
+        <item name="floatValue">0.35</item>
+        <item name="integerValue">33</item>
+        <item name="booleanValue">true</item>
+        <item name="dimensionValue">16dp</item>
+        <!-- 如果string类型不是填的引用而是直接放一个字符串,在布局文件中使用正常,但代码里获取的就有问题 -->
+        <item name="stringValue">@string/action_settings</item>
+  <!--      <item name="referenceValue">@drawable/bg</item>
+        <item name="imageValue">@drawable/launcher_icon</item> -->
+        <item name="curVisibility">show</item>
+        <item name="textColor">@color/lightslategray</item>
+    </style>
+    <style name="NightTheme" parent="AppTheme.NoActionBar">
+        <item name="backgroundColor">@color/night_background</item>
+        <item name="floatValue">1.44</item>
+        <item name="integerValue">55</item>
+        <item name="booleanValue">false</item>
+        <item name="dimensionValue">18sp</item>
+        <item name="stringValue">@string/night_action_settings</item>
+        <item name="layoutBackground">@color/black</item>
+  <!--      <item name="referenceValue">@drawable/night_bg</item>
+        <item name="imageValue">@drawable/night_launcher_icon</item> -->
+    <item name="curVisibility">hide</item>
+
+        <item name="textColor">@color/white</item>
+    </style>
 </resources>

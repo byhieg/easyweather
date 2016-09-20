@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Activity.MainActivity">
 
+
     <item android:id="@+id/add_city"
         android:title="添加城市"
         android:icon="@mipmap/ic_add_white_24dp"
