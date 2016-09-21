@@ -150,7 +150,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     private NetworkChangeReceiver networkChangeReceiver;
     private MyHandler handler = new MyHandler();
-    private TextView textView;
 
 
     @Override
@@ -202,7 +201,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     @Override
     public void initView() {
-        textView = generateTextView();
+        generateTextView();
         toolbar.setTitle("成都");
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -538,7 +537,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 }).show();
     }
 
-    public TextView generateTextView(){
+    public void generateTextView(){
         TextView textView = new TextView(this);
         textView.setText("天气易变，注意天气变化");
         View[] view = {findViewById(R.id.toolbar),findViewById(R.id.view),findViewById(R.id.item_cloths),findViewById(R.id.item_sports)};
@@ -552,7 +551,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         textView.setTextColor(ContextCompat.getColor(this,R.color.white));
         textView.setLayoutParams(lp);
         action_bar.addView(textView);
-        return textView;
 
     }
 
