@@ -1,17 +1,18 @@
 package com.weather.byhieg.easyweather.Activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.PixelFormat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.byhieglibrary.Activity.BaseActivity;
 import com.weather.byhieg.easyweather.Fragment.LaboratoryFragment;
+import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 
 import butterknife.Bind;
@@ -21,6 +22,7 @@ public class SlideMenuActivity extends BaseActivity {
     @Bind(R.id.toolbar)
     public Toolbar toolbar;
     private int position;
+
 
 
     @Override
@@ -77,4 +79,13 @@ public class SlideMenuActivity extends BaseActivity {
     public void initTheme() {
 
     }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if(MyApplication.nightMode2()){
+//            initNightView(R.layout.night_mode_overlay);
+//        }else {
+//            removeNightView();
+//        }
+//    }
 }

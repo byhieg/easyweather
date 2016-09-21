@@ -4,6 +4,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.example.byhieglibrary.Activity.BaseActivity;
+import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 import android.app.SearchManager;
 import android.content.Intent;
@@ -194,4 +195,13 @@ public class SearchResultActivity extends BaseActivity {
         return str.contains(name);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(MyApplication.nightMode2()){
+            initNightView(R.layout.night_mode_overlay);
+        }else {
+            removeNightView();
+        }
+    }
 }
