@@ -4,6 +4,10 @@ import android.app.Application;
 import android.content.Context;
 
 import android.content.SharedPreferences;
+import android.graphics.PixelFormat;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
 
 
 import com.weather.byhieg.easyweather.Db.DaoMaster;
@@ -21,7 +25,6 @@ public class MyApplication extends Application{
 
     public static final String shareFilename1 ="nightMode";
     public static final String shareFilename2 ="nightMode2";
-
 
 
     public static String getWeatherCodeUrl() {
@@ -74,4 +77,5 @@ public class MyApplication extends Application{
         boolean ischecked=share.getBoolean("ischecked",false);
         return ischecked;
     }
+
 }
