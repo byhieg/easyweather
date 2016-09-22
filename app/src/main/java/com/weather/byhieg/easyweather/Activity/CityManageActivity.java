@@ -75,6 +75,12 @@ public class CityManageActivity extends BaseActivity {
         updateView();
     }
 
+
+    @Override
+    public void initTheme() {
+
+    }
+
     private static void updateView() {
         if (cardViewGroup.getChildCount() == 0) {
             for (int i = 0; i < loveCities.size(); i++) {
@@ -201,5 +207,13 @@ public class CityManageActivity extends BaseActivity {
         }
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(MyApplication.nightMode2()){
+            initNightView(R.layout.night_mode_overlay);
+        }else {
+            removeNightView();
+        }
+    }
 }

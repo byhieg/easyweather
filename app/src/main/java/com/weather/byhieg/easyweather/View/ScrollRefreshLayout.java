@@ -122,7 +122,7 @@ public class ScrollRefreshLayout extends ViewGroup {
     }
     private int checkAlignment() {
         int mEnd = getScrollY();
-        boolean isUp = ((mEnd - mStart) > 0) ? true : false;
+        boolean isUp = ((mEnd - mStart) > 0);
         int lastPrev = mEnd % mScreenHeight;
         int lastNext = mScreenHeight - lastPrev;
         if (isUp) {

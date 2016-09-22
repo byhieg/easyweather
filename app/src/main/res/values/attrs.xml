@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="backgroundColor" format="color" />
+    <attr name="layoutBackground" format="color"/>
+    <attr name="floatValue" format="float" />
+    <attr name="integerValue" format="integer" />
+    <attr name="booleanValue" format="boolean" />
+    <attr name="dimensionValue" format="dimension" />
+    <attr name="stringValue" format="string" />
+    <attr name="referenceValue" format="color|reference" />
+    <attr name="imageValue" format="reference"/>
+    <attr name="textColor" format="color"/>
+    <attr name="curVisibility">
+    <enum name="show" value="0" />
+    <!-- Not displayed, but taken into account during layout (space is left for it). -->
+    <enum name="inshow" value="1" />
+    <!-- Completely hidden, as if the view had not been added. -->
+    <enum name="hide" value="2" />
+    </attr>
+</resources>

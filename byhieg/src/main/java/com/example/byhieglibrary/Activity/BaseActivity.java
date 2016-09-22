@@ -1,13 +1,18 @@
 package com.example.byhieglibrary.Activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.example.byhieglibrary.Activity.InitUI;
+import com.example.byhieglibrary.R;
 
 import butterknife.ButterKnife;
 
@@ -46,9 +51,16 @@ public abstract class BaseActivity extends AppCompatActivity implements InitUI, 
         this.mDensity = mDensity;
     }
 
+
+    private WindowManager mWindowManager = null;
+    private View mNightView = null;
+    private WindowManager.LayoutParams mNightViewParam;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initTheme();
+
         setContentView(getLayoutId());
         DisplayMetrics metric = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metric);
@@ -59,6 +71,7 @@ public abstract class BaseActivity extends AppCompatActivity implements InitUI, 
         initData();
         initView();
         initEvent();
+        mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 
     }
 
@@ -108,6 +121,23 @@ public abstract class BaseActivity extends AppCompatActivity implements InitUI, 
     }
     @Override
     public void onClick(View v) {
+    }
 
+    protected void initNightView(int layoutID) {
+        mNightViewParam = new WindowManager.LayoutParams(
+                WindowManager.LayoutParams.TYPE_APPLICATION,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                PixelFormat.TRANSPARENT);
+        if (mNightView == null) {
+            mNightView = LayoutInflater.from(this).inflate(layoutID, null);
+            mWindowManager.addView(mNightView, mNightViewParam);
+        }
+    }
+
+    protected void removeNightView(){
+        if(mNightView!=null) {
+            mWindowManager.removeViewImmediate(mNightView);
+            mNightView = null;
+        }
     }
 }
