@@ -1,68 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-
     android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
     tools:context=".Activity.MainActivity">
 
     <LinearLayout
         android:id="@+id/main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/lightgray">
+        android:background="@color/lightgray"
+        android:orientation="vertical">
 
-        <include layout="@layout/toolbar"
-            android:id="@+id/toolbar"/>
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
+
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <ScrollView
+                    android:id="@+id/scrollView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fillViewport="true"
-                    android:id="@+id/scrollView">
+                    android:fillViewport="true">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
-                        <include layout="@layout/layout_expand_view"
-                        android:id="@+id/view"/>
-                        <LinearLayout
+
+                        <include
+                            android:id="@+id/view"
+                            layout="@layout/layout_expand_view" />
+
+                        <View
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/common_vertical_margin">
-                        </LinearLayout>
-                        <include layout="@layout/item_cloths"
-                            android:id="@+id/item_cloths"/>
-                        <LinearLayout
+                            android:layout_height="@dimen/common_vertical_margin" />
+
+                        <include
+                            android:id="@+id/item_cloths"
+                            layout="@layout/item_cloths" />
+
+                        <View
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/common_vertical_margin">
-                        </LinearLayout>
-                        <include layout="@layout/item_sports"
-                            android:id="@+id/item_sports"/>
-                        <LinearLayout
+                            android:layout_height="@dimen/common_vertical_margin" />
+
+                        <include
+                            android:id="@+id/item_sports"
+                            layout="@layout/item_sports" />
+
+                        <View
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/common_vertical_margin">
-                        </LinearLayout>
+                            android:layout_height="@dimen/common_vertical_margin" />
+
                         <LinearLayout
                             android:id="@+id/action_bar"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
+                            android:layout_marginBottom="@dimen/common_vertical_margin"
                             android:background="@color/blueviolet"
-                            android:orientation="vertical">
-                        </LinearLayout>
-                        <LinearLayout
+                            android:orientation="vertical" />
+
+                        <include layout="@layout/item_flux" />
+
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/chart"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/common_vertical_margin">
-                        </LinearLayout>
-                        <include layout="@layout/item_flux"/>
+                            android:layout_height="300dp"
+                            android:background="@color/white"
+                            android:layout_marginTop="@dimen/common_vertical_margin">
+                        </com.github.mikephil.charting.charts.LineChart>
+
                     </LinearLayout>
                 </ScrollView>
             </RelativeLayout>
@@ -76,10 +94,10 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="300dp"
             android:src="@mipmap/ic_refresh_green_800_48dp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </LinearLayout>
 
 
-    <include layout="@layout/layout_left_drawer"/>
+    <include layout="@layout/layout_left_drawer" />
 
 </android.support.v4.widget.DrawerLayout>
