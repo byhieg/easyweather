@@ -3,6 +3,7 @@ package com.weather.byhieg.easyweather.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,23 +12,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.WindowManager.*;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.byhieglibrary.Activity.BaseFragment;
 import com.weather.byhieg.easyweather.Activity.SlideMenuActivity;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 
 
-public class LaboratoryFragment extends Fragment {
+public class LaboratoryFragment extends BaseFragment {
 
     private CardView cardView;
     private TextView textView;
     private ImageView imageView;
 
     private CheckBox checkBox;
+
+//    private WindowManager mWindowManager = null;
+//    private View mNightView = null;
+//    private LayoutParams mNightViewParam;
 
     public LaboratoryFragment() {
     }
@@ -53,15 +60,23 @@ public class LaboratoryFragment extends Fragment {
         }
 
         if(MyApplication.nightMode2()){
-            setScreenBritness();
+            initNightView(R.layout.night_mode_overlay);
         }
 
         return inflater.inflate(R.layout.fragment_laboratory,null);
     }
 
-    private void setScreenBritness()
-    {
-    }
+//    private void initNightView()
+//    {
+//        mNightViewParam = new LayoutParams(
+//                LayoutParams.TYPE_APPLICATION,
+//                LayoutParams.FLAG_NOT_TOUCHABLE | LayoutParams.FLAG_NOT_FOCUSABLE,
+//                PixelFormat.TRANSPARENT);
+//
+//        mWindowManager = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
+//        mNightView=LayoutInflater.from(getActivity()).inflate(R.layout.night_mode_overlay,null);
+//        mWindowManager.addView(mNightView, mNightViewParam);
+//    }
 
     @Override
     public void onStart() {
@@ -103,11 +118,22 @@ public class LaboratoryFragment extends Fragment {
                 SharedPreferences.Editor edit = settings.edit();
                 edit.putBoolean("ischecked",isChecked);
                 edit.commit();
-
-                getActivity().finish();
-                Intent intent=new Intent(getActivity(),SlideMenuActivity.class);
-                intent.putExtra("itemid",4);
-                startActivity(intent);
+                if(fileName.equals(MyApplication.shareFilename1)) {
+                    getActivity().finish();
+                    Intent intent = new Intent(getActivity(), SlideMenuActivity.class);
+                    intent.putExtra("itemid", 4);
+                    startActivity(intent);
+                }else{
+                    if(isChecked){
+                        initNightView(R.layout.night_mode_overlay);
+                    }else {
+//                      if(mNightView!=null) {
+//                            mWindowManager.removeViewImmediate(mNightView);
+//                            mNightView = null;
+                            removeNightView();
+//                        }
+                    }
+                }
             }
         });
     }

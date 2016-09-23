@@ -43,6 +43,7 @@ import com.weather.byhieg.easyweather.Bean.DrawerContext;
 import com.weather.byhieg.easyweather.Bean.WeatherBean;
 import com.weather.byhieg.easyweather.Db.LoveCity;
 import com.weather.byhieg.easyweather.Interface.MyItemClickListener;
+import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.Tools.HandleDaoData;
 import com.weather.byhieg.easyweather.Tools.MyJson;
@@ -566,5 +567,10 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 }
             });
         }
+            if(MyApplication.nightMode2()){
+                initNightView(R.layout.night_mode_overlay);
+            }else {
+                removeNightView();
+            }
     }
 }
