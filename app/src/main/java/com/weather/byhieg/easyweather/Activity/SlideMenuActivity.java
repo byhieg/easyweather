@@ -1,19 +1,20 @@
 package com.weather.byhieg.easyweather.Activity;
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.PixelFormat;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.CardView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
-import android.widget.Toast;
+import android.view.View;
 
 import com.example.byhieglibrary.Activity.BaseActivity;
+import com.weather.byhieg.easyweather.Fragment.AboutFragment;
+import com.weather.byhieg.easyweather.Fragment.FutureFragment;
+import com.weather.byhieg.easyweather.Fragment.HelpFragment;
 import com.weather.byhieg.easyweather.Fragment.LaboratoryFragment;
-import com.weather.byhieg.easyweather.MyApplication;
+import com.weather.byhieg.easyweather.Fragment.SettingFragment;
+import com.weather.byhieg.easyweather.Fragment.ShareFragment;
+import com.weather.byhieg.easyweather.Fragment.WikiFragment;
 import com.weather.byhieg.easyweather.R;
+import com.weather.byhieg.easyweather.Tools.Constants;
 
 import butterknife.Bind;
 
@@ -21,34 +22,9 @@ public class SlideMenuActivity extends BaseActivity {
 
     @Bind(R.id.toolbar)
     public Toolbar toolbar;
-    private int position;
 
+    private FragmentManager fm;
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        position=getIntent().getIntExtra("itemid",0);
-        Toast.makeText(this,position+"",Toast.LENGTH_LONG).show();
-        switch (position){
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fragment, LaboratoryFragment.getInstance()).commit();
-                break;
-            case 5:
-                break;
-            case 6:
-                break;
-        }
-    }
 
     @Override
     public int getLayoutId() {
@@ -57,35 +33,81 @@ public class SlideMenuActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
+        fm = getSupportFragmentManager();
     }
-
-    @Override
-    public void initEvent() {
-
-    }
-
     @Override
     public void initView() {
-        toolbar.setTitle(R.string.laboratory);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+        int position = getIntent().getIntExtra("itemId", 0);
+        switch (position){
+            case Constants.FUTURE:
+                toolbar.setTitle(R.string.future);
+                Fragment fragment = new FutureFragment();
+                fm.beginTransaction()
+                        .add(R.id.fragment, fragment,FutureFragment.TAG).commit();
+                break;
+            case Constants.SETTTING:
+                toolbar.setTitle(R.string.setting);
+                fragment = new SettingFragment();
+                fm.beginTransaction()
+                        .add(R.id.fragment, fragment,SettingFragment.TAG).commit();
+                break;
+            case Constants.SHARE:
+                toolbar.setTitle(R.string.share);
+                fragment = new ShareFragment();
+                fm.beginTransaction()
+                        .add(R.id.fragment, fragment,ShareFragment.TAG).commit();
+                break;
+            case Constants.HELP:
+                toolbar.setTitle(R.string.help);
+                fragment = new HelpFragment();
+                fm.beginTransaction()
+                        .add(R.id.fragment, fragment,HelpFragment.TAG).commit();
+                break;
+            case Constants.LAB:
+                toolbar.setTitle(R.string.laboratory);
+                fragment = new LaboratoryFragment();
+                fm.beginTransaction()
+                        .add(R.id.fragment, fragment,LaboratoryFragment.TAG).commit();
+                break;
+            case Constants.WIKI:
+                toolbar.setTitle(R.string.wiki);
+                fragment = new WikiFragment();
+                fm.beginTransaction()
+                        .add(R.id.fragment, fragment,WikiFragment.TAG).commit();
+                break;
+            case Constants.ABOUT:
+                toolbar.setTitle(R.string.about);
+                fragment = new AboutFragment();
+                fm.beginTransaction()
+                        .add(R.id.fragment, fragment,AboutFragment.TAG).commit();
+                break;
+        }
+
     }
+
+
+    @Override
+    public void initEvent() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
 
     @Override
     public void initTheme() {
 
     }
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        if(MyApplication.nightMode2()){
-//            initNightView(R.layout.night_mode_overlay);
-//        }else {
-//            removeNightView();
-//        }
-//    }
+
+
+
 }
