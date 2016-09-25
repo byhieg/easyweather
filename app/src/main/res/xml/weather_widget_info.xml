@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="250dp"
+    android:minHeight="80dp"
+    android:previewImage="@mipmap/cloudy1"
+    android:initialLayout="@layout/weather_appwidget"
+    android:resizeMode="vertical"
+    android:widgetCategory="home_screen|keyguard">
+</appwidget-provider>
