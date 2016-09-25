@@ -175,6 +175,7 @@ public class WeekWeatherView extends View {
             weekWeather.setHighTemp(Integer.parseInt(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getTmp().getMax()));
             weekWeather.setDate(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getDate());
             weekWeather.setCond(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getCond().getTxt_d());
+            weekWeathers.add(weekWeather);
         }
     }
 
