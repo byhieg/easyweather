@@ -10,7 +10,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+import com.weather.byhieg.easyweather.Db.CityWeather;
 import com.weather.byhieg.easyweather.R;
+import com.weather.byhieg.easyweather.Tools.HandleDaoData;
 
 import java.util.HashSet;
 import java.util.Iterator;
