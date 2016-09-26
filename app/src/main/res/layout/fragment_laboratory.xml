@@ -6,7 +6,8 @@
     android:background="?attr/layoutBackground"
     tools:context="com.weather.byhieg.easyweather.Fragment.LaboratoryFragment">
 
-    <include layout="@layout/night_mode" android:id="@+id/item1"></include>
+    <include layout="@layout/night_mode" android:id="@+id/item1">
+    </include>
 
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"

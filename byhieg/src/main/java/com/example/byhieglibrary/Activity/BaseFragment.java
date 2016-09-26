@@ -11,8 +11,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.example.byhieglibrary.R;
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -31,7 +29,7 @@ public class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         TextView textView = new TextView(getActivity());
-        textView.setText(R.string.hello_blank_fragment);
+        textView.setText("你好");
         return textView;
     }
 

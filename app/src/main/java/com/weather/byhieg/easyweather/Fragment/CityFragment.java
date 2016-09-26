@@ -120,6 +120,7 @@ public class CityFragment extends Fragment {
                                     }
                                 });
                             } catch (Exception e) {
+                                myHandler.sendEmptyMessage(UPDATE_CITY);
                                 Snackbar.make(mainLayout, "没有网络 QAQ", Snackbar.LENGTH_LONG).
                                         setAction("点我设置网络", new View.OnClickListener() {
                                             @Override

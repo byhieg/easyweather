@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/itemTextSize"
         android:text="成都市"
-        android:textColor="?attr/textColor"
+        android:textColor="@color/black"
         android:layout_centerVertical="true"
         android:paddingRight="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_vertical_margin"

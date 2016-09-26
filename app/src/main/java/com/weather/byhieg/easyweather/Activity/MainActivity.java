@@ -1,5 +1,6 @@
 package com.weather.byhieg.easyweather.Activity;
 
+
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -41,6 +42,7 @@ import com.example.byhieglibrary.Utils.LogUtils;
 import com.weather.byhieg.easyweather.Adapter.DrawerListAdapter;
 import com.weather.byhieg.easyweather.Bean.DrawerContext;
 import com.weather.byhieg.easyweather.Bean.WeatherBean;
+import com.weather.byhieg.easyweather.Bean.WeekWeather;
 import com.weather.byhieg.easyweather.Db.LoveCity;
 import com.weather.byhieg.easyweather.Interface.MyItemClickListener;
 import com.weather.byhieg.easyweather.MyApplication;
@@ -137,6 +139,8 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     public TextView codeBrf;
     @Bind(R.id.cold_txt)
     public TextView coldTxt;
+//    @Bind(R.id.chart)
+//    public LineChart lineChart;
 
     public static final int COMPLETE_REFRESH = 0x100;
 
@@ -145,6 +149,8 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private DrawerListAdapter drawerListAdapter;
     private ArrayList<DrawerContext> drawerList = new ArrayList<>();
     private WeatherBean weatherBean;
+//    private LineData data;
+    private List<WeekWeather> weekWeathers = new ArrayList<>();
     private int[] rotateCount = {0, 0};
     private View convertView;
 
@@ -192,16 +198,47 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             e.printStackTrace();
         }
 
+//        LineDataSet dataSet = new LineDataSet(weekWeathers,"七天未来天气");
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         networkChangeReceiver = new NetworkChangeReceiver();
         registerReceiver(networkChangeReceiver, intentFilter);
 
+        //给图表指定格式
+        for(int i = 0 ; i < MyJson.getWeather(weatherBean).getDaily_forecast().size();i++) {
+            WeekWeather weekWeather = new WeekWeather();
+            weekWeather.setLowTemp(Integer.parseInt(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getTmp().getMin()));
+            weekWeather.setHighTemp(Integer.parseInt(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getTmp().getMax()));
+            weekWeather.setDate(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getDate());
+            weekWeather.setCond(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getCond().getTxt_d());
+            weekWeathers.add(weekWeather);
+        }
+//        ArrayList<Entry> lowEntries = new ArrayList<>();
+//        ArrayList<Entry> highEntries = new ArrayList<>();
+//        ArrayList<String> xVals = new ArrayList<>();
+//        for(int i = 0 ;i < weekWeathers.size();i++) {
+//            Entry lEntry = new Entry(weekWeathers.get(i).getLowTemp(),i);
+//            Entry hEntry = new Entry(weekWeathers.get(i).getHighTemp(),i);
+//            lowEntries.add(lEntry);
+//            highEntries.add(hEntry);
+//            xVals.add(i + "日");
+//        }
+//        LineDataSet lowSet = new LineDataSet(lowEntries,"低温");
+//        lowSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+//        LineDataSet highSet = new LineDataSet(highEntries, "高温");
+//        highSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+//        ArrayList<LineDataSet> dataSets = new ArrayList<>();
+//        dataSets.add(lowSet);
+//        dataSets.add(highSet);
+//
+//        data = new LineData(xVals,dataSets);
+//        lineChart.setData(data);
     }
 
     @Override
     public void initView() {
         generateTextView();
+//        lineChart.invalidate();
         toolbar.setTitle("成都");
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -214,16 +251,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        drawerListAdapter.setOnItemClickListener(new MyItemClickListener() {
-            @Override
-            public void onItemClick(View view, int postion) {
 
-                Intent intent=new Intent(getApplicationContext(),SlideMenuActivity.class);
-                intent.putExtra("itemid",postion);
-                startActivity(intent);
-
-            }
-        });
         recyclerView.setAdapter(drawerListAdapter);
 
         mSwipeLayout.setOnRefreshListener(this);
@@ -358,6 +386,17 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             }
         });
 
+        drawerListAdapter.setOnItemClickListener(new MyItemClickListener() {
+            @Override
+            public void onItemClick(View view, int postion) {
+
+                Intent intent=new Intent(getApplicationContext(),SlideMenuActivity.class);
+                intent.putExtra("itemId",postion);
+                startActivity(intent);
+
+            }
+        });
+
     }
 
 
@@ -458,7 +497,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     }
 
 
-    class MyAsyncTask  extends AsyncTask<String, Void, String>{
+    class MyAsyncTask  extends AsyncTask<String, Void, String> {
 
         @Override
         protected void onPostExecute(String city) {
@@ -485,7 +524,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         }
     }
 
-    class NetworkChangeReceiver extends BroadcastReceiver{
+    class NetworkChangeReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -498,7 +537,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     }
 
     @SuppressLint("HandlerLeak")
-    class MyHandler extends Handler{
+    class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
