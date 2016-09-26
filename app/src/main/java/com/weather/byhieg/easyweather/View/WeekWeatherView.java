@@ -260,6 +260,7 @@ public class WeekWeatherView extends View {
 
     @SuppressLint("SimpleDateFormat")
     private void getData() throws Exception {
+        weekWeathers.clear();
         weatherBean = HandleDaoData.getWeatherBean(HandleDaoData.getShowCity());
         for (int i = 0; i < MyJson.getWeather(weatherBean).getDaily_forecast().size(); i++) {
             WeekWeather weekWeather = new WeekWeather();
@@ -282,6 +283,15 @@ public class WeekWeatherView extends View {
 
     }
 
+    public void notifyDateChanged(){
+        try {
+            getData();
+            postInvalidate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
 }
 

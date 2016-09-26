@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +17,8 @@ import com.example.byhieglibrary.Activity.BaseFragment;
 import com.weather.byhieg.easyweather.Activity.SlideMenuActivity;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
+
+import org.jetbrains.annotations.Nullable;
 
 
 public class LaboratoryFragment extends BaseFragment {

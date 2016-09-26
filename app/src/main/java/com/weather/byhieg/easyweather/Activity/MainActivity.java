@@ -20,6 +20,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +33,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -40,9 +42,10 @@ import com.example.byhieglibrary.Utils.DateUtil;
 import com.example.byhieglibrary.Utils.DisplayUtil;
 import com.example.byhieglibrary.Utils.LogUtils;
 import com.weather.byhieg.easyweather.Adapter.DrawerListAdapter;
+import com.weather.byhieg.easyweather.Adapter.PopupWindowAdapter;
 import com.weather.byhieg.easyweather.Bean.DrawerContext;
+import com.weather.byhieg.easyweather.Bean.HoursWeather;
 import com.weather.byhieg.easyweather.Bean.WeatherBean;
-import com.weather.byhieg.easyweather.Bean.WeekWeather;
 import com.weather.byhieg.easyweather.Db.LoveCity;
 import com.weather.byhieg.easyweather.Interface.MyItemClickListener;
 import com.weather.byhieg.easyweather.MyApplication;
@@ -50,6 +53,7 @@ import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.Tools.HandleDaoData;
 import com.weather.byhieg.easyweather.Tools.MyJson;
 import com.weather.byhieg.easyweather.Tools.NetTool;
+import com.weather.byhieg.easyweather.View.WeekWeatherView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -139,20 +143,35 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     public TextView codeBrf;
     @Bind(R.id.cold_txt)
     public TextView coldTxt;
+    @Bind(R.id.week_Weather_view)
+    public WeekWeatherView weekWeatherView;
+    @Bind(R.id.weather_cond)
+    public TextView weatherCond;
+    @Bind(R.id.update_time_hours)
+    public TextView updateHours;
+    @Bind(R.id.wind_hours)
+    public TextView windHours;
+    @Bind(R.id.weather_tmp)
+    public TextView weatherTmp;
+    @Bind(R.id.item_future)
+    public LinearLayout itemFuture;
+    @Bind(R.id.more)
+    public TextView more;
 
     public static final int COMPLETE_REFRESH = 0x100;
+
 
 
     public static final int FAILURE_REFRESH = 0x101;
     private DrawerListAdapter drawerListAdapter;
     private ArrayList<DrawerContext> drawerList = new ArrayList<>();
     private WeatherBean weatherBean;
-    private List<WeekWeather> weekWeathers = new ArrayList<>();
     private int[] rotateCount = {0, 0};
     private View convertView;
-
+    private List<HoursWeather> hoursWeathers = new ArrayList<>();
     private NetworkChangeReceiver networkChangeReceiver;
     private MyHandler handler = new MyHandler();
+    private PopupWindowAdapter adapter;
 
 
     @Override
@@ -200,14 +219,14 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         networkChangeReceiver = new NetworkChangeReceiver();
         registerReceiver(networkChangeReceiver, intentFilter);
 
-        //给图表指定格式
-        for(int i = 0 ; i < MyJson.getWeather(weatherBean).getDaily_forecast().size();i++) {
-            WeekWeather weekWeather = new WeekWeather();
-            weekWeather.setLowTemp(Integer.parseInt(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getTmp().getMin()));
-            weekWeather.setHighTemp(Integer.parseInt(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getTmp().getMax()));
-            weekWeather.setDate(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getDate());
-            weekWeather.setCond(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getCond().getTxt_d());
-            weekWeathers.add(weekWeather);
+        for(int i = 0;i < MyJson.getWeather(weatherBean).getHourly_forecast().size();i++) {
+            HoursWeather hw = new HoursWeather();
+            hw.setTmp(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getTmp() + "°");
+            hw.setWind(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getDir() + " " +
+                    MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getSc());
+            hw.setPop(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getPop() + "%");
+            hw.setUpdate(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getDate());
+            hoursWeathers.add(hw);
         }
 
     }
@@ -374,6 +393,14 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             }
         });
 
+        more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupWindow(v);
+            }
+        });
+
+
     }
 
 
@@ -393,11 +420,12 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         scrollView.setVisibility(View.VISIBLE);
         refresh.clearAnimation();
         refresh.setVisibility(View.GONE);
+        weekWeatherView.notifyDateChanged();
         Date sqlDate = HandleDaoData.getCityWeather(HandleDaoData.getShowCity()).getUpdateTime();
-        long time = DateUtil.getDifferenceofDate(new Date(), sqlDate) / (1000 * 60) ;
+        long time = DateUtil.getDifferenceofDate(new Date(), sqlDate) / (1000 * 60);
         if (time > 1000 * 60 * 60 || time < 0) {
             updateTime.setText("最近更新：" + new SimpleDateFormat("MM-dd HH:mm:ss").format(sqlDate));
-        }else{
+        } else {
             updateTime.setText("最近更新：" + time + "分钟之前");
         }
         //主卡片
@@ -421,11 +449,25 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         clothBrf.setText(MyJson.getWeather(weatherBean).getSuggestion().getDrsg().getBrf());
         clothTxt.setText(MyJson.getWeather(weatherBean).getSuggestion().getDrsg().getTxt());
 
+        //运动指数
         sportBrf.setText(MyJson.getWeather(weatherBean).getSuggestion().getSport().getBrf());
         sportTxt.setText(MyJson.getWeather(weatherBean).getSuggestion().getSport().getTxt());
 
+        //感冒指数
         codeBrf.setText(MyJson.getWeather(weatherBean).getSuggestion().getFlu().getBrf());
         coldTxt.setText(MyJson.getWeather(weatherBean).getSuggestion().getFlu().getTxt());
+
+        //未来三小时天气
+        if(MyJson.getWeather(weatherBean).getHourly_forecast().size() !=0){
+            weatherCond.setText(MyJson.getWeather(weatherBean).getHourly_forecast().get(0).getPop() + "%");
+            updateHours.setText(MyJson.getWeather(weatherBean).getHourly_forecast().get(0).getDate());
+            windHours.setText(MyJson.getWeather(weatherBean).getHourly_forecast().get(0).getWind().getDir() + " " +
+                    MyJson.getWeather(weatherBean).getHourly_forecast().get(0).getWind().getSc());
+            weatherTmp.setText(MyJson.getWeather(weatherBean).getHourly_forecast().get(0).getTmp() + "°");
+        }else{
+            itemFuture.setVisibility(View.GONE);
+        }
+
     }
 
     /**
@@ -588,5 +630,21 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             }else {
                 removeNightView();
             }
+    }
+
+    private void showPopupWindow(View view) {
+        View contentView = LayoutInflater.from(this).inflate(R.layout.item_popupwindow,null);
+        ListView listView = (ListView)contentView.findViewById(R.id.popup_listview);
+        adapter = new PopupWindowAdapter(hoursWeathers,this);
+        listView.setAdapter(adapter);
+
+        final PopupWindow popupWindow = new PopupWindow(contentView,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                true);
+        popupWindow.setTouchable(false);
+//        popupWindow.set(ContextCompat.getDrawable(R.color.white));
+        popupWindow.showAsDropDown(view);
+
     }
 }

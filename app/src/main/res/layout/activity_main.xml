@@ -42,14 +42,16 @@
                             android:id="@+id/view"
                             layout="@layout/layout_expand_view" />
 
-                        <View
+                        <LinearLayout
+                            android:id="@+id/item_future"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/common_vertical_margin" />
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/common_horizontal_margin">
 
+                            <include
+                                layout="@layout/item_hours_future" />
+                        </LinearLayout>
 
-                        <include
-                            android:id="@+id/item_cloths"
-                            layout="@layout/item_cloths" />
 
                         <View
                             android:layout_width="match_parent"
@@ -58,6 +60,14 @@
                         <include
                             android:id="@+id/item_sports"
                             layout="@layout/item_sports" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/common_vertical_margin" />
+
+                        <include
+                            android:id="@+id/item_cloths"
+                            layout="@layout/item_cloths" />
 
                         <View
                             android:layout_width="match_parent"
@@ -74,18 +84,16 @@
 
                         <include layout="@layout/item_flux" />
 
-                       <com.weather.byhieg.easyweather.View.WeekWeatherView
-                           android:layout_width="match_parent"
-                           android:layout_marginTop="@dimen/common_vertical_margin"
-                           android:layout_height="200dp"
-                           android:background="@color/white"/>
+                        <com.weather.byhieg.easyweather.View.WeekWeatherView
+                            android:id="@+id/week_Weather_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:layout_marginTop="@dimen/common_vertical_margin"
+                            android:background="@color/white" />
 
-                        <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/common_vertical_margin" />
-                        <include
-                            android:id="@+id/item_future"
-                            layout="@layout/item_hours_future" />
+
+
+
 
                     </LinearLayout>
                 </ScrollView>

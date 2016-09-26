@@ -48,10 +48,8 @@ public class DateUtil {
         for(int i = 0 ;i < 7;i++) {
             if (i == 0) {
                 myWeek[i] = new SimpleDateFormat("MM/dd").format(date);
-                LogUtils.e(i + "", myWeek[i]);
             }else{
                 myWeek[i] = weeks[(weekIndex + i) % 7];
-                LogUtils.e(i + "", myWeek[i]);
 
             }
         }
