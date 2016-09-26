@@ -46,6 +46,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/common_vertical_margin" />
 
+
                         <include
                             android:id="@+id/item_cloths"
                             layout="@layout/item_cloths" />
@@ -78,6 +79,13 @@
                            android:layout_marginTop="@dimen/common_vertical_margin"
                            android:layout_height="200dp"
                            android:background="@color/white"/>
+
+                        <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/common_vertical_margin" />
+                        <include
+                            android:id="@+id/item_future"
+                            layout="@layout/item_hours_future" />
 
                     </LinearLayout>
                 </ScrollView>

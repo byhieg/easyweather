@@ -263,11 +263,16 @@ public class WeekWeatherView extends View {
         weatherBean = HandleDaoData.getWeatherBean(HandleDaoData.getShowCity());
         for (int i = 0; i < MyJson.getWeather(weatherBean).getDaily_forecast().size(); i++) {
             WeekWeather weekWeather = new WeekWeather();
+            String weatherCond = MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getCond().getTxt_d();
             weekWeather.setLowTemp(Integer.parseInt(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getTmp().getMin()));
             lists.add(Integer.parseInt(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getTmp().getMin()));
             weekWeather.setHighTemp(Integer.parseInt(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getTmp().getMax()));
             weekWeather.setDate(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getDate());
-            weekWeather.setCond(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getCond().getTxt_d());
+            if (weatherCond.contains("/")) {
+                weekWeather.setCond(weatherCond.split("/")[1]);
+            }else{
+                weekWeather.setCond(weatherCond);
+            }
             weekWeathers.add(weekWeather);
         }
         weeks = DateUtil.

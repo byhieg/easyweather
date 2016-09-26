@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="未来3小时天气"
+            android:textColor="@color/black"
+            android:textSize="@dimen/itemTextSize" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:orientation="vertical"
+        android:padding="@dimen/common_horizontal_margin">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/weather_des"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="天气: "
+                android:textColor="@color/black"
+                android:textSize="@dimen/showTextSize" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/weather_des"
+                android:text="晴"
+                android:textColor="@color/black"
+                android:textSize="@dimen/showTextSize" />
+
+            <TextView
+                android:id="@+id/updateTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="天气: "
+                android:textColor="@color/black"
+                android:textSize="@dimen/showTextSize" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/weather_tmp_des"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="气温: "
+                android:textColor="@color/black"
+                android:textSize="@dimen/showTextSize" />
+
+            <TextView
+                android:id="@+id/weather_tmp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="晴"
+                android:textColor="@color/black"
+                android:textSize="@dimen/showTextSize" />
+
+            <TextView
+                android:id="@+id/wind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_horizontal_margin"
+                android:text="风"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

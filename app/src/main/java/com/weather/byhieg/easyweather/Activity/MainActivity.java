@@ -139,8 +139,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     public TextView codeBrf;
     @Bind(R.id.cold_txt)
     public TextView coldTxt;
-//    @Bind(R.id.chart)
-//    public LineChart lineChart;
 
     public static final int COMPLETE_REFRESH = 0x100;
 
@@ -149,7 +147,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private DrawerListAdapter drawerListAdapter;
     private ArrayList<DrawerContext> drawerList = new ArrayList<>();
     private WeatherBean weatherBean;
-//    private LineData data;
     private List<WeekWeather> weekWeathers = new ArrayList<>();
     private int[] rotateCount = {0, 0};
     private View convertView;
@@ -198,7 +195,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             e.printStackTrace();
         }
 
-//        LineDataSet dataSet = new LineDataSet(weekWeathers,"七天未来天气");
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         networkChangeReceiver = new NetworkChangeReceiver();
@@ -213,32 +209,12 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             weekWeather.setCond(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getCond().getTxt_d());
             weekWeathers.add(weekWeather);
         }
-//        ArrayList<Entry> lowEntries = new ArrayList<>();
-//        ArrayList<Entry> highEntries = new ArrayList<>();
-//        ArrayList<String> xVals = new ArrayList<>();
-//        for(int i = 0 ;i < weekWeathers.size();i++) {
-//            Entry lEntry = new Entry(weekWeathers.get(i).getLowTemp(),i);
-//            Entry hEntry = new Entry(weekWeathers.get(i).getHighTemp(),i);
-//            lowEntries.add(lEntry);
-//            highEntries.add(hEntry);
-//            xVals.add(i + "日");
-//        }
-//        LineDataSet lowSet = new LineDataSet(lowEntries,"低温");
-//        lowSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-//        LineDataSet highSet = new LineDataSet(highEntries, "高温");
-//        highSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-//        ArrayList<LineDataSet> dataSets = new ArrayList<>();
-//        dataSets.add(lowSet);
-//        dataSets.add(highSet);
-//
-//        data = new LineData(xVals,dataSets);
-//        lineChart.setData(data);
+
     }
 
     @Override
     public void initView() {
         generateTextView();
-//        lineChart.invalidate();
         toolbar.setTitle("成都");
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -270,12 +246,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             doRefreshInNoData();
         }
 
-//        lineChart.setDescription("");
-//        lineChart.setNoDataTextDescription("数据异常，当前无数据显示");
-//        lineChart.setGridBackgroundColor(ContextCompat.getColor(this,R.color.white));
-//        lineChart.setDrawBorders(false);
-//        lineChart.setTouchEnabled(false);
-////        lineChart.setDragEnabled(false);
 
     }
 
