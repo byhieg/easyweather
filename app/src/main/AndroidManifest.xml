@@ -67,7 +67,7 @@
         <!-- 声明widget对应的AppWidgetProvider -->
         <receiver android:name=".Widget.WeatherWidgetProvider">
             <intent-filter>
-                <action android:name="com.skywang.widget.UPDATE_ALL" />
+                <action android:name="com.widget.UPDATE_ALL" />
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
