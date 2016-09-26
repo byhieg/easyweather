@@ -102,12 +102,6 @@ public class LaboratoryFragment extends BaseFragment {
         checkBox.setChecked(ischecked);
         checkBoxStatus(checkBox,MyApplication.shareFilename1);
 
-
-        cardView= (CardView) getActivity().findViewById(R.id.item3);
-        textView= (TextView) cardView.findViewById(R.id.lab_textview);
-        textView.setText("桌面小图标");
-        imageView= (ImageView) cardView.findViewById(R.id.lab_image);
-        imageView.setBackgroundResource(R.drawable.ic_cached_grey_500_24dp);
     }
 
     public void checkBoxStatus(CheckBox checkBox, final String fileName){

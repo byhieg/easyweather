@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/app_widget_margin">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="24℃"
+        android:textSize="@dimen/tempTextSize"
+        android:layout_marginRight="@dimen/common_horizontal_margin"
+        android:id="@+id/widget_temperature"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/widget_temperature"
+        android:text="郫县"
+        android:textSize="@dimen/citynameTextSize"
+        android:id="@+id/widget_city"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/widget_temperature"
+        android:text="多云"
+        android:layout_below="@id/widget_city"
+        android:textSize="@dimen/citynameTextSize"
+        android:id="@+id/widget_weather_text"/>
+
+    <ImageView
+        android:layout_width="@dimen/tempTextSize"
+        android:layout_height="@dimen/tempTextSize"
+        android:layout_alignParentRight="true"
+        android:background="@mipmap/cloudy1"
+        android:layout_alignBottom="@id/widget_temperature"
+        android:id="@+id/widget_weather_img"/>
+
+</RelativeLayout>
