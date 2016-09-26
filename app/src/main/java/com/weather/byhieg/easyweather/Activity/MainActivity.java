@@ -270,6 +270,13 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             doRefreshInNoData();
         }
 
+//        lineChart.setDescription("");
+//        lineChart.setNoDataTextDescription("数据异常，当前无数据显示");
+//        lineChart.setGridBackgroundColor(ContextCompat.getColor(this,R.color.white));
+//        lineChart.setDrawBorders(false);
+//        lineChart.setTouchEnabled(false);
+////        lineChart.setDragEnabled(false);
+
     }
 
     @Override
