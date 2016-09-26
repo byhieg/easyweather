@@ -37,11 +37,6 @@ public class SlideMenuActivity extends BaseActivity {
     }
     @Override
     public void initView() {
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
 
         int position = getIntent().getIntExtra("itemId", 0);
         switch (position){
@@ -88,7 +83,11 @@ public class SlideMenuActivity extends BaseActivity {
                         .add(R.id.fragment, fragment,AboutFragment.TAG).commit();
                 break;
         }
-
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 
 

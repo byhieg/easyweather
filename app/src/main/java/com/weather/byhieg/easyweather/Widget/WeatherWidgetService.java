@@ -11,7 +11,7 @@ public class WeatherWidgetService extends Service {
     }
 
     // 更新 widget 的广播对应的action
-    private final String ACTION_UPDATE_ALL = "com.skywang.widget.UPDATE_ALL";
+    private final String ACTION_UPDATE_ALL = "com.widget.UPDATE_ALL";
     // 周期性更新 widget 的周期
     private static final int UPDATE_TIME = 5000;
     // 周期性更新 widget 的线程

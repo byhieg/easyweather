@@ -393,6 +393,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 Intent intent=new Intent(getApplicationContext(),SlideMenuActivity.class);
                 intent.putExtra("itemId",postion);
                 startActivity(intent);
+                overridePendingTransition(R.anim.activity_in,R.anim.activity_out);
 
             }
         });

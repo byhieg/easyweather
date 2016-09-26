@@ -10,9 +10,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+import com.weather.byhieg.easyweather.Bean.WeatherBean;
 import com.weather.byhieg.easyweather.Db.CityWeather;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.Tools.HandleDaoData;
+import com.weather.byhieg.easyweather.Tools.MyJson;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -88,15 +90,29 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
         while (it.hasNext()) {
             appID = ((Integer) it.next()).intValue();
             // 获取 example_appwidget.xml 对应的RemoteViews
+            String cityName = MyJson.getWeather(getCityData()).getBasic().getCity();
+            String temp = MyJson.getWeather(getCityData()).getNow().getTmp();
+            String cond = MyJson.getWeather(getCityData()).getNow().getCond().getTxt();
             RemoteViews remoteView = new RemoteViews(context.getPackageName(), R.layout.weather_appwidget);
-            remoteView.setTextViewText(R.id.widget_city,"成都");
-            remoteView.setTextViewText(R.id.widget_temperature,"20℃");
+            remoteView.setTextViewText(R.id.widget_city,cityName);
+            remoteView.setTextViewText(R.id.widget_temperature,temp+"℃");
             Bitmap weather= BitmapFactory.decodeResource(context.getResources(),R.mipmap.cloudy2);
             remoteView.setImageViewBitmap(R.id.widget_weather_img,weather);
-            remoteView.setTextViewText(R.id.widget_weather_text,"多云");
+            remoteView.setTextViewText(R.id.widget_weather_text,cond);
             // 更新 widget
             appWidgetManager.updateAppWidget(appID, remoteView);
         }
     }
+    private WeatherBean getCityData(){
+        String cityName = HandleDaoData.getShowCity();
+        try {
+            return HandleDaoData.getWeatherBean(cityName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 
 }
