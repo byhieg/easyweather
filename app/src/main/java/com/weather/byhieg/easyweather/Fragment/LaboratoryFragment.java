@@ -3,16 +3,12 @@ package com.weather.byhieg.easyweather.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.WindowManager.*;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -25,6 +21,8 @@ import com.weather.byhieg.easyweather.R;
 
 
 public class LaboratoryFragment extends BaseFragment {
+
+    public static final String TAG = "com.weather.byhieg.easyweather.Fragment.LaboratoryFragment";
 
     private CardView cardView;
     private TextView textView;
@@ -66,17 +64,7 @@ public class LaboratoryFragment extends BaseFragment {
         return inflater.inflate(R.layout.fragment_laboratory,null);
     }
 
-//    private void initNightView()
-//    {
-//        mNightViewParam = new LayoutParams(
-//                LayoutParams.TYPE_APPLICATION,
-//                LayoutParams.FLAG_NOT_TOUCHABLE | LayoutParams.FLAG_NOT_FOCUSABLE,
-//                PixelFormat.TRANSPARENT);
-//
-//        mWindowManager = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
-//        mNightView=LayoutInflater.from(getActivity()).inflate(R.layout.night_mode_overlay,null);
-//        mWindowManager.addView(mNightView, mNightViewParam);
-//    }
+
 
     @Override
     public void onStart() {
@@ -87,7 +75,7 @@ public class LaboratoryFragment extends BaseFragment {
     public void initView(){
         cardView= (CardView) getActivity().findViewById(R.id.item1);
         textView= (TextView) cardView.findViewById(R.id.lab_textview);
-        textView.setText("夜间模式一");
+        textView.setText(R.string.nightMode1);
         checkBox= (CheckBox) cardView.findViewById(R.id.cb);
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyApplication.shareFilename2, getActivity().MODE_PRIVATE);
         boolean checked=sharedPreferences.getBoolean("ischecked",false);

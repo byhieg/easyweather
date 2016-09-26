@@ -73,13 +73,13 @@
 
                         <include layout="@layout/item_flux" />
 
-                        <com.github.mikephil.charting.charts.LineChart
-                            android:id="@+id/chart"
-                            android:layout_width="match_parent"
-                            android:layout_height="300dp"
-                            android:background="@color/white"
-                            android:layout_marginTop="@dimen/common_vertical_margin">
-                        </com.github.mikephil.charting.charts.LineChart>
+                        <!--<com.github.mikephil.charting.charts.LineChart-->
+                            <!--android:id="@+id/chart"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="300dp"-->
+                            <!--android:background="@color/white"-->
+                            <!--android:layout_marginTop="@dimen/common_vertical_margin">-->
+                        <!--</com.github.mikephil.charting.charts.LineChart>-->
 
                     </LinearLayout>
                 </ScrollView>
