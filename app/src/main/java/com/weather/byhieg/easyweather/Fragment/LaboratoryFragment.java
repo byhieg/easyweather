@@ -12,12 +12,14 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.byhieglibrary.Activity.BaseFragment;
 import com.weather.byhieg.easyweather.Activity.SlideMenuActivity;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
+import com.weather.byhieg.easyweather.Tools.Constants;
 
 
 public class LaboratoryFragment extends BaseFragment {
@@ -28,7 +30,7 @@ public class LaboratoryFragment extends BaseFragment {
     private TextView textView;
     private ImageView imageView;
 
-    private CheckBox checkBox;
+    private Switch aSwitch;
 
 //    private WindowManager mWindowManager = null;
 //    private View mNightView = null;
@@ -76,24 +78,26 @@ public class LaboratoryFragment extends BaseFragment {
         cardView= (CardView) getActivity().findViewById(R.id.item1);
         textView= (TextView) cardView.findViewById(R.id.lab_textview);
         textView.setText(R.string.nightMode1);
-        checkBox= (CheckBox) cardView.findViewById(R.id.cb);
+        aSwitch= (Switch) cardView.findViewById(R.id.cb);
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyApplication.shareFilename2, getActivity().MODE_PRIVATE);
         boolean checked=sharedPreferences.getBoolean("ischecked",false);
-        checkBox.setChecked(checked);
-        checkBoxStatus(checkBox,MyApplication.shareFilename2);
+        aSwitch.setChecked(checked);
+        switchStatus(aSwitch,MyApplication.shareFilename2);
 
 
         cardView= (CardView) getActivity().findViewById(R.id.item2);
-        checkBox= (CheckBox) cardView.findViewById(R.id.cb);
+        textView= (TextView) cardView.findViewById(R.id.lab_textview);
+        textView.setText(R.string.nightMode2);
+        aSwitch= (Switch) cardView.findViewById(R.id.cb);
         SharedPreferences share = getActivity().getSharedPreferences(MyApplication.shareFilename1, getActivity().MODE_PRIVATE);
         boolean ischecked=share.getBoolean("ischecked",false);
-        checkBox.setChecked(ischecked);
-        checkBoxStatus(checkBox,MyApplication.shareFilename1);
+        aSwitch.setChecked(ischecked);
+        switchStatus(aSwitch,MyApplication.shareFilename1);
 
     }
 
-    public void checkBoxStatus(CheckBox checkBox, final String fileName){
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+    public void switchStatus(Switch aSwitch, final String fileName){
+        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SharedPreferences settings = getActivity().getSharedPreferences(fileName, Context.MODE_PRIVATE);
@@ -103,17 +107,13 @@ public class LaboratoryFragment extends BaseFragment {
                 if(fileName.equals(MyApplication.shareFilename1)) {
                     getActivity().finish();
                     Intent intent = new Intent(getActivity(), SlideMenuActivity.class);
-                    intent.putExtra("itemid", 4);
+                    intent.putExtra("itemId", Constants.LAB);
                     startActivity(intent);
                 }else{
                     if(isChecked){
                         initNightView(R.layout.night_mode_overlay);
                     }else {
-//                      if(mNightView!=null) {
-//                            mWindowManager.removeViewImmediate(mNightView);
-//                            mNightView = null;
                             removeNightView();
-//                        }
                     }
                 }
             }

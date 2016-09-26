@@ -45,6 +45,7 @@
     <string name="action_settings">夜间模式</string>
     <string name="night_action_settings">夜间模式</string>
     <string name="nightMode1">夜间模式一</string>
+    <string name="nightMode2">夜间模式二</string>
 
 
 </resources>
