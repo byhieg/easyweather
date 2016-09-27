@@ -23,6 +23,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
@@ -37,6 +38,9 @@ import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.example.byhieglibrary.Activity.BaseActivity;
 import com.example.byhieglibrary.Utils.DateUtil;
 import com.example.byhieglibrary.Utils.DisplayUtil;
@@ -52,6 +56,7 @@ import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.Tools.HandleDaoData;
 import com.weather.byhieg.easyweather.Tools.MyJson;
+import com.weather.byhieg.easyweather.Tools.MyLocationListener;
 import com.weather.byhieg.easyweather.Tools.NetTool;
 import com.weather.byhieg.easyweather.View.WeekWeatherView;
 
@@ -63,6 +68,8 @@ import java.util.List;
 import java.util.Locale;
 
 import butterknife.Bind;
+
+import static com.example.byhieglibrary.Utils.DisplayUtil.getViewHeight;
 
 public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -158,11 +165,13 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     @Bind(R.id.more)
     public TextView more;
 
+
+
+
     public static final int COMPLETE_REFRESH = 0x100;
-
-
-
     public static final int FAILURE_REFRESH = 0x101;
+
+
     private DrawerListAdapter drawerListAdapter;
     private ArrayList<DrawerContext> drawerList = new ArrayList<>();
     private WeatherBean weatherBean;
@@ -171,7 +180,8 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private List<HoursWeather> hoursWeathers = new ArrayList<>();
     private NetworkChangeReceiver networkChangeReceiver;
     private MyHandler handler = new MyHandler();
-    private PopupWindowAdapter adapter;
+    public LocationClient mLocationClient = null;
+    public BDLocationListener myListener = new MyLocationListener();
 
 
     @Override
@@ -229,6 +239,8 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             hoursWeathers.add(hw);
         }
 
+        mLocationClient = new LocationClient(getApplicationContext());
+        mLocationClient.registerLocationListener(myListener);
     }
 
     @Override
@@ -265,7 +277,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             doRefreshInNoData();
         }
 
-
+        initLocation();
     }
 
     @Override
@@ -283,6 +295,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                         break;
 
                     case R.id.location:
+                        mLocationClient.start();
                         break;
 
                     case R.id.like:
@@ -396,7 +409,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPopupWindow(v);
+                showPopupWindow();
             }
         });
 
@@ -601,7 +614,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         View[] view = {findViewById(R.id.toolbar),findViewById(R.id.view),findViewById(R.id.item_cloths),findViewById(R.id.item_sports)};
         int totalHeight = 0;
         for (View aView : view) {
-            totalHeight += DisplayUtil.getViewHeight(aView, true) + DisplayUtil.dip2px(this, 10);
+            totalHeight += getViewHeight(aView, true) + DisplayUtil.dip2px(this, 10);
         }
         int pxHeight = getmScreenHeight() - totalHeight;
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,pxHeight / 2);
@@ -632,19 +645,49 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             }
     }
 
-    private void showPopupWindow(View view) {
+    private void showPopupWindow() {
         View contentView = LayoutInflater.from(this).inflate(R.layout.item_popupwindow,null);
+        LinearLayout del = (LinearLayout) contentView.findViewById(R.id.del);
         ListView listView = (ListView)contentView.findViewById(R.id.popup_listview);
-        adapter = new PopupWindowAdapter(hoursWeathers,this);
+        PopupWindowAdapter adapter = new PopupWindowAdapter(hoursWeathers, this);
         listView.setAdapter(adapter);
 
         final PopupWindow popupWindow = new PopupWindow(contentView,
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT,
                 true);
-        popupWindow.setTouchable(false);
-//        popupWindow.set(ContextCompat.getDrawable(R.color.white));
-        popupWindow.showAsDropDown(view);
+        popupWindow.setTouchable(true);
+        popupWindow.setTouchInterceptor(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
+        popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(this,R.color.transparent));
+        popupWindow.showAsDropDown(toolbar,0,DisplayUtil.dip2px(this,10));
+        del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+    }
 
+    private void initLocation(){
+        LocationClientOption option = new LocationClientOption();
+        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy
+        );//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
+        option.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系
+        int span=1000;
+        option.setScanSpan(span);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
+        option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
+        option.setOpenGps(true);//可选，默认false,设置是否使用gps
+        option.setLocationNotify(true);//可选，默认false，设置是否当GPS有效时按照1S/1次频率输出GPS结果
+        option.setIsNeedLocationDescribe(true);//可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，结果类似于“在北京天安门附近”
+        option.setIsNeedLocationPoiList(true);//可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
+        option.setIgnoreKillProcess(false);//可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
+        option.SetIgnoreCacheException(false);//可选，默认false，设置是否收集CRASH信息，默认收集
+        option.setEnableSimulateGps(false);//可选，默认false，设置是否需要过滤GPS仿真结果，默认需要
+        mLocationClient.setLocOption(option);
     }
 }

@@ -51,6 +51,8 @@ public class PopupWindowAdapter extends BaseAdapter{
             holder.wind = (TextView)convertView.findViewById(R.id.wind_hours);
             holder.pop = (TextView)convertView.findViewById(R.id.weather_cond);
             holder.update = (TextView) convertView.findViewById(R.id.update_time_hours);
+            holder.futureDes = (TextView) convertView.findViewById(R.id.future_des);
+            holder.more = (TextView) convertView.findViewById(R.id.more);
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder) convertView.getTag();
@@ -59,13 +61,17 @@ public class PopupWindowAdapter extends BaseAdapter{
         holder.wind.setText(hoursWeathers.get(position).getWind());
         holder.pop.setText(hoursWeathers.get(position).getPop());
         holder.update.setText(hoursWeathers.get(position).getUpdate());
+        holder.futureDes.setText("今天每3小时天气速报");
+        holder.more.setVisibility(View.GONE);
         return convertView;
     }
 
     class ViewHolder{
+        public TextView futureDes;
         public TextView tmp;
         public TextView wind;
         public TextView pop;
         public TextView update;
+        public TextView more;
     }
 }

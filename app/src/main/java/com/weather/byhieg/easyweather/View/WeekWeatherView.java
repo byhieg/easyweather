@@ -224,7 +224,7 @@ public class WeekWeatherView extends View {
             int lowDiff = weekWeathers.get(i).getLowTemp() - lowestTemp;
             int diff = weekWeathers.get(i).getHighTemp() - weekWeathers.get(i).getLowTemp();
             lowTempX[i] = padding + translateLength / 2 + translateLength * i;
-            lowTempY[i] = viewHeight - (10 + lowDiff) * tempPadding;
+            lowTempY[i] = viewHeight - (15 + lowDiff) * tempPadding;
             canvas.drawCircle(lowTempX[i],
                     lowTempY[i],
                     8,
@@ -235,7 +235,7 @@ public class WeekWeatherView extends View {
                     lowTempPaint);
 
             highTempX[i] = (padding + translateLength / 2 + translateLength * i);
-            highTempY[i] = viewHeight - (10 + lowDiff) * tempPadding - tempPadding * diff;
+            highTempY[i] = viewHeight - (15 + lowDiff) * tempPadding - tempPadding * diff;
             canvas.drawCircle(highTempX[i],
                     highTempY[i],
                     8,
