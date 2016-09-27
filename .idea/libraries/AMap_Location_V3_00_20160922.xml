@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="AMap_Location_V3.00_20160922">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/src/main/libs/AMap_Location_V3.00_20160922.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
