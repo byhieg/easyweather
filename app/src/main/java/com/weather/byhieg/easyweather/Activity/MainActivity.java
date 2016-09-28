@@ -4,6 +4,7 @@ package com.weather.byhieg.easyweather.Activity;
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -16,6 +17,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -38,6 +40,7 @@ import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
@@ -55,8 +58,10 @@ import com.weather.byhieg.easyweather.Db.LoveCity;
 import com.weather.byhieg.easyweather.Interface.MyItemClickListener;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
+import com.weather.byhieg.easyweather.Tools.Constants;
 import com.weather.byhieg.easyweather.Tools.HandleDaoData;
 import com.weather.byhieg.easyweather.Tools.MyJson;
+import com.weather.byhieg.easyweather.Tools.MyLocationListener;
 import com.weather.byhieg.easyweather.Tools.NetTool;
 import com.weather.byhieg.easyweather.View.WeekWeatherView;
 
@@ -294,7 +299,52 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
                     case R.id.location:
                         mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
-                        mLocationClient.registerLocationListener( myListener );    //注册监听函数
+                        mLocationClient.registerLocationListener(new BDLocationListener() {
+                            @Override
+                            public void onReceiveLocation(BDLocation bdLocation) {
+                                String city = bdLocation.getCity();
+                                if(city != null){
+                                    final String name = city.substring(0,city.length() - 1);
+//            if(dialog != null) {
+//                dialog.show();
+//                LogUtils.e("dialog","已有的dialog");
+//                return ;
+//
+                                    new AlertDialog.Builder(MainActivity.this).setTitle("系统提示").setMessage("当前定位到的城市为："+name+",是否将该城市设为首页").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            if(HandleDaoData.isExistInLoveCity(name)){
+                                                showToast("该城市已经是显示城市");
+//                                                dialog.dismiss();
+                                            }else{
+                                                if(!HandleDaoData.isExistinCity(name)){
+                                                    showToast("暂无该城市的天气，期待你的反馈");
+                                                    return;
+                                                }
+                                                LoveCity loveCity = HandleDaoData.getLoveCity(1);
+                                                HandleDaoData.updateCityOrder(loveCity.getCitynName(),HandleDaoData.getLoveCity().size() + 1);
+                                                LoveCity newLoveCity = new LoveCity();
+                                                newLoveCity.setCitynName(name);
+                                                newLoveCity.setOrder(1);
+                                                HandleDaoData.insertLoveCity(newLoveCity);
+                                            }
+                                        }
+                                    }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+//                    dialog.dismiss();
+                                        }
+                                    }).show();
+                                }else if (bdLocation.getLocType() == BDLocation.TypeNetWorkException) {
+
+                                    showToast("网络不同导致定位失败，请检查网络是否通畅");
+                                } else if (bdLocation.getLocType() == BDLocation.TypeCriteriaException) {
+
+                                   showToast("无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机");
+                                }
+
+                            }
+                        });    //注册监听函数
                         initLocation();
                         mLocationClient.start();
                         break;
@@ -407,6 +457,14 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
             }
         });
+
+        more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupWindow();
+            }
+        });
+
 
     }
 
@@ -685,5 +743,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 popupWindow.dismiss();
             }
         });
+        onCreateDialog(Constants.DIALOGID);
     }
 }

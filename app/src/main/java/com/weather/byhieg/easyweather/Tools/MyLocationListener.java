@@ -1,79 +1,75 @@
 package com.weather.byhieg.easyweather.Tools;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.os.Looper;
+import android.support.v7.app.AlertDialog;
+import android.widget.Toast;
+
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
-import com.baidu.location.Poi;
-import com.example.byhieglibrary.Utils.LogUtils;
-
-import java.util.List;
+import com.weather.byhieg.easyweather.Db.LoveCity;
 
 /**
- * Created by shiqifeng on 2016/9/27.
- * Mail:byhieg@gmail.com
+ * Created by wy on 2016/9/28.
  */
 
-public class MyLocationListener implements BDLocationListener{
+public class MyLocationListener implements BDLocationListener {
+
+    private Context context;
+    private AlertDialog dialog;
+
+    public MyLocationListener() {
+    }
+
+    public MyLocationListener(Context context) {
+        this.context = context;
+    }
 
     @Override
     public void onReceiveLocation(BDLocation location) {
-        //Receive Location
-        StringBuffer sb = new StringBuffer(256);
-        sb.append("time : ");
-        sb.append(location.getTime());
-        sb.append("\nerror code : ");
-        sb.append(location.getLocType());
-        sb.append("\nlatitude : ");
-        sb.append(location.getLatitude());
-        sb.append("\nlontitude : ");
-        sb.append(location.getLongitude());
-        sb.append("\nradius : ");
-        sb.append(location.getRadius());
-        if (location.getLocType() == BDLocation.TypeGpsLocation){// GPS定位结果
-            sb.append("\nspeed : ");
-            sb.append(location.getSpeed());// 单位：公里每小时
-            sb.append("\nsatellite : ");
-            sb.append(location.getSatelliteNumber());
-            sb.append("\nheight : ");
-            sb.append(location.getAltitude());// 单位：米
-            sb.append("\ndirection : ");
-            sb.append(location.getDirection());// 单位度
-            sb.append("\naddr : ");
-            sb.append(location.getAddrStr());
-            sb.append("\ndescribe : ");
-            sb.append("gps定位成功");
+       String city = location.getCity();
+        if(city != null){
+            final String name = city.substring(0,city.length() - 1);
+//            if(dialog != null) {
+//                dialog.show();
+//                LogUtils.e("dialog","已有的dialog");
+//                return ;
+//            }
+            Looper looper = Looper.getMainLooper();
+            dialog = new AlertDialog.Builder(context).setTitle("系统提示").setMessage("当前定位到的城市为："+name+",是否将该城市设为首页").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if(HandleDaoData.isExistInLoveCity(name)){
+                        Toast.makeText(context, "该城市已经是显示城市",Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }else{
+                        if(!HandleDaoData.isExistinCity(name)){
+                            Toast.makeText(context,"暂无该城市的天气，期待你的反馈",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        LoveCity loveCity = HandleDaoData.getLoveCity(1);
+                        HandleDaoData.updateCityOrder(loveCity.getCitynName(),HandleDaoData.getLoveCity().size() + 1);
+                        LoveCity newLoveCity = new LoveCity();
+                        newLoveCity.setCitynName(name);
+                        newLoveCity.setOrder(1);
+                        HandleDaoData.insertLoveCity(newLoveCity);
+                    }
+                }
+            }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+//                    dialog.dismiss();
+                }
+            }).show();
+            Looper.loop();
+        }else if (location.getLocType() == BDLocation.TypeNetWorkException) {
 
-        } else if (location.getLocType() == BDLocation.TypeNetWorkLocation){// 网络定位结果
-            sb.append("\naddr : ");
-            sb.append(location.getAddrStr());
-            //运营商信息
-            sb.append("\noperationers : ");
-            sb.append(location.getOperators());
-            sb.append("\ndescribe : ");
-            sb.append("网络定位成功");
-        } else if (location.getLocType() == BDLocation.TypeOffLineLocation) {// 离线定位结果
-            sb.append("\ndescribe : ");
-            sb.append("离线定位成功，离线定位结果也是有效的");
-        } else if (location.getLocType() == BDLocation.TypeServerError) {
-            sb.append("\ndescribe : ");
-            sb.append("服务端网络定位失败，可以反馈IMEI号和大体定位时间到loc-bugs@baidu.com，会有人追查原因");
-        } else if (location.getLocType() == BDLocation.TypeNetWorkException) {
-            sb.append("\ndescribe : ");
-            sb.append("网络不同导致定位失败，请检查网络是否通畅");
+            Toast.makeText(context,"网络不同导致定位失败，请检查网络是否通畅",Toast.LENGTH_LONG).show();
         } else if (location.getLocType() == BDLocation.TypeCriteriaException) {
-            sb.append("\ndescribe : ");
-            sb.append("无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机");
+
+            Toast.makeText(context,"无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机",Toast.LENGTH_LONG).show();
         }
-        sb.append("\nlocationdescribe : ");
-        sb.append(location.getLocationDescribe());// 位置语义化信息
-        List<Poi> list = location.getPoiList();// POI数据
-        if (list != null) {
-            sb.append("\npoilist size = : ");
-            sb.append(list.size());
-            for (Poi p : list) {
-                sb.append("\npoi= : ");
-                sb.append(p.getId() + " " + p.getName() + " " + p.getRank());
-            }
-        }
-        LogUtils.i("BaiduLocationApiDem", sb.toString());
+
     }
 }

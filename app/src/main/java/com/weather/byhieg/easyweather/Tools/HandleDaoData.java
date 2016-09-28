@@ -153,6 +153,13 @@ public class HandleDaoData {
                 list();
     }
 
+    public static boolean isExistinCity(String name) {
+        if (getCities(name) == null || getCities(name).size() == 0) {
+            return false;
+        }
+        return true;
+    }
+
     /******************************************************************************************
      * 对ProvinceDao进行的操作
      *******************************************************************************************/

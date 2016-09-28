@@ -18,4 +18,7 @@ public class Constants implements Serializable{
     public static final int WIKI = 5;
     public static final int ABOUT = 6;
 
+
+    public static final int DIALOGID = 0x106;
+
 }

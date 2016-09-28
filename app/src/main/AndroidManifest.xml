@@ -33,9 +33,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!--<meta-data-->
+            <!--android:name="com.baidu.lbsapi.API_KEY"-->
+            <!--android:value="PvKYrodHD4zndKcfdewgiGty0VD6YBxZ" />-->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="PvKYrodHD4zndKcfdewgiGty0VD6YBxZ" />
+            android:value="VFMa5kEGFMHWLWV4aGsmG8jQSxbBekKw" />
         <meta-data
             android:name="android.app.default_searchable"
             android:value=".Activity.SearchResultActivity"/>
