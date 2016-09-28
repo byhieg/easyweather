@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="BaiduLBS_Android">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/app/src/main/libs/BaiduLBS_Android.jar!/" />
+      <root url="jar://$PROJECT_DIR$/app/libs/BaiduLBS_Android.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

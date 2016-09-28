@@ -5,22 +5,25 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <!--用于进行网络定位-->
+
+    <!-- 这个权限用于进行网络定位-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
-    <!--用于访问GPS定位-->
+    <!-- 这个权限用于访问GPS定位-->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
-    <!--获取运营商信息，用于支持提供运营商信息相关的接口-->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
-    <!--用于访问wifi网络信息，wifi信息会用于进行网络定位-->
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位-->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
-    <!--这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
-    <!--用于访问网络，网络定位需要上网-->
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-    <!--用于读取手机当前的状态-->
+    <!-- 用于读取手机当前的状态-->
     <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
-    <!--写入扩展存储，向扩展卡写入数据，用于写入缓存定位数据-->
+    <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+    <!-- 访问网络，网络定位需要上网-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- SD卡读取权限，用户写入离线定位数据-->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"></uses-permission>
 
     <application
         android:name=".MyApplication"
@@ -30,12 +33,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--<meta-data-->
-            <!--android:name="com.baidu.lbsapi.API_KEY"-->
-            <!--android:value="VFMa5kEGFMHWLWV4aGsmG8jQSxbBekKw"/>-->
         <meta-data
-            android:name="com.amap.api.v2.apikey"
-            android:value="103ddea64aa2854c07efe2e1423cac75"/>
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="PvKYrodHD4zndKcfdewgiGty0VD6YBxZ" />
         <meta-data
             android:name="android.app.default_searchable"
             android:value=".Activity.SearchResultActivity"/>
@@ -87,17 +87,27 @@
         <activity android:name=".Activity.SlideMenuActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTask"
-            android:parentActivityName=".Activity.MainActivity"/>
+            android:parentActivityName=".Activity.MainActivity" />
 
+        <!-- 声明widget对应的AppWidgetProvider -->
+        <receiver android:name=".Widget.WeatherWidgetProvider">
+            <intent-filter>
+                <action android:name="com.widget.UPDATE_ALL" />
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
 
-        <!--百度sdk-->
-        <!--<service android:name="com.baidu.location.f"-->
-            <!--android:enabled="true"-->
-            <!--android:process=":remote">-->
-        <!--</service>-->
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/weather_widget_info" />
+        </receiver>
 
-        <!--高德sdk-->
-        <service android:name="com.amap.api.location.APSService">
+        <service
+            android:name=".Widget.WeatherWidgetService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
+
+        <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote">
         </service>
     </application>
 

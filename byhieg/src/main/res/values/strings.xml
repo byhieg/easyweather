@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">byhieg Library</string>
+    <string name="hello_blank_fragment">hello</string>
 </resources>

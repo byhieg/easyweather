@@ -1,52 +1,36 @@
 apply plugin: 'com.android.application'
+
 android {
-    signingConfigs {
-        config {
-            keyAlias 'easyweather'
-            keyPassword 'shi112358'
-            storeFile file('E:/keystore/EasyWeather.jks')
-            storePassword 'shi112358'
-        }
+    compileSdkVersion 23
+    buildToolsVersion "23.0.0"
 
-        compileSdkVersion 23
-        buildToolsVersion "23.0.0"
-        defaultConfig {
-            applicationId "com.weather.byhieg.easyweather"
-            minSdkVersion 19
-            targetSdkVersion 23
-            versionCode 1
-            versionName "1.0"
-        }
-        buildTypes {
-            release {
-                minifyEnabled false
-                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            }
-        }
-
-        sourceSets {
-            main {
-                jniLibs.srcDirs = ['libs']
-            }
-        }
+    defaultConfig {
+        applicationId "com.weather.byhieg.easyweather"
+        minSdkVersion 19
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
     }
-
-    dependencies {
-        compile fileTree(include: ['*.jar'], dir: 'libs')
-        compile project(':byhieg')
-        compile 'com.android.support:appcompat-v7:23.4.0'
-        compile 'com.android.support:design:23.4.0'
-        compile 'org.greenrobot:greendao:2.2.0'
-        compile 'org.greenrobot:greendao-generator:2.2.0'
-        compile 'com.android.support:support-v4:23.4.0'
-        compile 'com.android.support:recyclerview-v7:23.4.0'
-        compile 'com.android.support:cardview-v7:23.4.0'
-        compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'
-        testCompile 'junit:junit:4.12'
-        compile 'org.jetbrains:annotations-java5:15.0'
-        compile files('src/main/libs/BaiduLBS_Android.jar')
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
     }
 }
+
 dependencies {
-    compile files('src/main/libs/AMap_Location_V3.00_20160922.jar')
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(':byhieg')
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:design:23.4.0'
+    compile 'org.greenrobot:greendao:2.2.0'
+    compile 'org.greenrobot:greendao-generator:2.2.0'
+    compile 'com.android.support:support-v4:23.4.0'
+    compile 'com.android.support:recyclerview-v7:23.4.0'
+    compile 'com.android.support:cardview-v7:23.4.0'
+    compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'
+    testCompile 'junit:junit:4.12'
+    compile files('libs/BaiduLBS_Android.jar')
+    compile 'org.jetbrains:annotations-java5:15.0'
 }
