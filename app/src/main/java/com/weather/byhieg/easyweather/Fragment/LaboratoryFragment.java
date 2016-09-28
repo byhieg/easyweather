@@ -109,6 +109,7 @@ public class LaboratoryFragment extends BaseFragment {
                     Intent intent = new Intent(getActivity(), SlideMenuActivity.class);
                     intent.putExtra("itemId", Constants.LAB);
                     startActivity(intent);
+                    getActivity().overridePendingTransition(R.anim.activity_in,R.anim.activity_out);
                 }else{
                     if(isChecked){
                         initNightView(R.layout.night_mode_overlay);
