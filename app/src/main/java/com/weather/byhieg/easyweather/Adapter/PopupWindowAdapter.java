@@ -1,5 +1,6 @@
 package com.weather.byhieg.easyweather.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,36 +43,47 @@ public class PopupWindowAdapter extends BaseAdapter{
         return position;
     }
 
+    @SuppressLint("SimpleDateFormat")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = new ViewHolder();
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.item_hours_future, parent,false);
-            holder.tmp = (TextView)convertView.findViewById(R.id.weather_tmp);
-            holder.wind = (TextView)convertView.findViewById(R.id.wind_hours);
-            holder.pop = (TextView)convertView.findViewById(R.id.weather_cond);
+            convertView = mInflater.inflate(R.layout.item_popup_listview, parent,false);
+            holder.tmp = (TextView)convertView.findViewById(R.id.tmp);
+            holder.wind_class = (TextView)convertView.findViewById(R.id.wind_class);
+            holder.wind_speed = (TextView)convertView.findViewById(R.id.wind_speed);
+            holder.wind_deg = (TextView)convertView.findViewById(R.id.wind_deg);
+            holder.wind_dir = (TextView)convertView.findViewById(R.id.wind_dir);
+            holder.hum = (TextView) convertView.findViewById(R.id.hum);
+            holder.pop = (TextView)convertView.findViewById(R.id.pop);
             holder.update = (TextView) convertView.findViewById(R.id.update_time_hours);
-            holder.futureDes = (TextView) convertView.findViewById(R.id.future_des);
-            holder.more = (TextView) convertView.findViewById(R.id.more);
+
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder) convertView.getTag();
         }
         holder.tmp.setText(hoursWeathers.get(position).getTmp());
-        holder.wind.setText(hoursWeathers.get(position).getWind());
-        holder.pop.setText(hoursWeathers.get(position).getPop());
-        holder.update.setText(hoursWeathers.get(position).getUpdate());
-        holder.futureDes.setText("今天每3小时天气速报");
-        holder.more.setVisibility(View.GONE);
+        holder.wind_class.setText("风力等级：" + hoursWeathers.get(position).getWind_class());
+        holder.wind_deg.setText("风力角度：" + hoursWeathers.get(position).getWind_deg() + "°");
+        holder.wind_dir.setText("风向：" + hoursWeathers.get(position).getWind_dir());
+        holder.wind_speed.setText("风速：" + hoursWeathers.get(position).getWind_speed() + "km/h");
+        holder.pop.setText("降水概率：" + hoursWeathers.get(position).getPop());
+        holder.hum.setText("湿度：" + hoursWeathers.get(position).getHum());
+        holder.update.setText("预计今天" + hoursWeathers.get(position).getUpdate().split(" ")[1] + "天气情况");
+
         return convertView;
     }
 
     class ViewHolder{
-        public TextView futureDes;
-        public TextView tmp;
-        public TextView wind;
-        public TextView pop;
-        public TextView update;
-        public TextView more;
+         TextView tmp;
+         TextView wind_class;
+         TextView pop;
+         TextView update;
+         TextView hum;
+         TextView wind_speed;
+         TextView wind_deg;
+         TextView wind_dir;
+
+
     }
 }

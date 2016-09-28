@@ -10,15 +10,19 @@ import java.io.Serializable;
 public class Constants implements Serializable{
 
 
-    public static final int FUTURE = 0;
-    public static final int SETTTING = 1;
-    public static final int SHARE = 2;
-    public static final int HELP = 3;
-    public static final int LAB = 4;
-    public static final int WIKI = 5;
-    public static final int ABOUT = 6;
+    public static final int FUTURE = 0x0;
+    public static final int SETTTING = 0x1;
+    public static final int SHARE = 0x2;
+    public static final int HELP = 0x3;
+    public static final int LAB = 0x4;
+    public static final int WIKI = 0x5;
+    public static final int ABOUT = 0x6;
 
 
-    public static final int DIALOGID = 0x106;
+    //权限的标识
+    public static final int PERMISSION = 0x201;
+
+
+
 
 }

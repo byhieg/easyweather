@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/update_time_hours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="今天19:00更新状态"
+            android:textColor="@color/black"
+            android:textSize="@dimen/timeTextSize" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2">
+
+        <TextView
+            android:id="@+id/tmp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/common_horizontal_margin"
+            android:text="21°"
+            android:textColor="@color/black"
+            android:textSize="@dimen/tmpTextSize" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tmp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/wind_speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/common_horizontal_margin"
+                    android:text="风速:17km/h"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/showTextSize" />
+
+                <TextView
+                    android:id="@+id/wind_class"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/common_horizontal_margin"
+                    android:text="风力等级12"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/showTextSize" />
+
+
+                <TextView
+                    android:id="@+id/hum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/common_horizontal_margin"
+                    android:text="湿度：87%"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/showTextSize" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="@dimen/common_horizontal_margin">
+
+                <TextView
+                    android:id="@+id/wind_dir"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/common_horizontal_margin"
+                    android:text="风向(方向)"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/showTextSize" />
+
+                <TextView
+                    android:id="@+id/wind_deg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/common_horizontal_margin"
+                    android:text="风向(角度)"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/showTextSize" />
+
+                <TextView
+                    android:id="@+id/pop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/common_horizontal_margin"
+                    android:text="降水概率：87%"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/showTextSize" />
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

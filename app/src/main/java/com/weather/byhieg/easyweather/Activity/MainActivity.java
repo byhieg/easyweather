@@ -1,23 +1,25 @@
 package com.weather.byhieg.easyweather.Activity;
 
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -40,7 +42,6 @@ import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
@@ -53,7 +54,6 @@ import com.weather.byhieg.easyweather.Adapter.PopupWindowAdapter;
 import com.weather.byhieg.easyweather.Bean.DrawerContext;
 import com.weather.byhieg.easyweather.Bean.HoursWeather;
 import com.weather.byhieg.easyweather.Bean.WeatherBean;
-import com.weather.byhieg.easyweather.Bean.WeekWeather;
 import com.weather.byhieg.easyweather.Db.LoveCity;
 import com.weather.byhieg.easyweather.Interface.MyItemClickListener;
 import com.weather.byhieg.easyweather.MyApplication;
@@ -76,7 +76,7 @@ import butterknife.Bind;
 
 import static com.example.byhieglibrary.Utils.DisplayUtil.getViewHeight;
 
-public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener{
+public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
 
     @Bind(R.id.toolbar)
@@ -171,8 +171,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     public TextView more;
 
 
-
-
     public static final int COMPLETE_REFRESH = 0x100;
 
 
@@ -180,8 +178,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private DrawerListAdapter drawerListAdapter;
     private ArrayList<DrawerContext> drawerList = new ArrayList<>();
     private WeatherBean weatherBean;
-//    private LineData data;
-    private List<WeekWeather> weekWeathers = new ArrayList<>();
     private int[] rotateCount = {0, 0};
     private View convertView;
     private List<HoursWeather> hoursWeathers = new ArrayList<>();
@@ -234,16 +230,8 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         networkChangeReceiver = new NetworkChangeReceiver();
         registerReceiver(networkChangeReceiver, intentFilter);
+        getHoursData();
 
-        for (int i = 0; i < MyJson.getWeather(weatherBean).getHourly_forecast().size(); i++) {
-            HoursWeather hw = new HoursWeather();
-            hw.setTmp(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getTmp() + "°");
-            hw.setWind(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getDir() + " " +
-                    MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getSc());
-            hw.setPop(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getPop() + "%");
-            hw.setUpdate(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getDate());
-            hoursWeathers.add(hw);
-        }
     }
 
     @Override
@@ -298,53 +286,21 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                         break;
 
                     case R.id.location:
-                        mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
-                        mLocationClient.registerLocationListener(new BDLocationListener() {
-                            @Override
-                            public void onReceiveLocation(BDLocation bdLocation) {
-                                String city = bdLocation.getCity();
-                                if(city != null){
-                                    final String name = city.substring(0,city.length() - 1);
-//            if(dialog != null) {
-//                dialog.show();
-//                LogUtils.e("dialog","已有的dialog");
-//                return ;
-//
-                                    new AlertDialog.Builder(MainActivity.this).setTitle("系统提示").setMessage("当前定位到的城市为："+name+",是否将该城市设为首页").setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            if(HandleDaoData.isExistInLoveCity(name)){
-                                                showToast("该城市已经是显示城市");
-//                                                dialog.dismiss();
-                                            }else{
-                                                if(!HandleDaoData.isExistinCity(name)){
-                                                    showToast("暂无该城市的天气，期待你的反馈");
-                                                    return;
-                                                }
-                                                LoveCity loveCity = HandleDaoData.getLoveCity(1);
-                                                HandleDaoData.updateCityOrder(loveCity.getCitynName(),HandleDaoData.getLoveCity().size() + 1);
-                                                LoveCity newLoveCity = new LoveCity();
-                                                newLoveCity.setCitynName(name);
-                                                newLoveCity.setOrder(1);
-                                                HandleDaoData.insertLoveCity(newLoveCity);
-                                            }
-                                        }
-                                    }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-//                    dialog.dismiss();
-                                        }
-                                    }).show();
-                                }else if (bdLocation.getLocType() == BDLocation.TypeNetWorkException) {
-
-                                    showToast("网络不同导致定位失败，请检查网络是否通畅");
-                                } else if (bdLocation.getLocType() == BDLocation.TypeCriteriaException) {
-
-                                   showToast("无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机");
-                                }
-
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                                // 申请一个（或多个）权限，并提供用于回调返回的获取码（用户定义)
+                                requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE,
+                                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                                        Manifest.permission.ACCESS_FINE_LOCATION,
+                                        Manifest.permission.ACCESS_WIFI_STATE,
+                                        Manifest.permission.ACCESS_NETWORK_STATE,
+                                        Manifest.permission.CHANGE_WIFI_STATE,
+                                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                        Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS}, Constants.PERMISSION);
                             }
-                        });    //注册监听函数
+                        }
+                        mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
+                        mLocationClient.registerLocationListener(myListener);
                         initLocation();
                         mLocationClient.start();
                         break;
@@ -450,10 +406,10 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             @Override
             public void onItemClick(View view, int postion) {
 
-                Intent intent=new Intent(getApplicationContext(),SlideMenuActivity.class);
-                intent.putExtra("itemId",postion);
+                Intent intent = new Intent(getApplicationContext(), SlideMenuActivity.class);
+                intent.putExtra("itemId", postion);
                 startActivity(intent);
-                overridePendingTransition(R.anim.activity_in,R.anim.activity_out);
+                overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
 
             }
         });
@@ -461,6 +417,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 showPopupWindow();
             }
         });
@@ -487,10 +444,10 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         refresh.setVisibility(View.GONE);
         weekWeatherView.notifyDateChanged();
         Date sqlDate = HandleDaoData.getCityWeather(HandleDaoData.getShowCity()).getUpdateTime();
-        long time = DateUtil.getDifferenceofDate(new Date(), sqlDate) / (1000 * 60) ;
+        long time = DateUtil.getDifferenceofDate(new Date(), sqlDate) / (1000 * 60);
         if (time > 1000 * 60 * 60 || time < 0) {
             updateTime.setText("最近更新：" + new SimpleDateFormat("MM-dd HH:mm:ss").format(sqlDate));
-        }else{
+        } else {
             updateTime.setText("最近更新：" + time + "分钟之前");
         }
         //主卡片
@@ -523,13 +480,13 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         coldTxt.setText(MyJson.getWeather(weatherBean).getSuggestion().getFlu().getTxt());
 
         //未来三小时天气
-        if(MyJson.getWeather(weatherBean).getHourly_forecast().size() !=0){
+        if (MyJson.getWeather(weatherBean).getHourly_forecast().size() != 0) {
             weatherCond.setText(MyJson.getWeather(weatherBean).getHourly_forecast().get(0).getPop() + "%");
             updateHours.setText(MyJson.getWeather(weatherBean).getHourly_forecast().get(0).getDate());
             windHours.setText(MyJson.getWeather(weatherBean).getHourly_forecast().get(0).getWind().getDir() + " " +
                     MyJson.getWeather(weatherBean).getHourly_forecast().get(0).getWind().getSc());
             weatherTmp.setText(MyJson.getWeather(weatherBean).getHourly_forecast().get(0).getTmp() + "°");
-        }else{
+        } else {
             itemFuture.setVisibility(View.GONE);
         }
 
@@ -554,7 +511,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     public void onRefresh() {
         final List<LoveCity> cityList = HandleDaoData.getLoveCity();
         Thread[] threads = new Thread[cityList.size()];
-        for(int i = 0 ; i < cityList.size();i++) {
+        for (int i = 0; i < cityList.size(); i++) {
             final int index = i;
             threads[i] = new Thread(new Runnable() {
                 @Override
@@ -574,14 +531,15 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 threads[i].join();
             } catch (InterruptedException e) {
 
-                LogUtils.e("线程异常!!!",getClass().getSimpleName());            }
+                LogUtils.e("线程异常!!!", getClass().getSimpleName());
+            }
         }
         handler.sendEmptyMessage(COMPLETE_REFRESH);
 
     }
 
 
-    class MyAsyncTask  extends AsyncTask<String, Void, String> {
+    class MyAsyncTask extends AsyncTask<String, Void, String> {
 
         @Override
         protected void onPostExecute(String city) {
@@ -629,6 +587,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 case COMPLETE_REFRESH:
                     mSwipeLayout.setRefreshing(false);
                     try {
+                        getHoursData();
                         updateView(HandleDaoData.getWeatherBean(HandleDaoData.getShowCity()));
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -649,7 +608,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         unregisterReceiver(networkChangeReceiver);
     }
 
-    private void setNetWork(){
+    private void setNetWork() {
         Snackbar.make(mainLayout, "还是没有网络 QAQ", Snackbar.LENGTH_LONG).
                 setAction("点我设置网络", new View.OnClickListener() {
                     @Override
@@ -660,18 +619,18 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 }).show();
     }
 
-    public void generateTextView(){
+    public void generateTextView() {
         TextView textView = new TextView(this);
         textView.setText("天气易变，注意天气变化");
-        View[] view = {findViewById(R.id.toolbar),findViewById(R.id.view),findViewById(R.id.item_cloths),findViewById(R.id.item_sports)};
+        View[] view = {findViewById(R.id.toolbar), findViewById(R.id.view), findViewById(R.id.item_cloths), findViewById(R.id.item_sports)};
         int totalHeight = 0;
         for (View aView : view) {
             totalHeight += getViewHeight(aView, true) + DisplayUtil.dip2px(this, 10);
         }
         int pxHeight = getmScreenHeight() - totalHeight;
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,pxHeight / 2);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, pxHeight / 2);
         textView.setGravity(Gravity.CENTER);
-        textView.setTextColor(ContextCompat.getColor(this,R.color.white));
+        textView.setTextColor(ContextCompat.getColor(this, R.color.white));
         textView.setLayoutParams(lp);
         action_bar.addView(textView);
 
@@ -680,7 +639,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     @Override
     protected void onResume() {
         super.onResume();
-        if(scrollView != null){
+        if (scrollView != null) {
             scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
                 @Override
                 public void onScrollChanged() {
@@ -690,17 +649,17 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 }
             });
         }
-            if(MyApplication.nightMode2()){
-                initNightView(R.layout.night_mode_overlay);
-            }else {
-                removeNightView();
-            }
+        if (MyApplication.nightMode2()) {
+            initNightView(R.layout.night_mode_overlay);
+        } else {
+            removeNightView();
+        }
     }
 
     public LocationClient mLocationClient = null;
     public BDLocationListener myListener = new MyLocationListener(this);
 
-    private void initLocation(){
+    private void initLocation() {
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
         option.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系
@@ -718,12 +677,12 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     }
 
     private void showPopupWindow() {
-        View contentView = LayoutInflater.from(this).inflate(R.layout.item_popupwindow,null);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.item_popupwindow, null);
         LinearLayout del = (LinearLayout) contentView.findViewById(R.id.del);
-        ListView listView = (ListView)contentView.findViewById(R.id.popup_listview);
+        ListView listView = (ListView) contentView.findViewById(R.id.popup_listview);
         PopupWindowAdapter adapter = new PopupWindowAdapter(hoursWeathers, this);
         listView.setAdapter(adapter);
-
+        adapter.notifyDataSetChanged();
         final PopupWindow popupWindow = new PopupWindow(contentView,
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -735,14 +694,53 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 return false;
             }
         });
-        popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(this,R.color.transparent));
-        popupWindow.showAsDropDown(toolbar,0,DisplayUtil.dip2px(this,10));
+        popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(this, R.color.transparent));
+        popupWindow.showAsDropDown(toolbar, 0, 0);
         del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
             }
         });
-        onCreateDialog(Constants.DIALOGID);
     }
+
+    private void getHoursData() {
+        hoursWeathers.clear();
+        for (int i = 0; i < MyJson.getWeather(weatherBean).getHourly_forecast().size(); i++) {
+            HoursWeather hw = new HoursWeather();
+            hw.setTmp(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getTmp() + "°");
+            hw.setHum(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getHum() + "%");
+            hw.setWind_class(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getSc());
+            hw.setWind_deg(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getDeg());
+            hw.setWind_speed(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getSpd());
+            hw.setWind_dir(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getDir());
+            hw.setPop(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getPop() + "%");
+            hw.setUpdate(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getDate());
+            hoursWeathers.add(hw);
+        }
+    }
+
+
+    @Override public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults)
+    {
+        super.onRequestPermissionsResult(requestCode, permissions,grantResults);
+        switch(requestCode)
+        {
+            // requestCode即所声明的权限获取码，在checkSelfPermission时传入
+            case Constants.PERMISSION:
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                // 获取到权限，作相应处理（调用定位SDK应当确保相关权限均被授权，否则可能引起定位失败）
+            }
+            else
+            {
+                // 没有获取到权限，做特殊处理
+                showToast("没有权限，定位失败");
+            }
+            break;
+            default:
+                break;
+        }
+    }
+
 }

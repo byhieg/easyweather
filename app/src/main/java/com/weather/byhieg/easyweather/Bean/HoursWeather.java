@@ -10,8 +10,12 @@ import java.io.Serializable;
 public class HoursWeather implements Serializable{
 
     private String tmp;
-    private String wind;
     private String pop;
+    private String wind_class;
+    private String wind_dir;
+    private String wind_deg;
+    private String wind_speed;
+    private String hum;
     private String update;
 
 
@@ -23,13 +27,6 @@ public class HoursWeather implements Serializable{
         this.tmp = tmp;
     }
 
-    public String getWind() {
-        return wind;
-    }
-
-    public void setWind(String wind) {
-        this.wind = wind;
-    }
 
     public String getPop() {
         return pop;
@@ -46,5 +43,45 @@ public class HoursWeather implements Serializable{
 
     public void setUpdate(String update) {
         this.update = update;
+    }
+
+    public String getWind_class() {
+        return wind_class;
+    }
+
+    public void setWind_class(String wind_class) {
+        this.wind_class = wind_class;
+    }
+
+    public String getWind_dir() {
+        return wind_dir;
+    }
+
+    public void setWind_dir(String wind_dir) {
+        this.wind_dir = wind_dir;
+    }
+
+    public String getWind_deg() {
+        return wind_deg;
+    }
+
+    public void setWind_deg(String wind_deg) {
+        this.wind_deg = wind_deg;
+    }
+
+    public String getWind_speed() {
+        return wind_speed;
+    }
+
+    public void setWind_speed(String wind_speed) {
+        this.wind_speed = wind_speed;
+    }
+
+    public String getHum() {
+        return hum;
+    }
+
+    public void setHum(String hum) {
+        this.hum = hum;
     }
 }

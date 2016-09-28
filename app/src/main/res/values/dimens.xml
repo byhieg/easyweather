@@ -30,4 +30,8 @@
 
     <dimen name="app_widget_margin">20dp</dimen>
 
+    <!--PopupWindow文字大小-->
+    <dimen name="timeTextSize">22sp</dimen>
+    <dimen name="tmpTextSize">40sp</dimen>
+
 </resources>
