@@ -36,7 +36,7 @@
   <!--      <item name="referenceValue">@drawable/bg</item>
         <item name="imageValue">@drawable/launcher_icon</item> -->
         <item name="curVisibility">show</item>
-        <item name="textColor">@color/lightslategray</item>
+        <item name="textColor">@color/black</item>
     </style>
     <style name="NightTheme" parent="AppTheme.NoActionBar">
         <item name="backgroundColor">@color/night_background</item>

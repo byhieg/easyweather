@@ -38,10 +38,9 @@ import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.amap.api.location.AMapLocation;
-import com.amap.api.location.AMapLocationClient;
-import com.amap.api.location.AMapLocationClientOption;
-import com.amap.api.location.AMapLocationListener;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.example.byhieglibrary.Activity.BaseActivity;
 import com.example.byhieglibrary.Utils.DateUtil;
 import com.example.byhieglibrary.Utils.DisplayUtil;
@@ -51,6 +50,7 @@ import com.weather.byhieg.easyweather.Adapter.PopupWindowAdapter;
 import com.weather.byhieg.easyweather.Bean.DrawerContext;
 import com.weather.byhieg.easyweather.Bean.HoursWeather;
 import com.weather.byhieg.easyweather.Bean.WeatherBean;
+import com.weather.byhieg.easyweather.Bean.WeekWeather;
 import com.weather.byhieg.easyweather.Db.LoveCity;
 import com.weather.byhieg.easyweather.Interface.MyItemClickListener;
 import com.weather.byhieg.easyweather.MyApplication;
@@ -169,22 +169,19 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
 
     public static final int COMPLETE_REFRESH = 0x100;
+
+
     public static final int FAILURE_REFRESH = 0x101;
-
-
     private DrawerListAdapter drawerListAdapter;
     private ArrayList<DrawerContext> drawerList = new ArrayList<>();
     private WeatherBean weatherBean;
+//    private LineData data;
+    private List<WeekWeather> weekWeathers = new ArrayList<>();
     private int[] rotateCount = {0, 0};
     private View convertView;
     private List<HoursWeather> hoursWeathers = new ArrayList<>();
     private NetworkChangeReceiver networkChangeReceiver;
     private MyHandler handler = new MyHandler();
-
-    //声明AMapLocationClient类对象
-    public AMapLocationClient mLocationClient = null;
-    public AMapLocationClientOption mLocationOption = null;
-
 
 
     @Override
@@ -227,12 +224,13 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             e.printStackTrace();
         }
 
+//        LineDataSet dataSet = new LineDataSet(weekWeathers,"七天未来天气");
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         networkChangeReceiver = new NetworkChangeReceiver();
         registerReceiver(networkChangeReceiver, intentFilter);
 
-        for(int i = 0;i < MyJson.getWeather(weatherBean).getHourly_forecast().size();i++) {
+        for (int i = 0; i < MyJson.getWeather(weatherBean).getHourly_forecast().size(); i++) {
             HoursWeather hw = new HoursWeather();
             hw.setTmp(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getTmp() + "°");
             hw.setWind(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getDir() + " " +
@@ -241,49 +239,12 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             hw.setUpdate(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getDate());
             hoursWeathers.add(hw);
         }
-
-        //初始化定位
-        mLocationClient = new AMapLocationClient(MyApplication.getAppContext());
-//设置定位回调监听
-        AMapLocationListener mLocationListener = new AMapLocationListener() {
-            @Override
-            public void onLocationChanged(AMapLocation aMapLocation) {
-                if (aMapLocation != null) {
-                    if (aMapLocation.getErrorCode() == 0) {
-                        //可在其中解析amapLocation获取相应内容。
-                        aMapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
-                        aMapLocation.getLatitude();//获取纬度
-                        aMapLocation.getLongitude();//获取经度
-                        aMapLocation.getAccuracy();//获取精度信息
-                        aMapLocation.getAddress();//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
-                        aMapLocation.getCountry();//国家信息
-                        aMapLocation.getProvince();//省信息
-                        //城市信息
-                        aMapLocation.getDistrict();//城区信息
-                        LogUtils.e("Success",aMapLocation.getCity());
-
-                        mLocationClient.stopLocation();//停止定位后，本地定位服务并不会被销毁
-                        mLocationClient.onDestroy();//销毁定位客户端，同时销毁本地定位服务。
-//获取定位时
-                    }else {
-                        //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
-                        LogUtils.e("AmapError","location Error, ErrCode:"
-                                + aMapLocation.getErrorCode() + ", errInfo:"
-                                + aMapLocation.getErrorInfo());
-                    }
-                }
-            }
-        };
-        mLocationClient.setLocationListener(mLocationListener);
-        mLocationOption = new AMapLocationClientOption();
-        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
-        mLocationOption.setOnceLocation(true);
-        mLocationOption.setNeedAddress(true);
     }
 
     @Override
     public void initView() {
         generateTextView();
+//        lineChart.invalidate();
         toolbar.setTitle("成都");
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -332,9 +293,10 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                         break;
 
                     case R.id.location:
-                        mLocationClient.setLocationOption(mLocationOption);
-                        mLocationClient.startLocation();
-                        showToast("开启了定位服务");
+                        mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
+                        mLocationClient.registerLocationListener( myListener );    //注册监听函数
+                        initLocation();
+                        mLocationClient.start();
                         break;
 
                     case R.id.like:
@@ -441,17 +403,10 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 Intent intent=new Intent(getApplicationContext(),SlideMenuActivity.class);
                 intent.putExtra("itemId",postion);
                 startActivity(intent);
+                overridePendingTransition(R.anim.activity_in,R.anim.activity_out);
 
             }
         });
-
-        more.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPopupWindow();
-            }
-        });
-
 
     }
 
@@ -474,10 +429,10 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         refresh.setVisibility(View.GONE);
         weekWeatherView.notifyDateChanged();
         Date sqlDate = HandleDaoData.getCityWeather(HandleDaoData.getShowCity()).getUpdateTime();
-        long time = DateUtil.getDifferenceofDate(new Date(), sqlDate) / (1000 * 60);
+        long time = DateUtil.getDifferenceofDate(new Date(), sqlDate) / (1000 * 60) ;
         if (time > 1000 * 60 * 60 || time < 0) {
             updateTime.setText("最近更新：" + new SimpleDateFormat("MM-dd HH:mm:ss").format(sqlDate));
-        } else {
+        }else{
             updateTime.setText("最近更新：" + time + "分钟之前");
         }
         //主卡片
@@ -684,6 +639,26 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             }
     }
 
+    public LocationClient mLocationClient = null;
+    public BDLocationListener myListener = new MyLocationListener(this);
+
+    private void initLocation(){
+        LocationClientOption option = new LocationClientOption();
+        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
+        option.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系
+//        int span=1000;
+//        option.setScanSpan(span);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
+        option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
+        option.setOpenGps(true);//可选，默认false,设置是否使用gps
+        option.setLocationNotify(true);//可选，默认false，设置是否当GPS有效时按照1S/1次频率输出GPS结果
+        option.setIsNeedLocationDescribe(true);//可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，结果类似于“在北京天安门附近”
+        option.setIsNeedLocationPoiList(true);//可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
+        option.setIgnoreKillProcess(false);//可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
+        option.SetIgnoreCacheException(false);//可选，默认false，设置是否收集CRASH信息，默认收集
+        option.setEnableSimulateGps(false);//可选，默认false，设置是否需要过滤GPS仿真结果，默认需要
+        mLocationClient.setLocOption(option);
+    }
+
     private void showPopupWindow() {
         View contentView = LayoutInflater.from(this).inflate(R.layout.item_popupwindow,null);
         LinearLayout del = (LinearLayout) contentView.findViewById(R.id.del);
@@ -711,24 +686,4 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             }
         });
     }
-
-//    private void initLocation(){
-//        LocationClientOption option = new LocationClientOption();
-//        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy
-//        );//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
-//        option.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系
-//        int span=1000;
-//        option.setScanSpan(span);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
-//        option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
-//        option.setOpenGps(true);//可选，默认false,设置是否使用gps
-//        option.setLocationNotify(true);//可选，默认false，设置是否当GPS有效时按照1S/1次频率输出GPS结果
-//        option.setIsNeedLocationDescribe(true);//可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，结果类似于“在北京天安门附近”
-//        option.setIsNeedLocationPoiList(true);//可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
-//        option.setIgnoreKillProcess(false);//可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
-//        option.SetIgnoreCacheException(false);//可选，默认false，设置是否收集CRASH信息，默认收集
-//        option.setEnableSimulateGps(false);//可选，默认false，设置是否需要过滤GPS仿真结果，默认需要
-//        mLocationClient.setLocOption(option);
-//    }
-
-
 }
