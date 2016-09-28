@@ -83,11 +83,14 @@ public class SlideMenuActivity extends BaseActivity {
                         .add(R.id.fragment, fragment,AboutFragment.TAG).commit();
                 break;
         }
+
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+
     }
 
 

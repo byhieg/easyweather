@@ -14,7 +14,7 @@ public class ScreenUtil {
      *
      * @param context
      */
-    public static int[] getScreenHW(Context context) {
+    private static int[] getScreenHW(Context context) {
         WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = manager.getDefaultDisplay();
         int width = display.getWidth();

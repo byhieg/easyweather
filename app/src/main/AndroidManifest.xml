@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.weather.byhieg.easyweather">
 
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <!-- 这个权限用于进行网络定位-->
@@ -37,8 +38,7 @@
             android:value="PvKYrodHD4zndKcfdewgiGty0VD6YBxZ" />
         <meta-data
             android:name="android.app.default_searchable"
-            android:value=".Activity.SearchResultActivity" />
-
+            android:value=".Activity.SearchResultActivity"/>
         <activity
             android:name=".Activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -61,16 +61,19 @@
         </activity>
         <activity
             android:name=".Activity.CityManageActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
         <activity
             android:name=".Activity.CityActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
-            android:name=".Activity.SearchResultActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity android:name=".Activity.SearchResultActivity"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar">
+
             <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
+                <action android:name="android.intent.action.SEARCH"/>
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -80,11 +83,11 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity
-            android:name=".Activity.SlideMenuActivity"
+
+        <activity android:name=".Activity.SlideMenuActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTask"
-            android:parentActivityName=".Activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:parentActivityName=".Activity.MainActivity" />
 
         <!-- 声明widget对应的AppWidgetProvider -->
         <receiver android:name=".Widget.WeatherWidgetProvider">

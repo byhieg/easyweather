@@ -26,6 +26,7 @@
 
     <!--实验室界面距离-->
     <dimen name="top">5dp</dimen>
+    <dimen name="text_size_comment_30">30sp</dimen>
 
     <dimen name="app_widget_margin">20dp</dimen>
 

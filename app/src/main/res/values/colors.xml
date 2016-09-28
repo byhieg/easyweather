@@ -12,6 +12,7 @@
     <color name="cloth">#88C5CC</color>
     <color name="sports">#FB500F</color>
     <color name="flux">#51B9D6</color>
+    <color name="transparent">#00000000</color>
 
 
     <color name="white">#ffffff</color><!--白色 -->

@@ -32,4 +32,5 @@ dependencies {
     compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'
     testCompile 'junit:junit:4.12'
     compile files('libs/BaiduLBS_Android.jar')
+    compile 'org.jetbrains:annotations-java5:15.0'
 }

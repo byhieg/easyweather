@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/item_future"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="@dimen/common_horizontal_margin"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/future_des"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="未来3小时天气"
+            android:textColor="@color/white"
+            android:textSize="@dimen/itemTextSize" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="vertical"
+        android:padding="@dimen/common_horizontal_margin">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/weather_des"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="降水概率:  "
+                android:textColor="@color/white"
+                android:textSize="@dimen/showTextSize" />
+
+            <TextView
+                android:id="@+id/weather_cond"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/weather_des"
+                android:text="晴"
+                android:textColor="@color/white"
+                android:textSize="@dimen/showTextSize" />
+
+            <TextView
+                android:id="@+id/update_time_hours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="天气: "
+                android:textColor="@color/white"
+                android:textSize="@dimen/showTextSize" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="@dimen/common_horizontal_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:id="@+id/weather_tmp_des"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="气温: "
+                android:textColor="@color/white"
+                android:textSize="@dimen/showTextSize" />
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:id="@+id/weather_tmp"
+                android:layout_toRightOf="@id/weather_tmp_des"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="晴"
+                android:textColor="@color/white"
+                android:textSize="@dimen/showTextSize" />
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:id="@+id/wind_hours"
+                android:layout_toRightOf="@+id/weather_tmp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_marginLeft="@dimen/common_horizontal_margin"
+                android:text="风"/>
+
+            <TextView
+                android:id="@+id/more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="点击查看更多"
+                android:textSize="@dimen/showTextSize"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/white"
+                android:clickable="true"/>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
