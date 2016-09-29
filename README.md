@@ -1,5 +1,5 @@
 
-![Alt text](./title.png)
+![Alt text](https://github.com/byhieg/easyweather/blob/master/images/title.png)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -41,13 +41,13 @@ git clone https://github.com/byhieg/easyweather.git
 - [ ]  完善设置，分享，帮助，天气百科，关于，反馈，喜欢等功能。
 
 ## 截图
-![Alt text](./1.png)
-![Alt text](./4.png)
-![Alt text](./3.png)
-![Alt text](./2.png)
-![Alt text](./5.png)
-![Alt text](./6.png)
-![Alt text](./7.png)
+![Alt text](https://github.com/byhieg/easyweather/blob/master/images/1.png)
+![Alt text](https://github.com/byhieg/easyweather/blob/master/images/2.png)
+![Alt text](https://github.com/byhieg/easyweather/blob/master/images/3.png)
+![Alt text](https://github.com/byhieg/easyweather/blob/master/images/4.png)
+![Alt text](https://github.com/byhieg/easyweather/blob/master/images/5.png)
+![Alt text](https://github.com/byhieg/easyweather/blob/master/images/6.png)
+![Alt text](https://github.com/byhieg/easyweather/blob/master/images/7.png)
 
 ## 讨论
 邮箱：byhieg@gmail.com
