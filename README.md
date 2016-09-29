@@ -3,6 +3,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Github: fork](https://img.shields.io/badge/GITHUB-Fork-green.svg)](https://github.com/byhieg/easyweather)
+[![Github: follow](https://img.shields.io/badge/GITHUB-Follow-red.svg)](https://github.com/byhieg)
+
 
 
 
