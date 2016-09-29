@@ -2,6 +2,8 @@
 ![Alt text](https://github.com/byhieg/easyweather/blob/master/images/title.png)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Github: fork](https://img.shields.io/badge/GITHUB-Fork-green.svg)](https://github.com/byhieg/easyweather)
+
 
 
 简易天气是一个基于和风天气数据采用MD设计的Android天气App。目前的版本采用传统的MVC模式构建。通过丰富多彩的页面为用户提供日常所需的天气资讯。
