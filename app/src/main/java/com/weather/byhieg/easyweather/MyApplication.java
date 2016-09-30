@@ -2,14 +2,9 @@ package com.weather.byhieg.easyweather;
 
 import android.app.Application;
 import android.content.Context;
-
 import android.content.SharedPreferences;
-import android.graphics.PixelFormat;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.WindowManager;
 
-
+import com.baidu.location.LocationClient;
 import com.weather.byhieg.easyweather.Db.DaoMaster;
 import com.weather.byhieg.easyweather.Db.DaoSession;
 
@@ -18,6 +13,8 @@ public class MyApplication extends Application{
     private static MyApplication mcontext;
     public static DaoSession daoSession;
     public static DaoMaster daoMaster;
+    public static LocationClient mLocationClient;
+
 
     private static final String cityUrl = "https://api.heweather.com/x3/weather";
     private static final String heweatherKey = "93d476b872724a9681a642dce28c6523";
@@ -51,6 +48,7 @@ public class MyApplication extends Application{
     public void onCreate() {
         super.onCreate();
         mcontext = this;
+
     }
 
     public static Context getAppContext() {
@@ -77,5 +75,14 @@ public class MyApplication extends Application{
         boolean ischecked=share.getBoolean("ischecked",false);
         return ischecked;
     }
+
+    public static LocationClient getmLocationClient() {
+        if (mLocationClient == null) {
+            mLocationClient = new LocationClient(mcontext);
+
+        }
+        return mLocationClient;
+    }
+
 
 }

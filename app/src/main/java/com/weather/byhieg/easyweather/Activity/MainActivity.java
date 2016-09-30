@@ -5,6 +5,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -20,6 +21,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -43,7 +45,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.example.byhieglibrary.Activity.BaseActivity;
 import com.example.byhieglibrary.Utils.DateUtil;
@@ -231,6 +232,8 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         networkChangeReceiver = new NetworkChangeReceiver();
         registerReceiver(networkChangeReceiver, intentFilter);
         getHoursData();
+        MyApplication.getmLocationClient().registerLocationListener(myListener);
+        initLocation();
 
     }
 
@@ -283,11 +286,24 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.feedback:
+                        new AlertDialog.Builder(MainActivity.this).setTitle("反馈").setMessage("在使用过程中，有任何问题均可以发送到邮箱：byhieg@gmail.com").setPositiveButton("恩", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).show();
                         break;
 
                     case R.id.location:
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                            if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED||
+                                    checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                                    checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+//                                    checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED||
+//                                    checkSelfPermission(Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS) != PackageManager.PERMISSION_GRANTED
+                                    ) {
+
+                                LogUtils.e("Permissions","还是没有权限啊");
                                 // 申请一个（或多个）权限，并提供用于回调返回的获取码（用户定义)
                                 requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE,
                                         Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -297,15 +313,16 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                                         Manifest.permission.CHANGE_WIFI_STATE,
                                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                                         Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS}, Constants.PERMISSION);
+                            }else{
+                                MyApplication.getmLocationClient().start();
+                                LogUtils.e("Permissions","已经有权限了");
                             }
                         }
-                        mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
-                        mLocationClient.registerLocationListener(myListener);
-                        initLocation();
-                        mLocationClient.start();
+
                         break;
 
                     case R.id.like:
+                        startActivity(LoveAppActivity.class);
                         break;
                     case R.id.add_city:
                         startActivity(CityManageActivity.class);
@@ -656,7 +673,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         }
     }
 
-    public LocationClient mLocationClient = null;
     public BDLocationListener myListener = new MyLocationListener(this);
 
     private void initLocation() {
@@ -664,7 +680,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
         option.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系
 //        int span=1000;
-//        option.setScanSpan(span);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
+        option.setScanSpan(1000);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
         option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
         option.setOpenGps(true);//可选，默认false,设置是否使用gps
         option.setLocationNotify(true);//可选，默认false，设置是否当GPS有效时按照1S/1次频率输出GPS结果
@@ -673,7 +689,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         option.setIgnoreKillProcess(false);//可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
         option.SetIgnoreCacheException(false);//可选，默认false，设置是否收集CRASH信息，默认收集
         option.setEnableSimulateGps(false);//可选，默认false，设置是否需要过滤GPS仿真结果，默认需要
-        mLocationClient.setLocOption(option);
+        MyApplication.getmLocationClient().setLocOption(option);
     }
 
     private void showPopupWindow() {
@@ -731,6 +747,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
             {
                 // 获取到权限，作相应处理（调用定位SDK应当确保相关权限均被授权，否则可能引起定位失败）
+                MyApplication.getmLocationClient().start();
             }
             else
             {
