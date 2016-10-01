@@ -11,7 +11,7 @@ public class Constants implements Serializable{
 
 
     public static final int FUTURE = 0x0;
-    public static final int SETTTING = 0x1;
+    public static final int SETTING = 0x1;
     public static final int SHARE = 0x2;
     public static final int HELP = 0x3;
     public static final int LAB = 0x4;

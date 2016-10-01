@@ -42,12 +42,12 @@ public class LoveAppActivity extends BaseActivity {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);
-                progressBar.setProgress(newProgress * 3);
+                progressBar.setProgress(newProgress );
                 if(newProgress == 100){
                     progressBar.setVisibility(View.GONE);
                 }else{
                     progressBar.setVisibility(View.VISIBLE);//开始加载网页时显示进度条
-                    progressBar.setProgress(newProgress * 3);//设置进度值
+                    progressBar.setProgress(newProgress );//设置进度值
                 }
             }
 
