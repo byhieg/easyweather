@@ -39,7 +39,13 @@ public class ShareFragment extends BaseFragment {
     private void initView(View view){
         ImageView imageView = (ImageView) view.findViewById(R.id.imageView_brief);
         imageView.setImageURI(Uri.fromFile(ImageUtils.drawImage(getActivity(),ImageUtils.BRIEF)));
-        view.setOnClickListener(new View.OnClickListener() {
+
+        ImageView imageDetail = (ImageView) view.findViewById(R.id.imageView_detail);
+        imageDetail.setImageURI(Uri.fromFile(ImageUtils.drawImage(getActivity(),ImageUtils.DETAIL)));
+
+        ImageView imageFuture = (ImageView) view.findViewById(R.id.imageView_future);
+        imageFuture.setImageURI(Uri.fromFile(ImageUtils.drawImage(getActivity(),ImageUtils.FUTURE)));
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ShareContent shareContent = new ShareContent();
@@ -50,6 +56,31 @@ public class ShareFragment extends BaseFragment {
                                         ImageUtils.BRIEF)),"分享天气"));
             }
         });
+
+        imageDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShareContent shareContent = new ShareContent();
+                startActivity(Intent.createChooser(
+                        shareContent.startShare(
+                                getActivity().getClass().getSimpleName(),
+                                ImageUtils.drawImage(getActivity(),
+                                        ImageUtils.DETAIL)),"分享天气"));
+            }
+        });
+
+        imageFuture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShareContent shareContent = new ShareContent();
+                startActivity(Intent.createChooser(
+                        shareContent.startShare(
+                                getActivity().getClass().getSimpleName(),
+                                ImageUtils.drawImage(getActivity(),
+                                        ImageUtils.FUTURE)),"分享天气"));
+            }
+        });
+
     }
 
 

@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_marginTop="@dimen/common_horizontal_margin"
-        app:cardBackgroundColor="@color/dodgerblue"
+        app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="10dp"
         app:cardElevation="@dimen/common_horizontal_margin">
 
@@ -27,9 +27,14 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_marginTop="@dimen/common_horizontal_margin"
-        app:cardBackgroundColor="@color/orangered"
+        app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="10dp"
         app:cardElevation="@dimen/common_horizontal_margin">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/imageView_detail"/>
     </android.support.v7.widget.CardView>
 
 
@@ -38,9 +43,14 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_marginTop="@dimen/common_horizontal_margin"
-        app:cardBackgroundColor="@color/maincolor"
+        app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="10dp"
         app:cardElevation="@dimen/common_horizontal_margin">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/imageView_future"/>
     </android.support.v7.widget.CardView>
 
 
