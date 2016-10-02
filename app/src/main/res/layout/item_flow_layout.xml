@@ -1,0 +1,10 @@
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@drawable/tag_bg"
+    android:textSize="@dimen/itemTextSize"
+    android:text="Helloworld"
+    android:textColor="@color/maincolor">
+
+</TextView>

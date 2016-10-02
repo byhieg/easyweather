@@ -1,13 +1,140 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.weather.byhieg.easyweather.Fragment.HelpFragment">
+    android:background="@color/white">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        tools:context="com.weather.byhieg.easyweather.Fragment.HelpFragment">
 
-</FrameLayout>
+        <!-- TODO: Update blank fragment layout -->
+        <TextView
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/maincolor"
+            android:textSize="@dimen/text_size_comment_30"
+            android:text="常见问题"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:textColor="@color/black"
+            android:textSize="@dimen/itemTextSize"
+            android:text="@string/q_1"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:textColor="@color/black"
+            android:textSize="@dimen/itemTextSize"
+            android:text="@string/a_1"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/maincolor"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:textColor="@color/black"
+            android:textSize="@dimen/itemTextSize"
+            android:text="@string/q_2"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:textColor="@color/black"
+            android:textSize="@dimen/itemTextSize"
+            android:text="@string/a_2"
+            android:id="@+id/textView" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/maincolor"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:textColor="@color/black"
+            android:textSize="@dimen/itemTextSize"
+            android:text="@string/q_3"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:textColor="@color/black"
+            android:textSize="@dimen/itemTextSize"
+            android:text="@string/a_3"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/maincolor"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:textColor="@color/black"
+            android:textSize="@dimen/itemTextSize"
+            android:text="@string/q_4"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:textColor="@color/black"
+            android:textSize="@dimen/itemTextSize"
+            android:text="@string/a_4"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/maincolor"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:textColor="@color/black"
+            android:textSize="@dimen/itemTextSize"
+            android:text="@string/q_5"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:textColor="@color/black"
+            android:textSize="@dimen/itemTextSize"
+            android:text="@string/a_5"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/maincolor"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:textColor="@color/black"
+            android:textSize="@dimen/itemTextSize"
+            android:text="如果在使用中有其他问题，请发送邮件到byhieg@gmail.com"/>
+
+
+    </LinearLayout>
+</ScrollView>
+

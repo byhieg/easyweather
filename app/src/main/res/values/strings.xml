@@ -72,5 +72,17 @@
         IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     </string>
 
+    <!--帮助界面-->
+    <string name="q_1">1.天气更新时间的问题</string>
+    <string name="a_1">答：采用和风天气的免费天气数据，和风天气免费版天气数据每小时一更新，更新时间在每小时的52-53分钟左右</string>
+    <string name="q_2">2. 天气预报功能有限的问题</string>
+    <string name="a_2">答：因为采用和风天气免费数据，和风天气免费版能提供天气功能有限，暂无天气预警，暂无未来每小时天气播报等功能</string>
+    <string name="q_3">3. 如何设置首页城市的天气</string>
+    <string name="a_3">答：在城市管理界面，长按想要添加的城市，会弹出设为首页城市的对话框</string>
+    <string name="q_4">4. 如何删除添加城市</string>
+    <string name="a_4">答：在城市管理对要删除的城市进行左右滑动即可</string>
+    <string name="q_5">5. 定位无法精确到县，区</string>
+    <string name="a_5">答：受限于免费版天气数据，可能定位的地点无天气数据，所以定位的地区最小级别为城市，如果要查询更低级别的地区则可以在城市管理界面进行搜索，添加</string>
+
 
 </resources>

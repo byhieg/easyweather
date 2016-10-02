@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="@dimen/common_vertical_margin">
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/common_vertical_margin"
+        android:text="周六"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/common_vertical_margin"
+        >
+        <TextView
+            android:id="@+id/cond"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="晴转多云"
+            android:textColor="@color/black"
+            android:textSize="@dimen/itemTextSize"/>
+
+        <TextView
+            android:id="@+id/tmp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="30°/25°"
+            android:textColor="@color/black"
+            android:textSize="@dimen/itemTextSize"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/wind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2km/h"
+            android:textColor="@color/maincolor"
+            android:textSize="@dimen/futureTextSize"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="风速"
+            android:layout_below="@id/wind"/>
+
+        <TextView
+            android:id="@+id/vis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="10km"
+            android:textColor="@color/maincolor"
+            android:textSize="@dimen/futureTextSize"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="能见度"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/vis"/>
+
+        <TextView
+            android:id="@+id/pop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="25%"
+            android:textColor="@color/maincolor"
+            android:textSize="@dimen/futureTextSize"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="降雨概率"
+            android:layout_alignParentRight="true"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/pop"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/maincolor"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/sunrise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="06:57"
+            android:textColor="@color/black"
+            android:textSize="@dimen/futureSecondSize"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sunrise"
+            android:text="日出"
+            android:textSize="@dimen/itemTextSize"/>
+
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:id="@+id/sunset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="06:57"
+            android:textColor="@color/black"
+            android:textSize="@dimen/futureSecondSize"/>
+
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sunrise"
+            android:text="日落"
+            android:textSize="@dimen/itemTextSize"/>
+
+        <TextView
+            android:layout_alignParentRight="true"
+            android:id="@+id/pcpn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="123mm"
+            android:textColor="@color/black"
+            android:textSize="@dimen/futureSecondSize"/>
+
+        <TextView
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sunrise"
+            android:text="降雨量"
+            android:textSize="@dimen/itemTextSize"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/hum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="87%"
+            android:textColor="@color/black"
+            android:textSize="@dimen/futureSecondSize"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/hum"
+            android:text="湿度"
+            android:textSize="@dimen/itemTextSize"/>
+
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:id="@+id/pres"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1009"
+            android:textColor="@color/black"
+            android:textSize="@dimen/futureSecondSize"/>
+
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pres"
+            android:text="气压"
+            android:textSize="@dimen/itemTextSize"/>
+
+        <TextView
+            android:layout_alignParentRight="true"
+            android:id="@+id/des"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="北风"
+            android:textColor="@color/black"
+            android:textSize="@dimen/futureSecondSize"/>
+
+        <TextView
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/des"
+            android:text="风向"
+            android:textSize="@dimen/itemTextSize"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/maincolor"/>
+</LinearLayout>

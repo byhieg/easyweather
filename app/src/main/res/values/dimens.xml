@@ -36,4 +36,8 @@
 
     <!--说明文字-->
     <dimen name="textSize">18sp</dimen>
+
+    <!--未来天气文字-->
+    <dimen name="futureTextSize">20sp</dimen>
+    <dimen name="futureSecondSize">18sp</dimen>
 </resources>

@@ -1,13 +1,135 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/lightgray"
     tools:context="com.weather.byhieg.easyweather.Fragment.SettingFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="@dimen/common_horizontal_margin"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/common_vertical_margin"
+        android:paddingRight="@dimen/common_vertical_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="是否开启通知栏"
+            android:textColor="@color/black"
+            android:textSize="@dimen/itemTextSize"
+            android:layout_centerVertical="true"/>
+
+        <Switch
+            android:layout_centerVertical="true"
+            android:id="@+id/notification_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="@dimen/common_horizontal_margin"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/common_vertical_margin"
+        android:paddingRight="@dimen/common_vertical_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="是否清除缓存"
+            android:textColor="@color/black"
+            android:textSize="@dimen/itemTextSize"
+            android:layout_centerVertical="true"/>
+
+        <Switch
+            android:layout_centerVertical="true"
+            android:id="@+id/cache_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="@dimen/common_horizontal_margin"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/common_vertical_margin"
+        android:paddingRight="@dimen/common_vertical_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="保持小控件时间同步"
+            android:textColor="@color/black"
+            android:textSize="@dimen/itemTextSize"
+            android:layout_centerVertical="true"/>
+
+        <Switch
+            android:layout_centerVertical="true"
+            android:id="@+id/widget_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="@dimen/common_horizontal_margin"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/common_vertical_margin"
+        android:paddingRight="@dimen/common_vertical_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="错误日志发送给开发者"
+            android:textColor="@color/black"
+            android:textSize="@dimen/itemTextSize"
+            android:layout_centerVertical="true"/>
+
+        <Switch
+            android:layout_centerVertical="true"
+            android:id="@+id/log_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="@dimen/common_horizontal_margin"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/common_vertical_margin"
+        android:paddingRight="@dimen/common_vertical_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="自动检查版本更新"
+            android:textColor="@color/black"
+            android:textSize="@dimen/itemTextSize"
+            android:layout_centerVertical="true"/>
+
+        <Switch
+            android:layout_centerVertical="true"
+            android:id="@+id/vision_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -40,6 +40,15 @@
             android:textColor="@color/black"
             android:text="@string/skywy"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:textSize="@dimen/itemTextSize"
+            android:textColor="@color/black"
+            android:autoLink="web"
+            android:text="https://github.com/byhieg/easyweather"/>
+
         <View
             android:layout_marginTop="@dimen/common_vertical_margin"
             android:layout_width="match_parent"

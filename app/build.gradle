@@ -32,5 +32,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile files('libs/BaiduLBS_Android.jar')
     compile 'org.jetbrains:annotations-java5:15.0'
+    compile 'com.zhy:flowlayout-lib:1.0.3'
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
 }
