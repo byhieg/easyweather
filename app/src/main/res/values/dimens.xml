@@ -34,4 +34,6 @@
     <dimen name="timeTextSize">22sp</dimen>
     <dimen name="tmpTextSize">40sp</dimen>
 
+    <!--说明文字-->
+    <dimen name="textSize">18sp</dimen>
 </resources>

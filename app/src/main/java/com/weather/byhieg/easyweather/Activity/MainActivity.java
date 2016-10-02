@@ -323,9 +323,11 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
                     case R.id.like:
                         startActivity(LoveAppActivity.class);
+                        overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
                         break;
                     case R.id.add_city:
                         startActivity(CityManageActivity.class);
+                        overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
                         break;
                 }
                 return true;

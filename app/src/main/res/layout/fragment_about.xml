@@ -1,13 +1,119 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.weather.byhieg.easyweather.Fragment.AboutFragment">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        tools:context="com.weather.byhieg.easyweather.Fragment.AboutFragment">
 
-</FrameLayout>
+        <!-- TODO: Update blank fragment layout -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_horizontal"
+            android:text="@string/app_name"
+            android:textSize="@dimen/textSize"
+            android:textColor="@color/maincolor"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:background="@color/white"
+            android:textSize="@dimen/itemTextSize"
+            android:textColor="@color/black"
+            android:text="@string/byhieg"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:textSize="@dimen/itemTextSize"
+            android:textColor="@color/black"
+            android:text="@string/skywy"/>
+
+        <View
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black"/>
+
+        <TextView
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/open_source_licenses"
+            android:textSize="@dimen/itemTextSize"
+            android:textColor="@color/lightgray" />
+
+        <TextView
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/maincolor"
+            android:textSize="@dimen/itemTextSize"
+            android:text="@string/gson"/>
+        <TextView
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/maincolor"
+            android:textSize="@dimen/itemTextSize"
+            android:text="@string/greendao"/>
+        <TextView
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/maincolor"
+            android:textSize="@dimen/itemTextSize"
+            android:text="@string/okhttp"/>
+        <TextView
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/maincolor"
+            android:textSize="@dimen/itemTextSize"
+            android:text="@string/butterknife"/>
+        <TextView
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/maincolor"
+            android:textSize="@dimen/itemTextSize"
+            android:text="@string/baidulbs_android"/>
+
+        <TextView
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/maincolor"
+            android:textSize="@dimen/itemTextSize"
+            android:text="@string/android_support_library"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:textColor="@color/gray"
+            android:text="@string/mit_license"
+            android:textSize="@dimen/itemTextSize"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:textColor="@color/gray"
+            android:text="@string/mit_content"
+            android:textSize="@dimen/itemTextSize"/>
+
+    </LinearLayout>
+
+</ScrollView>
