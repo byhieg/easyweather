@@ -41,13 +41,11 @@
             android:text="@string/skywy"/>
 
         <TextView
+            android:id="@+id/link"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:textSize="@dimen/itemTextSize"
-            android:textColor="@color/black"
-            android:autoLink="web"
-            android:text="https://github.com/byhieg/easyweather"/>
+            android:textSize="@dimen/itemTextSize" />
 
         <View
             android:layout_marginTop="@dimen/common_vertical_margin"
@@ -97,7 +95,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/maincolor"
             android:textSize="@dimen/itemTextSize"
-            android:text="@string/baidulbs_android"/>
+            android:text="@string/android_support_library"/>
 
         <TextView
             android:layout_marginTop="@dimen/common_vertical_margin"
@@ -105,7 +103,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/maincolor"
             android:textSize="@dimen/itemTextSize"
-            android:text="@string/android_support_library"/>
+            android:text="@string/flowlayout"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -121,7 +119,87 @@
             android:layout_marginTop="@dimen/common_vertical_margin"
             android:textColor="@color/gray"
             android:text="@string/mit_content"
+            android:textSize="@dimen/describeTextSize"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:textColor="@color/gray"
+            android:text="Apache License"
             android:textSize="@dimen/itemTextSize"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:textColor="@color/gray"
+            android:text="@string/license"
+            android:textSize="@dimen/describeTextSize" />
+
+        <TextView
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/maincolor"
+            android:textSize="@dimen/itemTextSize"
+            android:text="@string/butterknife"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:textColor="@color/gray"
+            android:text="@string/butterknife_license"
+            android:textSize="@dimen/describeTextSize" />
+
+        <TextView
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/maincolor"
+            android:textSize="@dimen/itemTextSize"
+            android:text="@string/okhttp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:textColor="@color/gray"
+            android:text="@string/common_license"
+            android:textSize="@dimen/describeTextSize" />
+
+        <TextView
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/maincolor"
+            android:textSize="@dimen/itemTextSize"
+            android:text="@string/flowlayout"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:textColor="@color/gray"
+            android:text="@string/common_license"
+            android:textSize="@dimen/describeTextSize" />
+
+        <TextView
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/maincolor"
+            android:textSize="@dimen/itemTextSize"
+            android:text="@string/gson"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_vertical_margin"
+            android:textColor="@color/gray"
+            android:text="@string/gson_license"
+            android:textSize="@dimen/describeTextSize" />
 
     </LinearLayout>
 
