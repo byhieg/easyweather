@@ -18,6 +18,7 @@ import android.os.Message;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -173,9 +174,8 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
 
     public static final int COMPLETE_REFRESH = 0x100;
-
-
     public static final int FAILURE_REFRESH = 0x101;
+    public static final int NOTIFY_REFRESH = 0x102;
     private DrawerListAdapter drawerListAdapter;
     private ArrayList<DrawerContext> drawerList = new ArrayList<>();
     private WeatherBean weatherBean;
@@ -184,6 +184,9 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private List<HoursWeather> hoursWeathers = new ArrayList<>();
     private NetworkChangeReceiver networkChangeReceiver;
     private MyHandler handler = new MyHandler();
+    private LocalReceiver localReceiver;
+    private LocalBroadcastManager localBroadcastManager;
+    private BDLocationListener myListener;
 
 
     @Override
@@ -226,11 +229,15 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             e.printStackTrace();
         }
 
-//        LineDataSet dataSet = new LineDataSet(weekWeathers,"七天未来天气");
+        myListener = new MyLocationListener(this);
+        localBroadcastManager = LocalBroadcastManager.getInstance(this);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        intentFilter.addAction("com.weather.byhieg.easyweather.Activity.LOCAL_BROADCAST");
+        localReceiver = new LocalReceiver();
         networkChangeReceiver = new NetworkChangeReceiver();
         registerReceiver(networkChangeReceiver, intentFilter);
+        localBroadcastManager.registerReceiver(localReceiver, intentFilter);
         getHoursData();
         MyApplication.getmLocationClient().registerLocationListener(myListener);
         initLocation();
@@ -272,6 +279,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             doRefreshInNoData();
         }
 
+
     }
 
     @Override
@@ -298,10 +306,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED||
                                     checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
-                                    checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-//                                    checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED||
-//                                    checkSelfPermission(Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS) != PackageManager.PERMISSION_GRANTED
-                                    ) {
+                                    checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
                                 LogUtils.e("Permissions","还是没有权限啊");
                                 // 申请一个（或多个）权限，并提供用于回调返回的获取码（用户定义)
@@ -458,10 +463,8 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
      */
     @SuppressLint("SimpleDateFormat")
     private void updateView(WeatherBean weatherBean) throws ParseException {
-        scrollView.setVisibility(View.VISIBLE);
-        refresh.clearAnimation();
-        refresh.setVisibility(View.GONE);
-        weekWeatherView.notifyDateChanged();
+
+//        weekWeatherView.notifyDateChanged();
         Date sqlDate = HandleDaoData.getCityWeather(HandleDaoData.getShowCity()).getUpdateTime();
         long time = DateUtil.getDifferenceofDate(new Date(), sqlDate) / (1000 * 60);
         if (time > 1000 * 60 * 60 || time < 0) {
@@ -469,6 +472,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         } else {
             updateTime.setText("最近更新：" + time + "分钟之前");
         }
+        toolbar.setTitle(MyJson.getWeather(weatherBean).getBasic().getCity());
         //主卡片
         temp.setText(MyJson.getWeather(weatherBean).getNow().getTmp() + "°");
         tempHigh.setText("高 " + MyJson.getWeather(weatherBean).getDaily_forecast().get(0).getTmp().getMax() + "°");
@@ -537,7 +541,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 public void run() {
                     try {
                         NetTool.doNetWeather(cityList.get(index).getCitynName());
-
                     } catch (Exception e) {
                         e.printStackTrace();
                         handler.sendEmptyMessage(FAILURE_REFRESH);
@@ -564,6 +567,9 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         protected void onPostExecute(String city) {
             if (HandleDaoData.isExistInCityWeather(city)) {
                 try {
+                    scrollView.setVisibility(View.VISIBLE);
+                    refresh.clearAnimation();
+                    refresh.setVisibility(View.GONE);
                     updateView(HandleDaoData.getWeatherBean(HandleDaoData.getShowCity()));
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -598,13 +604,16 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     }
 
     @SuppressLint("HandlerLeak")
-    class MyHandler extends Handler {
+    public class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
                 case COMPLETE_REFRESH:
                     mSwipeLayout.setRefreshing(false);
+                    scrollView.setVisibility(View.VISIBLE);
+                    refresh.clearAnimation();
+                    refresh.setVisibility(View.GONE);
                     try {
                         getHoursData();
                         updateView(HandleDaoData.getWeatherBean(HandleDaoData.getShowCity()));
@@ -616,6 +625,17 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 case FAILURE_REFRESH:
                     mSwipeLayout.setRefreshing(false);
                     setNetWork();
+                    break;
+
+//                case NOTIFY_REFRESH:
+//                    try {
+//                        getHoursData();
+//                        updateView(HandleDaoData.getWeatherBean(HandleDaoData.getShowCity()));
+//                        LogUtils.e("main","刷新完成");
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                    break;
             }
 
         }
@@ -625,6 +645,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(networkChangeReceiver);
+        unregisterReceiver(localReceiver);
     }
 
     private void setNetWork() {
@@ -675,13 +696,11 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         }
     }
 
-    public BDLocationListener myListener = new MyLocationListener(this);
 
     private void initLocation() {
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
         option.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系
-//        int span=1000;
         option.setScanSpan(1000);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
         option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
         option.setOpenGps(true);//可选，默认false,设置是否使用gps
@@ -724,18 +743,24 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     private void getHoursData() {
         hoursWeathers.clear();
-        for (int i = 0; i < MyJson.getWeather(weatherBean).getHourly_forecast().size(); i++) {
-            HoursWeather hw = new HoursWeather();
-            hw.setTmp(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getTmp() + "°");
-            hw.setHum(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getHum() + "%");
-            hw.setWind_class(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getSc());
-            hw.setWind_deg(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getDeg());
-            hw.setWind_speed(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getSpd());
-            hw.setWind_dir(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getDir());
-            hw.setPop(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getPop() + "%");
-            hw.setUpdate(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getDate());
-            hoursWeathers.add(hw);
+        try {
+            weatherBean = HandleDaoData.getWeatherBean(HandleDaoData.getShowCity());
+            for (int i = 0; i < MyJson.getWeather(weatherBean).getHourly_forecast().size(); i++) {
+                HoursWeather hw = new HoursWeather();
+                hw.setTmp(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getTmp() + "°");
+                hw.setHum(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getHum() + "%");
+                hw.setWind_class(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getSc());
+                hw.setWind_deg(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getDeg());
+                hw.setWind_speed(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getSpd());
+                hw.setWind_dir(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getDir());
+                hw.setPop(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getPop() + "%");
+                hw.setUpdate(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getDate());
+                hoursWeathers.add(hw);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
 
@@ -759,6 +784,21 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             break;
             default:
                 break;
+        }
+    }
+
+
+    class LocalReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+//            showToast("已经接受广播");
+            getHoursData();
+            try {
+                updateView(HandleDaoData.getWeatherBean(HandleDaoData.getShowCity()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

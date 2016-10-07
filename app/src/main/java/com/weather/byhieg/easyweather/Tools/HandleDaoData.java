@@ -281,6 +281,10 @@ public class HandleDaoData {
         MyApplication.getDaoSession().getLoveCityDao().update(temp);
     }
 
+    /**
+     * 根据城市名字，
+     * @param cityName 城市名
+     */
     public static void deleteCity(String cityName) {
         MyApplication.getDaoSession().getLoveCityDao().delete(getLoveCity(cityName));
     }

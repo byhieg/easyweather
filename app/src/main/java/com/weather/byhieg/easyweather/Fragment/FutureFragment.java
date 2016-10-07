@@ -67,7 +67,7 @@ public class FutureFragment extends BaseFragment {
             fc.setCond(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getCond().getTxt_d());
             fc.setHum(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getHum());
             fc.setTmp(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getTmp().getMax() + "°" + "/" +
-                    MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getTmp().getMax() + "°");
+                    MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getTmp().getMin() + "°");
 
             fc.setWind(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getWind().getSpd());
             fc.setVis(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getVis());

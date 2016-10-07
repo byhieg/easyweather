@@ -2,11 +2,13 @@ package com.weather.byhieg.easyweather.Tools;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Looper;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
+import com.weather.byhieg.easyweather.Activity.MainActivity;
 import com.weather.byhieg.easyweather.Db.LoveCity;
 import com.weather.byhieg.easyweather.MyApplication;
 
@@ -31,7 +33,6 @@ public class MyLocationListener implements BDLocationListener {
         String city = location.getCity();
         if(city != null){
             final String name = city.substring(0,city.length() - 1);
-
             dialog = new AlertDialog.Builder(context).setTitle("系统提示").setMessage("当前定位到的城市为："+name+",是否将该城市设为首页").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -44,10 +45,19 @@ public class MyLocationListener implements BDLocationListener {
                         }
                         LoveCity loveCity = HandleDaoData.getLoveCity(1);
                         HandleDaoData.updateCityOrder(loveCity.getCitynName(),HandleDaoData.getLoveCity().size() + 1);
-                        LoveCity newLoveCity = new LoveCity();
-                        newLoveCity.setCitynName(name);
-                        newLoveCity.setOrder(1);
-                        HandleDaoData.insertLoveCity(newLoveCity);
+                        LoveCity newLoveCity = HandleDaoData.getLoveCity(name);
+                        if (newLoveCity == null) {
+                            newLoveCity = new LoveCity();
+                            newLoveCity.setCitynName(name);
+                            newLoveCity.setOrder(1);
+                            HandleDaoData.insertLoveCity(newLoveCity);
+                        }else{
+                            HandleDaoData.updateCityOrder(name,1);
+                        }
+
+                        Looper.prepare();
+                        new MainActivity().new MyHandler().sendEmptyMessage(MainActivity.NOTIFY_REFRESH);
+                        Looper.loop();
                     }
                 }
             }).setNegativeButton("取消", new DialogInterface.OnClickListener() {

@@ -10,19 +10,19 @@
 
     <include layout="@layout/toolbar"
         android:id ="@+id/city_toolbar"/>
-    <ScrollView
+
+    <com.weather.byhieg.easyweather.View.SlideCutListView
+        android:id="@+id/card_view_group"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.weather.byhieg.easyweather.View.CardViewGroup
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/card_view_group"
-            android:paddingBottom="@dimen/common_horizontal_margin"
-            android:background="@android:color/white">
-
-        </com.weather.byhieg.easyweather.View.CardViewGroup>
-
-</ScrollView>
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/common_horizontal_margin"
+        android:paddingLeft="@dimen/common_horizontal_margin"
+        android:paddingRight="@dimen/common_horizontal_margin"
+        android:paddingBottom="@dimen/common_horizontal_margin"
+        android:dividerHeight="@dimen/common_horizontal_margin"
+        android:scrollbars="none"
+        android:clickable="true"
+        android:divider="@color/white"
+        android:background="@color/white">
+    </com.weather.byhieg.easyweather.View.SlideCutListView>
 </LinearLayout>

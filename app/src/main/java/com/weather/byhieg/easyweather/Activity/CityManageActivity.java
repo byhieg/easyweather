@@ -1,22 +1,21 @@
 package com.weather.byhieg.easyweather.Activity;
 
-import android.annotation.SuppressLint;
-import android.graphics.Paint;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RoundRectShape;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.AdapterView;
 
 import com.example.byhieglibrary.Activity.BaseActivity;
 import com.example.byhieglibrary.Utils.LogUtils;
+import com.weather.byhieg.easyweather.Adapter.CityManageAdapter;
+import com.weather.byhieg.easyweather.Bean.CityManageContext;
 import com.weather.byhieg.easyweather.Bean.WeatherBean;
 import com.weather.byhieg.easyweather.Db.LoveCity;
 import com.weather.byhieg.easyweather.Fragment.CityFragment;
@@ -24,8 +23,7 @@ import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.Tools.HandleDaoData;
 import com.weather.byhieg.easyweather.Tools.MyJson;
-import com.weather.byhieg.easyweather.Tools.WeatherColor;
-import com.weather.byhieg.easyweather.View.CardViewGroup;
+import com.weather.byhieg.easyweather.View.SlideCutListView;
 
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
@@ -38,17 +36,17 @@ public class CityManageActivity extends BaseActivity {
 
     @Bind(R.id.city_toolbar)
     public Toolbar toolbar;
+    @Bind(R.id.card_view_group)
+    public SlideCutListView cardViewGroup;
 
 
     static List<LoveCity> loveCities = new ArrayList<>();
-    static List<LoveCity> addCities = new ArrayList<>();
-    static TextView cityName;
-    static TextView weatherCond;
-    static TextView weatherTemp;
-    static TextView updateTime;
-    static LinearLayout itemCard;
-    static TextView wet;
-    static CardViewGroup cardViewGroup;
+    private LocalBroadcastManager localBroadcastManager;
+
+
+
+    private static CityManageAdapter adapter;
+    private static List<CityManageContext> cityManageContexts = new ArrayList<>();
 
 
     @Override
@@ -58,9 +56,8 @@ public class CityManageActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
-        loveCities = HandleDaoData.getLoveCity();
-
+        localBroadcastManager = LocalBroadcastManager.getInstance(CityManageActivity.this);
+        setData();
     }
 
     @Override
@@ -71,8 +68,9 @@ public class CityManageActivity extends BaseActivity {
             getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        cardViewGroup = (CardViewGroup) findViewById(R.id.card_view_group);
-        updateView();
+        adapter = new CityManageAdapter(cityManageContexts,this);
+        cardViewGroup.setAdapter(adapter);
+
     }
 
 
@@ -81,42 +79,29 @@ public class CityManageActivity extends BaseActivity {
 
     }
 
-    private static void updateView() {
-        if (cardViewGroup.getChildCount() == 0) {
-            for (int i = 0; i < loveCities.size(); i++) {
-                LogUtils.e("loveCities", loveCities.get(i).getCitynName());
-                try {
-                    View v = LayoutInflater.from(MyApplication.getAppContext()).inflate(R.layout.item_city_manage, cardViewGroup, false);
-                    itemCard = (LinearLayout) v.findViewById(R.id.item_card);
-                    cityName = (TextView) v.findViewById(R.id.city_name);
-                    weatherCond = (TextView) v.findViewById(R.id.weather_cond);
-                    weatherTemp = (TextView) v.findViewById(R.id.weather);
-                    updateTime = (TextView) v.findViewById(R.id.updateTime);
-                    wet = (TextView) v.findViewById(R.id.wet);
-                    if(putDataInCard(loveCities.get(i).getCitynName())){
-                        cardViewGroup.addView(v);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+
+    private static void setData(){
+        loveCities = null;
+        loveCities = HandleDaoData.getLoveCity();
+        cityManageContexts.clear();
+        for(int i = 0 ;i < loveCities.size();i++) {
+            CityManageContext context = new CityManageContext();
+            String name = loveCities.get(i).getCitynName();
+            try {
+                WeatherBean weatherBean = HandleDaoData.getWeatherBean(name);
+                context.setTime(new SimpleDateFormat("HH:mm").
+                        format(HandleDaoData.getCityWeather(name).
+                                getUpdateTime()));
+
+                context.setTmp(MyJson.getWeather(weatherBean).getNow().getTmp());
+                context.setHum(MyJson.getWeather(weatherBean).getNow().getHum());
+                context.setCond(MyJson.getWeather(weatherBean).getNow().getCond().getTxt());
+                context.setCityName(name);
+                context.setCode(MyJson.getWeather(weatherBean).getNow().getCond().getCode());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } else {
-            for (int i = 0; i < addCities.size(); i++) {
-                try {
-                    View v = LayoutInflater.from(MyApplication.getAppContext()).inflate(R.layout.item_city_manage, cardViewGroup, false);
-                    itemCard = (LinearLayout) v.findViewById(R.id.item_card);
-                    cityName = (TextView) v.findViewById(R.id.city_name);
-                    weatherCond = (TextView) v.findViewById(R.id.weather_cond);
-                    weatherTemp = (TextView) v.findViewById(R.id.weather);
-                    updateTime = (TextView) v.findViewById(R.id.updateTime);
-                    wet = (TextView) v.findViewById(R.id.wet);
-                    if(putDataInCard(addCities.get(i).getCitynName())){
-                        cardViewGroup.addView(v);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+            cityManageContexts.add(context);
         }
 
     }
@@ -142,39 +127,58 @@ public class CityManageActivity extends BaseActivity {
                 return true;
             }
         });
+
+        cardViewGroup.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                final String name = ((CityManageContext) parent.getItemAtPosition(position)).getCityName();
+                new AlertDialog.Builder(CityManageActivity.this).setMessage("是否将" + name + "设置为首页城市").
+                        setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                LogUtils.e("name",name);
+                                LogUtils.e("show",HandleDaoData.getShowCity());
+                                if(name.equals(HandleDaoData.getShowCity())){
+                                    showToast("该城市已经是首页城市");
+                                }else{
+                                    LoveCity loveCity = HandleDaoData.getLoveCity(1);
+                                    HandleDaoData.updateCityOrder(loveCity.getCitynName(),HandleDaoData.getLoveCity().size() + 1);
+                                    HandleDaoData.updateCityOrder(name,1);
+                                    Intent intent = new Intent("com.weather.byhieg.easyweather.Activity.LOCAL_BROADCAST");
+                                    localBroadcastManager.sendBroadcast(intent);
+                                }
+                            }
+                        }).setNegativeButton("否", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).show();
+                return true;
+            }
+        });
+
+        cardViewGroup.setRemoveListener(new SlideCutListView.RemoveListener() {
+            @Override
+            public void removeItem(SlideCutListView.RemoveDirection direction, int position) {
+                String name = ((CityManageContext)adapter.getItem(position)).getCityName();
+                if (name.equals(HandleDaoData.getShowCity())) {
+                    new AlertDialog.Builder(CityManageActivity.this).setMessage("该城市为首页城市，无法删除，如要删除，请指定另一首页城市").
+                            setPositiveButton("恩", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            }).show();
+                }else{
+                    HandleDaoData.deleteCity(name);
+                    setData();
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
-    /**
-     * 把城市数据放入CardView
-     *
-     * @param name 城市名字
-     * @throws Exception
-     */
-    @SuppressLint("SimpleDateFormat")
-    private static boolean putDataInCard(String name) throws Exception {
-        WeatherBean weatherBean = HandleDaoData.getWeatherBean(name);
-        if (weatherBean != null) {
-            cityName.setText(name);
-            String weatherCode = MyJson.getWeather(weatherBean).getNow().getCond().getCode();
-            int radius = 30;
-            float[] outerR = new float[]{radius, radius, radius, radius, radius, radius, radius, radius};
-            RoundRectShape roundRectShape = new RoundRectShape(outerR, null, null);
-            ShapeDrawable shapeDrawable = new ShapeDrawable(roundRectShape);
-            shapeDrawable.getPaint().setColor(ContextCompat.getColor(MyApplication.getAppContext(), WeatherColor.getWeatherColor(weatherCode)));
-            shapeDrawable.getPaint().setStyle(Paint.Style.FILL);
-            itemCard.setBackground(shapeDrawable);
-            weatherCond.setText("天气：" + MyJson.getWeather(weatherBean).getNow().getCond().getTxt());
-            weatherTemp.setText("气温：" + MyJson.getWeather(weatherBean).getNow().getTmp() + "°");
-            updateTime.setText(new SimpleDateFormat("HH:mm").
-                    format(HandleDaoData.getCityWeather(name).
-                            getUpdateTime()));
-            wet.setText("湿度: " + MyJson.getWeather(weatherBean).getNow().getHum() + "%");
-            return true;
-        }else{
-            return false;
-        }
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -196,14 +200,8 @@ public class CityManageActivity extends BaseActivity {
             super.handleMessage(msg);
             switch (msg.what) {
                 case CityFragment.UPDATE_CITY:
-                    addCities = HandleDaoData.getLoveCity();
-                    for (LoveCity item : loveCities) {
-                        if (addCities.contains(item)) {
-                            addCities.remove(item);
-                        }
-                    }
-                    updateView();
-                    break;
+                    setData();
+                    adapter.notifyDataSetChanged();
             }
         }
     }

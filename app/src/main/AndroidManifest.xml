@@ -45,6 +45,7 @@
 
         <activity
             android:name=".Activity.MainActivity"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.StartActivity"
