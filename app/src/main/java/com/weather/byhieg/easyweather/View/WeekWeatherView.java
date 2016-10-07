@@ -10,7 +10,6 @@ import android.graphics.PathEffect;
 import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.example.byhieglibrary.Utils.DateUtil;
@@ -217,9 +216,7 @@ public class WeekWeatherView extends View {
 
 
         int lowestTemp = IntegerUtils.getSmallestNum(lists);
-//        int highestTemp = 32;
 
-        Log.e("size", weekWeathers.size() + "");
         for (int i = 0; i < weekWeathers.size(); i++) {
             int lowDiff = weekWeathers.get(i).getLowTemp() - lowestTemp;
             int diff = weekWeathers.get(i).getHighTemp() - weekWeathers.get(i).getLowTemp();

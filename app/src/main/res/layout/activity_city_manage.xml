@@ -23,6 +23,7 @@
         android:scrollbars="none"
         android:clickable="true"
         android:divider="@color/white"
+        android:listSelector="@android:color/transparent"
         android:background="@color/white">
     </com.weather.byhieg.easyweather.View.SlideCutListView>
 </LinearLayout>

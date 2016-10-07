@@ -16,7 +16,7 @@ public class WeatherColor {
             return R.color.lightskyblue;
         } else if (code >= 200 && code < 300) {
             return R.color.maincolor;
-        } else if (code >= 300 && code < 400) {
+        } else if (code >= 300 && code < 500) {
             return R.color.royalblue;
         } else if (code >= 500 && code < 600) {
             return R.color.lightgrey;

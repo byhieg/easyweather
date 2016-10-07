@@ -2,13 +2,13 @@ package com.weather.byhieg.easyweather.Tools;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Looper;
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
-import com.weather.byhieg.easyweather.Activity.MainActivity;
 import com.weather.byhieg.easyweather.Db.LoveCity;
 import com.weather.byhieg.easyweather.MyApplication;
 
@@ -33,38 +33,41 @@ public class MyLocationListener implements BDLocationListener {
         String city = location.getCity();
         if(city != null){
             final String name = city.substring(0,city.length() - 1);
-            dialog = new AlertDialog.Builder(context).setTitle("系统提示").setMessage("当前定位到的城市为："+name+",是否将该城市设为首页").setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if(HandleDaoData.isExistInLoveCity(name)){
-                        Toast.makeText(context, "该城市已经是显示城市",Toast.LENGTH_SHORT).show();
-                    }else{
-                        if(!HandleDaoData.isExistinCity(name)){
-                            Toast.makeText(context,"暂无该城市的天气，期待你的反馈",Toast.LENGTH_SHORT).show();
-                            return;
+            try {
+                dialog = new AlertDialog.Builder(context).setTitle("系统提示").setMessage("当前定位到的城市为：" + name + ",是否将该城市设为首页").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (HandleDaoData.isExistInLoveCity(name)) {
+                            Toast.makeText(context, "该城市已经是喜欢城市", Toast.LENGTH_SHORT).show();
+                        } else {
+                            if (!HandleDaoData.isExistinCity(name)) {
+                                Toast.makeText(context, "暂无该城市的天气，期待你的反馈", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            LoveCity loveCity = HandleDaoData.getLoveCity(1);
+                            HandleDaoData.updateCityOrder(loveCity.getCitynName(), HandleDaoData.getLoveCity().size() + 1);
+                            if (!HandleDaoData.isExistInLoveCity(name)) {
+                                LoveCity newLoveCity = new LoveCity();
+                                newLoveCity.setCitynName(name);
+                                newLoveCity.setOrder(1);
+                                HandleDaoData.insertLoveCity(newLoveCity);
+                            } else {
+                                HandleDaoData.updateCityOrder(name, 1);
+                            }
+                            Intent intent = new Intent("com.weather.byhieg.easyweather.Activity.LOCAL_BROADCAST");
+                            LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(context);
+                            localBroadcastManager.sendBroadcast(intent);
                         }
-                        LoveCity loveCity = HandleDaoData.getLoveCity(1);
-                        HandleDaoData.updateCityOrder(loveCity.getCitynName(),HandleDaoData.getLoveCity().size() + 1);
-                        LoveCity newLoveCity = HandleDaoData.getLoveCity(name);
-                        if (newLoveCity == null) {
-                            newLoveCity = new LoveCity();
-                            newLoveCity.setCitynName(name);
-                            newLoveCity.setOrder(1);
-                            HandleDaoData.insertLoveCity(newLoveCity);
-                        }else{
-                            HandleDaoData.updateCityOrder(name,1);
-                        }
-
-                        Looper.prepare();
-                        new MainActivity().new MyHandler().sendEmptyMessage(MainActivity.NOTIFY_REFRESH);
-                        Looper.loop();
                     }
-                }
-            }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                }
-            }).show();
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                }).show();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         }else if (location.getLocType() == BDLocation.TypeNetWorkException) {
 

@@ -65,6 +65,7 @@ import com.weather.byhieg.easyweather.Tools.HandleDaoData;
 import com.weather.byhieg.easyweather.Tools.MyJson;
 import com.weather.byhieg.easyweather.Tools.MyLocationListener;
 import com.weather.byhieg.easyweather.Tools.NetTool;
+import com.weather.byhieg.easyweather.Tools.WeatherIcon;
 import com.weather.byhieg.easyweather.View.WeekWeatherView;
 
 import java.text.ParseException;
@@ -175,7 +176,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     public static final int COMPLETE_REFRESH = 0x100;
     public static final int FAILURE_REFRESH = 0x101;
-    public static final int NOTIFY_REFRESH = 0x102;
     private DrawerListAdapter drawerListAdapter;
     private ArrayList<DrawerContext> drawerList = new ArrayList<>();
     private WeatherBean weatherBean;
@@ -220,8 +220,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         }
         drawerListAdapter = new DrawerListAdapter(drawerList);
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        date.setText("今天" + simpleDateFormat.format(new Date()));
+
 
         try {
             weatherBean = HandleDaoData.getWeatherBean(HandleDaoData.getShowCity());
@@ -463,8 +462,9 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
      */
     @SuppressLint("SimpleDateFormat")
     private void updateView(WeatherBean weatherBean) throws ParseException {
-
-//        weekWeatherView.notifyDateChanged();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        date.setText("今天" + simpleDateFormat.format(new Date()));
+        weekWeatherView.notifyDateChanged();
         Date sqlDate = HandleDaoData.getCityWeather(HandleDaoData.getShowCity()).getUpdateTime();
         long time = DateUtil.getDifferenceofDate(new Date(), sqlDate) / (1000 * 60);
         if (time > 1000 * 60 * 60 || time < 0) {
@@ -472,6 +472,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         } else {
             updateTime.setText("最近更新：" + time + "分钟之前");
         }
+        tempImage.setImageResource(WeatherIcon.getWeatherColor(MyJson.getWeather(weatherBean).getNow().getCond().getCode()));
         toolbar.setTitle(MyJson.getWeather(weatherBean).getBasic().getCity());
         //主卡片
         temp.setText(MyJson.getWeather(weatherBean).getNow().getTmp() + "°");
@@ -627,15 +628,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                     setNetWork();
                     break;
 
-//                case NOTIFY_REFRESH:
-//                    try {
-//                        getHoursData();
-//                        updateView(HandleDaoData.getWeatherBean(HandleDaoData.getShowCity()));
-//                        LogUtils.e("main","刷新完成");
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                    break;
             }
 
         }
@@ -645,7 +637,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(networkChangeReceiver);
-        unregisterReceiver(localReceiver);
+        localBroadcastManager.unregisterReceiver(localReceiver);
     }
 
     private void setNetWork() {
@@ -792,7 +784,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
         @Override
         public void onReceive(Context context, Intent intent) {
-//            showToast("已经接受广播");
             getHoursData();
             try {
                 updateView(HandleDaoData.getWeatherBean(HandleDaoData.getShowCity()));

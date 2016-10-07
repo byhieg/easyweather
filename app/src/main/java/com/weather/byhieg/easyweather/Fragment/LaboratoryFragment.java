@@ -8,9 +8,7 @@ import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -29,9 +27,9 @@ public class LaboratoryFragment extends BaseFragment {
 
     private CardView cardView;
     private TextView textView;
-    private ImageView imageView;
 
     private Switch aSwitch;
+    private View view;
 
 //    private WindowManager mWindowManager = null;
 //    private View mNightView = null;
@@ -60,24 +58,14 @@ public class LaboratoryFragment extends BaseFragment {
             getActivity().setTheme(R.style.DayTheme);
         }
 
-        if(MyApplication.nightMode2()){
-            initNightView(R.layout.night_mode_overlay);
-        }
-
-        return inflater.inflate(R.layout.fragment_laboratory,null);
-    }
-
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
+        view = inflater.inflate(R.layout.fragment_laboratory,null);
         initView();
+        return view;
     }
 
     public void initView(){
-        cardView= (CardView) getActivity().findViewById(R.id.item1);
-        textView= (TextView) cardView.findViewById(R.id.lab_textview);
+        cardView= (CardView) view.findViewById(R.id.item1);
+        textView= (TextView) view.findViewById(R.id.lab_textview);
         textView.setText(R.string.nightMode1);
         aSwitch= (Switch) cardView.findViewById(R.id.cb);
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyApplication.shareFilename2, getActivity().MODE_PRIVATE);
@@ -85,15 +73,6 @@ public class LaboratoryFragment extends BaseFragment {
         aSwitch.setChecked(checked);
         switchStatus(aSwitch,MyApplication.shareFilename2);
 
-
-        cardView= (CardView) getActivity().findViewById(R.id.item2);
-        textView= (TextView) cardView.findViewById(R.id.lab_textview);
-        textView.setText(R.string.nightMode2);
-        aSwitch= (Switch) cardView.findViewById(R.id.cb);
-        SharedPreferences share = getActivity().getSharedPreferences(MyApplication.shareFilename1, getActivity().MODE_PRIVATE);
-        boolean ischecked=share.getBoolean("ischecked",false);
-        aSwitch.setChecked(ischecked);
-        switchStatus(aSwitch,MyApplication.shareFilename1);
 
     }
 

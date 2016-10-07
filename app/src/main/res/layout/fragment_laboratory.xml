@@ -9,8 +9,6 @@
     <include layout="@layout/night_mode" android:id="@+id/item1">
     </include>
 
-    <include layout="@layout/night_mode" android:id="@+id/item2">
-    </include>
 
 
 
