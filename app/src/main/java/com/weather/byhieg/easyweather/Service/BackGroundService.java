@@ -43,9 +43,15 @@ public class BackGroundService extends IntentService {
                     e.printStackTrace();
                 }
             } else if (StartActivity.getActionStartNotification().equals(action)) {
-                LogUtils.e("back","asdasdas");
                 startService(new Intent(this, NotificationService.class));
             }
+//            else if (StartActivity.getActionAddViewspot().equals(action)) {
+//                try {
+//                    addViewSpot();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
         }
     }
 
@@ -85,6 +91,30 @@ public class BackGroundService extends IntentService {
             }
         }
     }
+
+//    private void addViewSpot() throws IOException {
+//        if (!HandleDaoData.isExistInViewSpot()) {
+//            Gson gson = new Gson();
+//            InputStream inputStream = getResources().openRawResource(R.raw.viewspot);
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+//            StringBuilder sb = new StringBuilder();
+//            String line;
+//            while ((line = reader.readLine()) != null) {
+//                sb.append(line);
+//            }
+//
+//            UrlViewSpot urlViewSpot = gson.fromJson(sb.toString(), UrlViewSpot.class);
+//            for(int i = 0 ;i < urlViewSpot.getCity_info().size();i++) {
+//                ViewSpot viewSpot = new ViewSpot();
+//                viewSpot.setLove("no");
+//                viewSpot.setDirectName(urlViewSpot.getCity_info().get(i).getCnty());
+//                viewSpot.setViewSpotID(urlViewSpot.getCity_info().get(i).getId());
+//                viewSpot.setViewSpotName(urlViewSpot.getCity_info().get(i).getCity());
+//                HandleDaoData.insertViewSpot(viewSpot);
+//            }
+//        }
+//
+//    }
 
     /**
      * 获取天气

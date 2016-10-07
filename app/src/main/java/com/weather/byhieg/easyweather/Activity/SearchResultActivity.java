@@ -10,8 +10,6 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
@@ -20,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-import com.example.byhieglibrary.Activity.BaseActivity;
 import com.example.byhieglibrary.Utils.LogUtils;
 import com.weather.byhieg.easyweather.Adapter.CityListAdapter;
 import com.weather.byhieg.easyweather.Bean.CityContext;
@@ -28,7 +25,6 @@ import com.weather.byhieg.easyweather.Db.City;
 import com.weather.byhieg.easyweather.Db.LoveCity;
 import com.weather.byhieg.easyweather.Db.Province;
 import com.weather.byhieg.easyweather.Fragment.CityFragment;
-import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.Tools.HandleDaoData;
 import com.weather.byhieg.easyweather.Tools.NetTool;
 

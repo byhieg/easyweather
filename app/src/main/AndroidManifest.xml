@@ -115,8 +115,6 @@
             android:enabled="true"
             android:process=":remote" />
 
-
-
         <activity
             android:name=".Activity.LoveAppActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -128,8 +126,10 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".Activity.WikiResultActivity"
-            android:theme="@style/AppTheme.NoActionBar" ></activity>
+        <activity
+            android:name=".Activity.WikiResultActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activity.SearchViewSpotActivity"></activity>
     </application>
 
 </manifest>

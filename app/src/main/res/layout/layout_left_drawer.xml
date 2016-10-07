@@ -22,14 +22,14 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/item_drawer_list"/>
+    <!--<include layout="@layout/item_drawer_list"/>-->
 
-    <ViewStub
-        android:id="@+id/view_spot"
-        android:layout_marginLeft="40dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout="@layout/layout_viewspot_list"/>
+    <!--<ViewStub-->
+        <!--android:id="@+id/view_spot"-->
+        <!--android:layout_marginLeft="40dp"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout="@layout/layout_viewspot_list"/>-->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview"

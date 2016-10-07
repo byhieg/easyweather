@@ -9,7 +9,6 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.widget.RemoteViews;
 
-import com.example.byhieglibrary.Utils.LogUtils;
 import com.weather.byhieg.easyweather.Activity.MainActivity;
 import com.weather.byhieg.easyweather.Bean.WeatherBean;
 import com.weather.byhieg.easyweather.R;
@@ -37,12 +36,10 @@ public class NotificationService extends Service{
     @Override
     public void onCreate() {
         super.onCreate();
-        LogUtils.e("service","确实启动了");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        LogUtils.e("service","确实1111");
 
         try {
             notificationWeather = HandleDaoData.getWeatherBean(HandleDaoData.getShowCity());

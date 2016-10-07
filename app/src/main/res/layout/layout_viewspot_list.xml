@@ -10,7 +10,7 @@
     </ListView>
 
     <ImageView
-        android:id="@+id/empty_view"
+        android:id="@+id/empty_view_spot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@mipmap/ic_add_black_24dp"/>

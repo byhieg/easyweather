@@ -33,7 +33,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
 import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -88,10 +87,10 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     public DrawerLayout drawerLayout;
     @Bind(R.id.recyclerview)
     public RecyclerView recyclerView;
-    @Bind(R.id.view_spot)
-    public ViewStub viewStub;
-    @Bind(R.id.arrow)
-    public ImageView arrow;
+//    @Bind(R.id.view_spot)
+//    public ViewStub viewStub;
+//    @Bind(R.id.arrow)
+//    public ImageView arrow;
     @Bind(R.id.arrow_detail)
     public ImageView arrowDetail;
     @Bind(R.id.expand_view)
@@ -338,60 +337,61 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             }
         });
 
-        arrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (rotateCount[0] % 2 == 0) {
-                    Animation animation = new RotateAnimation(0, 180, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                    animation.setDuration(10);
-                    animation.setFillAfter(true);
-                    animation.setAnimationListener(new Animation.AnimationListener() {
-                        @Override
-                        public void onAnimationStart(Animation animation) {
-
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animation animation) {
-                            if (convertView == null) {
-                                convertView = viewStub.inflate();
-                                ListView listView = (ListView) convertView.findViewById(R.id.view_spot_list);
-                                listView.setEmptyView(findViewById(R.id.empty_view));
-                            }
-                            convertView.setVisibility(View.VISIBLE);
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animation animation) {
-
-                        }
-                    });
-                    arrow.startAnimation(animation);
-                } else {
-                    Animation animation = new RotateAnimation(180, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                    animation.setDuration(10);
-                    animation.setFillAfter(true);
-                    animation.setAnimationListener(new Animation.AnimationListener() {
-                        @Override
-                        public void onAnimationStart(Animation animation) {
-
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animation animation) {
-                            viewStub.setVisibility(View.GONE);
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animation animation) {
-
-                        }
-                    });
-                    arrow.startAnimation(animation);
-                }
-                rotateCount[0]++;
-            }
-        });
+//        arrow.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (rotateCount[0] % 2 == 0) {
+//                    Animation animation = new RotateAnimation(0, 180, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+//                    animation.setDuration(10);
+//                    animation.setFillAfter(true);
+//                    animation.setAnimationListener(new Animation.AnimationListener() {
+//                        @Override
+//                        public void onAnimationStart(Animation animation) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onAnimationEnd(Animation animation) {
+//                            if (convertView == null) {
+//                                convertView = viewStub.inflate();
+//                                ListView listView = (ListView) convertView.findViewById(R.id.view_spot_list);
+//                                listView.setEmptyView(findViewById(R.id.empty_view_spot));
+//
+//                            }
+//                            convertView.setVisibility(View.VISIBLE);
+//                        }
+//
+//                        @Override
+//                        public void onAnimationRepeat(Animation animation) {
+//
+//                        }
+//                    });
+//                    arrow.startAnimation(animation);
+//                } else {
+//                    Animation animation = new RotateAnimation(180, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+//                    animation.setDuration(10);
+//                    animation.setFillAfter(true);
+//                    animation.setAnimationListener(new Animation.AnimationListener() {
+//                        @Override
+//                        public void onAnimationStart(Animation animation) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onAnimationEnd(Animation animation) {
+//                            viewStub.setVisibility(View.GONE);
+//                        }
+//
+//                        @Override
+//                        public void onAnimationRepeat(Animation animation) {
+//
+//                        }
+//                    });
+//                    arrow.startAnimation(animation);
+//                }
+//                rotateCount[0]++;
+//            }
+//        });
 
         detail.setOnClickListener(new View.OnClickListener() {
             @Override

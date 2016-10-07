@@ -9,6 +9,7 @@ import com.weather.byhieg.easyweather.Db.LoveCity;
 import com.weather.byhieg.easyweather.Db.LoveCityDao;
 import com.weather.byhieg.easyweather.Db.Province;
 import com.weather.byhieg.easyweather.Db.ProvinceDao;
+import com.weather.byhieg.easyweather.Db.ViewSpot;
 import com.weather.byhieg.easyweather.MyApplication;
 
 import java.io.ByteArrayInputStream;
@@ -287,5 +288,19 @@ public class HandleDaoData {
      */
     public static void deleteCity(String cityName) {
         MyApplication.getDaoSession().getLoveCityDao().delete(getLoveCity(cityName));
+    }
+
+
+    /******************************************************************************************
+     * 对ViewSpotDao进行的操作
+     *******************************************************************************************/
+
+    public static void insertViewSpot(ViewSpot viewSpot) {
+        MyApplication.getDaoSession().getViewSpotDao().insert(viewSpot);
+    }
+
+    public static boolean isExistInViewSpot(){
+        ViewSpot viewSpot = MyApplication.getDaoSession().getViewSpotDao().loadByRowId(1);
+        return viewSpot != null;
     }
 }
