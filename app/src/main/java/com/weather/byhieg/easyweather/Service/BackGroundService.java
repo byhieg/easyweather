@@ -36,12 +36,15 @@ public class BackGroundService extends IntentService {
             final String action = intent.getAction();
             if (StartActivity.getActionGetWeather().equals(action)) {
                 getWeatherData();
-            } else if (StartActivity.getActionAddCity().equals(action)) {
+            }else if (StartActivity.getActionAddCity().equals(action)) {
                 try {
                     addCityData();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            } else if (StartActivity.getActionStartNotification().equals(action)) {
+                LogUtils.e("back","asdasdas");
+                startService(new Intent(this, NotificationService.class));
             }
         }
     }

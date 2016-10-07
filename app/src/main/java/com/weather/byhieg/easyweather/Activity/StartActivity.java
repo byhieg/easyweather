@@ -12,12 +12,14 @@ public class StartActivity extends BaseActivity {
 
     private static final String ACTION_ADD_CITY = "com.weather.byhieg.easyweather.Activity.action.addCity";
     private static final String ACTION_GET_WEATHER = "com.weather.byhieg.easyweather.Activity.action.getWeather";
+    private static final String ACTION_START_NOTIFICATION = "com.weather.byhieg.easyweather.Activity.action.notification";
 
 
     @Override
     public void initData() {
         startGetWeatherService();
         startAddCityService();
+        startNotificationService();
     }
 
     @Override
@@ -58,9 +60,19 @@ public class StartActivity extends BaseActivity {
         startService(intent);
     }
 
+    private void startNotificationService(){
+        Intent intent = new Intent(this, BackGroundService.class);
+        intent.setAction(ACTION_START_NOTIFICATION);
+        startService(intent);
+    }
+
     public static String getActionAddCity() {
 
         return ACTION_ADD_CITY;
+    }
+
+    public static String getActionStartNotification() {
+        return ACTION_START_NOTIFICATION;
     }
 
     public static String getActionGetWeather() {

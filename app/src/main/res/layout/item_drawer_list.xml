@@ -30,10 +30,10 @@
 
     <ImageView
         android:id="@+id/arrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_centerVertical="true"
-        android:src="@mipmap/ic_arrow_drop_up_black_24dp"
+        android:src="@mipmap/ic_arrow_drop_up_black_36dp"
         android:layout_alignParentRight="true"
         android:visibility="visible"/>
 </RelativeLayout>

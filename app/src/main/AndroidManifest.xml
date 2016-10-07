@@ -54,6 +54,9 @@
         <service
             android:name=".Service.BackGroundService"
             android:exported="false" />
+        <service
+            android:name=".Service.NotificationService"
+            android:exported="false" />
 
         <activity
             android:name=".Activity.SplashActivity"
@@ -111,6 +114,8 @@
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
+
+
 
         <activity
             android:name=".Activity.LoveAppActivity"

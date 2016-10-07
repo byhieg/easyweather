@@ -1,7 +1,6 @@
 package com.weather.byhieg.easyweather.Tools;
 
 import com.example.byhieglibrary.Net.HttpUtils;
-import com.example.byhieglibrary.Utils.LogUtils;
 import com.example.byhieglibrary.Utils.StringUtils;
 import com.google.gson.Gson;
 import com.weather.byhieg.easyweather.Bean.WeatherBean;
@@ -44,7 +43,6 @@ public class NetTool {
             Date nowDate = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
             if((nowDate.getTime() - (HandleDaoData.getCityWeather(cityName)).getUpdateTime().getTime()) > 1000 * 60 * UPDATERATE){
                 Response netResponse = HttpUtils.getAsyn(url);
-                LogUtils.e("NetTool","确实更新了天气");
                 String response = StringUtils.delPosOfString(netResponse.body().string(), pos);
                 WeatherBean weatherBean = gson.fromJson(response, WeatherBean.class);
                 HandleDaoData.updateCityWeather(PutDaoData.putWeatherData(weatherBean));
