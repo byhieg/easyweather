@@ -59,6 +59,7 @@ import com.weather.byhieg.easyweather.Db.LoveCity;
 import com.weather.byhieg.easyweather.Interface.MyItemClickListener;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
+import com.weather.byhieg.easyweather.Service.NotificationService;
 import com.weather.byhieg.easyweather.Tools.Constants;
 import com.weather.byhieg.easyweather.Tools.HandleDaoData;
 import com.weather.byhieg.easyweather.Tools.MyJson;
@@ -574,6 +575,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                    startService(new Intent(MainActivity.this, NotificationService.class));
                     break;
 
                 case FAILURE_REFRESH:
@@ -740,6 +742,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             getHoursData();
             try {
                 updateView(HandleDaoData.getWeatherBean(HandleDaoData.getShowCity()));
+                startService(new Intent(MainActivity.this, NotificationService.class));
             } catch (Exception e) {
                 e.printStackTrace();
             }

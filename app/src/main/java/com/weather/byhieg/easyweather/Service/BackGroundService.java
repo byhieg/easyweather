@@ -12,6 +12,7 @@ import com.weather.byhieg.easyweather.Bean.UrlCity;
 import com.weather.byhieg.easyweather.Db.City;
 import com.weather.byhieg.easyweather.Db.LoveCity;
 import com.weather.byhieg.easyweather.Db.Province;
+import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.Tools.HandleDaoData;
 import com.weather.byhieg.easyweather.Tools.NetTool;
@@ -43,15 +44,10 @@ public class BackGroundService extends IntentService {
                     e.printStackTrace();
                 }
             } else if (StartActivity.getActionStartNotification().equals(action)) {
-                startService(new Intent(this, NotificationService.class));
+                if (MyApplication.notification()) {
+                    startService(new Intent(this, NotificationService.class));
+                }
             }
-//            else if (StartActivity.getActionAddViewspot().equals(action)) {
-//                try {
-//                    addViewSpot();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
         }
     }
 

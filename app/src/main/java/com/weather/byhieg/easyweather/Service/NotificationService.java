@@ -9,12 +9,15 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.widget.RemoteViews;
 
+import com.example.byhieglibrary.Utils.LogUtils;
 import com.weather.byhieg.easyweather.Activity.MainActivity;
 import com.weather.byhieg.easyweather.Bean.WeatherBean;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.Tools.HandleDaoData;
 import com.weather.byhieg.easyweather.Tools.MyJson;
 import com.weather.byhieg.easyweather.Tools.WeatherIcon;
+
+import static com.weather.byhieg.easyweather.Tools.Constants.NOTIFICATION_ID;
 
 /**
  * Created by byhieg on 16-10-7.
@@ -40,7 +43,7 @@ public class NotificationService extends Service{
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
+        LogUtils.e("notificaiton","启动了");
         try {
             notificationWeather = HandleDaoData.getWeatherBean(HandleDaoData.getShowCity());
         } catch (Exception e) {
@@ -64,8 +67,15 @@ public class NotificationService extends Service{
         String exerciseStr = "运动情况:" + MyJson.getWeather(notificationWeather).getSuggestion().getSport().getBrf();
         contentViews.setTextViewText(R.id.exercise_text,exerciseStr);
         notification.contentView = contentViews;
-        notificationManager.notify(1, notification);
-        startForeground(1, notification);
+        notificationManager.notify(NOTIFICATION_ID, notification);
+        startForeground(NOTIFICATION_ID, notification);
+        LogUtils.e("notificaiton","真没有");
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
+    public void onDestroy() {
+        stopForeground(true);
+        super.onDestroy();
     }
 }

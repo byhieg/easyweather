@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 
+import com.weather.byhieg.easyweather.MyApplication;
+
 public class WeatherWidgetService extends Service {
 
     public WeatherWidgetService() {
@@ -26,9 +28,7 @@ public class WeatherWidgetService extends Service {
         // 创建并开启线程UpdateThread
         mUpdateThread = new UpdateThread();
         mUpdateThread.start();
-
         mContext = this.getApplicationContext();
-
         super.onCreate();
     }
 
@@ -38,7 +38,6 @@ public class WeatherWidgetService extends Service {
         if (mUpdateThread != null) {
             mUpdateThread.interrupt();
         }
-
         super.onDestroy();
     }
 
@@ -52,27 +51,22 @@ public class WeatherWidgetService extends Service {
      */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
         super.onStartCommand(intent, flags, startId);
-
         return START_STICKY;
     }
 
     private class UpdateThread extends Thread {
-
         @Override
         public void run() {
             super.run();
-
             try {
                 count = 0;
                 while (true) {
-
                     count++;
-
                     Intent updateIntent=new Intent(ACTION_UPDATE_ALL);
-                    mContext.sendBroadcast(updateIntent);
-
+                    if (MyApplication.widget()) {
+                        mContext.sendBroadcast(updateIntent);
+                    }
                     Thread.sleep(UPDATE_TIME);
                 }
             } catch (InterruptedException e) {

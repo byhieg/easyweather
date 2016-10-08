@@ -21,15 +21,13 @@ public class MyApplication extends Application{
 
     private static final String cityUrl = "https://api.heweather.com/x3/weather";
     private static final String heweatherKey = "93d476b872724a9681a642dce28c6523";
-    private static final String weatherCodeUrl = "http://files.heweather.com/cond_icon/";
 
     public static final String shareFilename1 ="nightMode";
     public static final String shareFilename2 ="nightMode2";
     public static final String logFilename = "log";
+    public static final String notificationname = "notification";
+    public static final String widgetname = "widget";
 
-    public static String getWeatherCodeUrl() {
-        return weatherCodeUrl;
-    }
 
     public static DaoMaster getDaoMaster() {
 
@@ -85,6 +83,19 @@ public class MyApplication extends Application{
 
     public static boolean log(){
         SharedPreferences share = mcontext.getSharedPreferences(logFilename, MODE_PRIVATE);
+        boolean ischecked = share.getBoolean("ischecked",true);
+        return ischecked;
+    }
+
+
+    public static boolean notification(){
+        SharedPreferences share = mcontext.getSharedPreferences(notificationname, MODE_PRIVATE);
+        boolean ischecked = share.getBoolean("ischecked",true);
+        return ischecked;
+    }
+
+    public static boolean widget(){
+        SharedPreferences share = mcontext.getSharedPreferences(widgetname, MODE_PRIVATE);
         boolean ischecked = share.getBoolean("ischecked",true);
         return ischecked;
     }

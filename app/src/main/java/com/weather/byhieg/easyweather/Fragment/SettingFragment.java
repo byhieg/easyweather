@@ -2,6 +2,7 @@ package com.weather.byhieg.easyweather.Fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.widget.Switch;
 import com.example.byhieglibrary.Activity.BaseFragment;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
+import com.weather.byhieg.easyweather.Service.NotificationService;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,7 +38,6 @@ public class SettingFragment extends BaseFragment {
         if (MyApplication.nightMode2()) {
             initNightView(R.layout.night_mode_overlay);
         }
-
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
         initView(view);
         return view;
@@ -44,25 +45,42 @@ public class SettingFragment extends BaseFragment {
 
     private void initView(View view) {
         Switch logSwitch = (Switch) view.findViewById(R.id.log_switch);
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyApplication.logFilename, getActivity().MODE_PRIVATE);
-        boolean checked = sharedPreferences.getBoolean("ischecked", true);
-        logSwitch.setChecked(checked);
-        switchStatus(logSwitch, MyApplication.logFilename);
+        SharedPreferences log = getActivity().getSharedPreferences(MyApplication.logFilename, getActivity().MODE_PRIVATE);
+        boolean logChecked = log.getBoolean("ischecked", true);
+        logSwitch.setChecked(logChecked);
+        switchStatus(logSwitch, MyApplication.logFilename,1);
+
+
+        Switch notificationSwitch = (Switch) view.findViewById(R.id.notification_switch);
+        SharedPreferences notification = getActivity().getSharedPreferences(MyApplication.notificationname, getActivity().MODE_PRIVATE);
+        boolean notificationChecked = notification.getBoolean("ischecked", true);
+        notificationSwitch.setChecked(notificationChecked);
+        switchStatus(notificationSwitch, MyApplication.notificationname,2);
+
+        Switch widgetSwitch = (Switch) view.findViewById(R.id.widget_switch);
+        SharedPreferences widget = getActivity().getSharedPreferences(MyApplication.widgetname, getActivity().MODE_PRIVATE);
+        boolean widgetChecked = widget.getBoolean("ischecked", true);
+        widgetSwitch.setChecked(widgetChecked);
+        switchStatus(widgetSwitch, MyApplication.widgetname,3);
     }
 
-    public void switchStatus(Switch aSwitch, final String fileName) {
+    public void switchStatus(Switch aSwitch, final String fileName, final int flag) {
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SharedPreferences settings = getActivity().getSharedPreferences(fileName, Context.MODE_PRIVATE);
                 SharedPreferences.Editor edit = settings.edit();
                 edit.putBoolean("ischecked", isChecked);
-                edit.commit();
-//                if (isChecked) {
-//                    initNightView(R.layout.night_mode_overlay);
-//                } else {
-//                    removeNightView();
-//                }
+                edit.apply();
+                if (isChecked) {
+                    if (flag == 2) {
+                        getActivity().startService(new Intent(getActivity(), NotificationService.class));
+                    }
+                }else{
+                    if (flag == 2) {
+                        getActivity().stopService(new Intent(getActivity(), NotificationService.class));
+                    }
+                }
             }
 
         });

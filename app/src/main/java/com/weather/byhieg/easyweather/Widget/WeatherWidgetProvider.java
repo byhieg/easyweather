@@ -4,17 +4,13 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Bundle;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.weather.byhieg.easyweather.Bean.WeatherBean;
-import com.weather.byhieg.easyweather.Db.CityWeather;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.Tools.HandleDaoData;
 import com.weather.byhieg.easyweather.Tools.MyJson;
+import com.weather.byhieg.easyweather.Tools.WeatherIcon;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -96,8 +92,7 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
             RemoteViews remoteView = new RemoteViews(context.getPackageName(), R.layout.weather_appwidget);
             remoteView.setTextViewText(R.id.widget_city,cityName);
             remoteView.setTextViewText(R.id.widget_temperature,temp+"℃");
-            Bitmap weather= BitmapFactory.decodeResource(context.getResources(),R.mipmap.cloudy2);
-            remoteView.setImageViewBitmap(R.id.widget_weather_img,weather);
+            remoteView.setImageViewResource(R.id.widget_weather_img, WeatherIcon.getWeatherColor(MyJson.getWeather(getCityData()).getNow().getCond().getCode()));
             remoteView.setTextViewText(R.id.widget_weather_text,cond);
             // 更新 widget
             appWidgetManager.updateAppWidget(appID, remoteView);

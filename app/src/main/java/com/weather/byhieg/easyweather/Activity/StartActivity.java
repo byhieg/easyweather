@@ -20,7 +20,6 @@ public class StartActivity extends BaseActivity {
         startGetWeatherService();
         startAddCityService();
         startNotificationService();
-        startGetViewSpotService();
     }
 
     @Override

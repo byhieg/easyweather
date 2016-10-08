@@ -23,6 +23,9 @@ public class Constants implements Serializable{
     public static final int PERMISSION = 0x201;
 
 
+    public static final int NOTIFICATION_ID = 0X301;
+
+
 
 
 }
