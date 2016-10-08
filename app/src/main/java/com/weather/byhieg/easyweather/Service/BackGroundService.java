@@ -80,7 +80,6 @@ public class BackGroundService extends IntentService {
             while ((line = reader.readLine()) != null) {
                 sb.append(line);
             }
-
             UrlCity urlCity = gson.fromJson(sb.toString(), UrlCity.class);
             for (int i = 0; i < urlCity.getCity_info().size(); i++) {
                 City city = new City();
@@ -90,6 +89,7 @@ public class BackGroundService extends IntentService {
                 HandleDaoData.insertCity(city);
             }
         }
+
     }
 
 //    private void addViewSpot() throws IOException {

@@ -8,7 +8,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.example.byhieglibrary.Activity.BaseActivity;
-import com.example.byhieglibrary.Utils.LogUtils;
+import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 
 import butterknife.Bind;
@@ -35,8 +35,7 @@ public class WikiResultActivity extends BaseActivity {
     public void initData() {
         tag = getIntent().getBundleExtra("result").getString("keyWord");
         link = getIntent().getBundleExtra("result").getString("url");
-        LogUtils.e("tag",tag);
-        LogUtils.e("link",link);
+
     }
 
     @Override
@@ -88,6 +87,20 @@ public class WikiResultActivity extends BaseActivity {
 
     @Override
     public void initTheme() {
+        if(MyApplication.nightMode()){
+            setTheme(R.style.NightTheme);
+        }else {
+            setTheme(R.style.DayTheme);
+        }
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(MyApplication.nightMode2()){
+            initNightView(R.layout.night_mode_overlay);
+        }else {
+            removeNightView();
+        }
     }
 }

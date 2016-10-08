@@ -52,4 +52,9 @@
 
         <item name="textColor">@color/white</item>
     </style>
+
+    <!--Dialog 夜间模式-->
+    <style name="NightDialog" parent="android:Theme.Holo.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
 </resources>

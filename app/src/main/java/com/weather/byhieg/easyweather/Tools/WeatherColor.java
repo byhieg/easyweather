@@ -9,6 +9,7 @@ import com.weather.byhieg.easyweather.R;
 public class WeatherColor {
 
     public static int getWeatherColor(String weatherCode){
+        if(weatherCode == null) return R.color.white;
         int code = Integer.parseInt(weatherCode);
         if (code == 100) {
             return R.color.sunny;

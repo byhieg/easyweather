@@ -76,7 +76,11 @@ public class CityManageActivity extends BaseActivity {
 
     @Override
     public void initTheme() {
-
+        if(MyApplication.nightMode()){
+            setTheme(R.style.NightTheme);
+        }else {
+            setTheme(R.style.DayTheme);
+        }
     }
 
 
@@ -89,15 +93,17 @@ public class CityManageActivity extends BaseActivity {
             String name = loveCities.get(i).getCitynName();
             try {
                 WeatherBean weatherBean = HandleDaoData.getWeatherBean(name);
-                context.setTime(new SimpleDateFormat("HH:mm").
-                        format(HandleDaoData.getCityWeather(name).
-                                getUpdateTime()));
+                if (weatherBean != null) {
+                    context.setTime(new SimpleDateFormat("HH:mm").
+                            format(HandleDaoData.getCityWeather(name).
+                                    getUpdateTime()));
 
-                context.setTmp(MyJson.getWeather(weatherBean).getNow().getTmp());
-                context.setHum(MyJson.getWeather(weatherBean).getNow().getHum());
-                context.setCond(MyJson.getWeather(weatherBean).getNow().getCond().getTxt());
-                context.setCityName(name);
-                context.setCode(MyJson.getWeather(weatherBean).getNow().getCond().getCode());
+                    context.setTmp(MyJson.getWeather(weatherBean).getNow().getTmp());
+                    context.setHum(MyJson.getWeather(weatherBean).getNow().getHum());
+                    context.setCond(MyJson.getWeather(weatherBean).getNow().getCond().getTxt());
+                    context.setCityName(name);
+                    context.setCode(MyJson.getWeather(weatherBean).getNow().getCond().getCode());
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -132,7 +138,13 @@ public class CityManageActivity extends BaseActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 final String name = ((CityManageContext) parent.getItemAtPosition(position)).getCityName();
-                new AlertDialog.Builder(CityManageActivity.this).setMessage("是否将" + name + "设置为首页城市").
+                AlertDialog.Builder dialogBuilder;
+                if (MyApplication.nightMode2()){
+                    dialogBuilder  = new AlertDialog.Builder(CityManageActivity.this, R.style.NightDialog);
+                }else{
+                    dialogBuilder = new AlertDialog.Builder(CityManageActivity.this);
+                }
+                dialogBuilder.setMessage("是否将" + name + "设置为首页城市").
                         setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -163,7 +175,13 @@ public class CityManageActivity extends BaseActivity {
             public void removeItem(SlideCutListView.RemoveDirection direction, int position) {
                 String name = ((CityManageContext)adapter.getItem(position)).getCityName();
                 if (name.equals(HandleDaoData.getShowCity())) {
-                    new AlertDialog.Builder(CityManageActivity.this).setMessage("该城市为首页城市，无法删除，如要删除，请指定另一首页城市").
+                    AlertDialog.Builder dialogBuilder;
+                    if (MyApplication.nightMode2()){
+                        dialogBuilder  = new AlertDialog.Builder(CityManageActivity.this, R.style.NightDialog);
+                    }else{
+                        dialogBuilder = new AlertDialog.Builder(CityManageActivity.this);
+                    }
+                    dialogBuilder.setMessage("该城市为首页城市，无法删除，如要删除，请指定另一首页城市").
                             setPositiveButton("恩", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {

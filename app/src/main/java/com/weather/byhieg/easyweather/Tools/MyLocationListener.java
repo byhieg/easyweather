@@ -11,6 +11,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.weather.byhieg.easyweather.Db.LoveCity;
 import com.weather.byhieg.easyweather.MyApplication;
+import com.weather.byhieg.easyweather.R;
 
 /**
  * Created by wy on 2016/9/28.
@@ -19,7 +20,7 @@ import com.weather.byhieg.easyweather.MyApplication;
 public class MyLocationListener implements BDLocationListener {
 
     private Context context;
-    private AlertDialog dialog;
+    private AlertDialog.Builder dialogBuilder;
 
     public MyLocationListener() {
     }
@@ -34,7 +35,12 @@ public class MyLocationListener implements BDLocationListener {
         if(city != null){
             final String name = city.substring(0,city.length() - 1);
             try {
-                dialog = new AlertDialog.Builder(context).setTitle("系统提示").setMessage("当前定位到的城市为：" + name + ",是否将该城市设为首页").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                if (MyApplication.nightMode2()){
+                    dialogBuilder  = new AlertDialog.Builder(context, R.style.NightDialog);
+                }else{
+                    dialogBuilder = new AlertDialog.Builder(context);
+                }
+                dialogBuilder.setTitle("系统提示").setMessage("当前定位到的城市为：" + name + ",是否将该城市设为首页").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (HandleDaoData.isExistInLoveCity(name)) {

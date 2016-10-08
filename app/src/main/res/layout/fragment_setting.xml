@@ -32,30 +32,30 @@
             android:layout_alignParentRight="true" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="@dimen/common_horizontal_margin"
-        android:background="@color/white"
-        android:paddingLeft="@dimen/common_vertical_margin"
-        android:paddingRight="@dimen/common_vertical_margin">
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="40dp"-->
+        <!--android:layout_marginTop="@dimen/common_horizontal_margin"-->
+        <!--android:background="@color/white"-->
+        <!--android:paddingLeft="@dimen/common_vertical_margin"-->
+        <!--android:paddingRight="@dimen/common_vertical_margin">-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="是否清除缓存"
-            android:textColor="@color/black"
-            android:textSize="@dimen/itemTextSize"
-            android:layout_centerVertical="true"/>
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="是否清除缓存"-->
+            <!--android:textColor="@color/black"-->
+            <!--android:textSize="@dimen/itemTextSize"-->
+            <!--android:layout_centerVertical="true"/>-->
 
-        <Switch
-            android:layout_centerVertical="true"
-            android:id="@+id/cache_switch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="false"
-            android:layout_alignParentRight="true" />
-    </RelativeLayout>
+        <!--<Switch-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:id="@+id/cache_switch"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:checked="false"-->
+            <!--android:layout_alignParentRight="true" />-->
+    <!--</RelativeLayout>-->
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -71,15 +71,16 @@
             android:text="保持小控件时间同步"
             android:textColor="@color/black"
             android:textSize="@dimen/itemTextSize"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:id="@+id/textView2" />
 
         <Switch
-            android:layout_centerVertical="true"
             android:id="@+id/widget_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:layout_alignParentRight="true" />
+            android:layout_alignTop="@+id/textView2"
+            android:layout_alignParentEnd="true" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -93,7 +94,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="错误日志发送给开发者"
+            android:text="开启崩溃日志收集"
             android:textColor="@color/black"
             android:textSize="@dimen/itemTextSize"
             android:layout_centerVertical="true"/>
@@ -103,33 +104,33 @@
             android:id="@+id/log_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="false"
+            android:checked="true"
             android:layout_alignParentRight="true" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="@dimen/common_horizontal_margin"
-        android:background="@color/white"
-        android:paddingLeft="@dimen/common_vertical_margin"
-        android:paddingRight="@dimen/common_vertical_margin">
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="40dp"-->
+        <!--android:layout_marginTop="@dimen/common_horizontal_margin"-->
+        <!--android:background="@color/white"-->
+        <!--android:paddingLeft="@dimen/common_vertical_margin"-->
+        <!--android:paddingRight="@dimen/common_vertical_margin">-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="自动检查版本更新"
-            android:textColor="@color/black"
-            android:textSize="@dimen/itemTextSize"
-            android:layout_centerVertical="true"/>
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="自动检查版本更新"-->
+            <!--android:textColor="@color/black"-->
+            <!--android:textSize="@dimen/itemTextSize"-->
+            <!--android:layout_centerVertical="true"/>-->
 
-        <Switch
-            android:layout_centerVertical="true"
-            android:id="@+id/vision_switch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="false"
-            android:layout_alignParentRight="true" />
-    </RelativeLayout>
+        <!--<Switch-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:id="@+id/vision_switch"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:checked="false"-->
+            <!--android:layout_alignParentRight="true" />-->
+    <!--</RelativeLayout>-->
 
 </LinearLayout>

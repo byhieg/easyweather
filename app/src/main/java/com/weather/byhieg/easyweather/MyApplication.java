@@ -7,6 +7,9 @@ import android.content.SharedPreferences;
 import com.baidu.location.LocationClient;
 import com.weather.byhieg.easyweather.Db.DaoMaster;
 import com.weather.byhieg.easyweather.Db.DaoSession;
+import com.weather.byhieg.easyweather.Tools.CrashHandler;
+
+import cat.ereza.customactivityoncrash.CustomActivityOnCrash;
 
 public class MyApplication extends Application{
 
@@ -22,7 +25,7 @@ public class MyApplication extends Application{
 
     public static final String shareFilename1 ="nightMode";
     public static final String shareFilename2 ="nightMode2";
-
+    public static final String logFilename = "log";
 
     public static String getWeatherCodeUrl() {
         return weatherCodeUrl;
@@ -48,7 +51,10 @@ public class MyApplication extends Application{
     public void onCreate() {
         super.onCreate();
         mcontext = this;
-
+        CustomActivityOnCrash.install(this);
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(this);
+        crashHandler.sendPreviousReportsToServer();
     }
 
     public static Context getAppContext() {
@@ -72,7 +78,14 @@ public class MyApplication extends Application{
 
     public static boolean nightMode2(){
         SharedPreferences share = mcontext.getSharedPreferences(shareFilename2, MODE_PRIVATE);
-        boolean ischecked=share.getBoolean("ischecked",false);
+        boolean ischecked = share.getBoolean("ischecked",false);
+        return ischecked;
+    }
+
+
+    public static boolean log(){
+        SharedPreferences share = mcontext.getSharedPreferences(logFilename, MODE_PRIVATE);
+        boolean ischecked = share.getBoolean("ischecked",true);
         return ischecked;
     }
 

@@ -10,6 +10,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.example.byhieglibrary.Activity.BaseActivity;
+import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 
 import butterknife.Bind;
@@ -90,25 +91,34 @@ public class LoveAppActivity extends BaseActivity {
 
     @Override
     public void initTheme() {
-
+        if(MyApplication.nightMode()){
+            setTheme(R.style.NightTheme);
+        }else {
+            setTheme(R.style.DayTheme);
+        }
     }
 
     //设置返回键动作（防止按返回键直接退出程序)
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        // TODO 自动生成的方法存根
         if(keyCode==KeyEvent.KEYCODE_BACK) {
             if(webView.canGoBack()) {//当webview不是处于第一页面时，返回上一个页面
                 webView.goBack();
                 return true;
-            }
-            else {//当webview处于第一页面时,直接退出程序
+            }else {//当webview处于第一页面时,直接退出程序
                 finish();
             }
-
-
         }
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(MyApplication.nightMode2()){
+            initNightView(R.layout.night_mode_overlay);
+        }else {
+            removeNightView();
+        }
+    }
 }

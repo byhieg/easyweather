@@ -109,8 +109,11 @@ public class HandleDaoData {
                                   getCityWeatherDao().
                                   queryBuilder().
                                   where(CityWeatherDao.Properties.CityName.eq(cityName)).list();
-
-        return cityWeathers.get(cityWeathers.size() - 1);
+        if (cityWeathers.size() != 0) {
+            return cityWeathers.get(cityWeathers.size() - 1);
+        }else {
+            return null;
+        }
 
     }
 

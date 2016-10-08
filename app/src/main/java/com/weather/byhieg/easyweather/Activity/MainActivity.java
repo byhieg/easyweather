@@ -179,7 +179,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private ArrayList<DrawerContext> drawerList = new ArrayList<>();
     private WeatherBean weatherBean;
     private int[] rotateCount = {0, 0};
-    private View convertView;
     private List<HoursWeather> hoursWeathers = new ArrayList<>();
     private NetworkChangeReceiver networkChangeReceiver;
     private MyHandler handler = new MyHandler();
@@ -282,7 +281,11 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     @Override
     public void initTheme() {
-
+        if(MyApplication.nightMode()){
+            setTheme(R.style.NightTheme);
+        }else {
+            setTheme(R.style.DayTheme);
+        }
     }
 
     @Override
@@ -292,7 +295,13 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.feedback:
-                        new AlertDialog.Builder(MainActivity.this).setTitle("反馈").setMessage("在使用过程中，有任何问题均可以发送到邮箱：byhieg@gmail.com").setPositiveButton("恩", new DialogInterface.OnClickListener() {
+                        AlertDialog.Builder dialogBuilder;
+                        if (MyApplication.nightMode2()){
+                           dialogBuilder  = new AlertDialog.Builder(MainActivity.this, R.style.NightDialog);
+                        }else{
+                            dialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                        }
+                       dialogBuilder.setTitle("反馈").setMessage("在使用过程中，有任何问题均可以发送到邮箱：byhieg@gmail.com").setPositiveButton("恩", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
@@ -336,62 +345,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 return true;
             }
         });
-
-//        arrow.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (rotateCount[0] % 2 == 0) {
-//                    Animation animation = new RotateAnimation(0, 180, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-//                    animation.setDuration(10);
-//                    animation.setFillAfter(true);
-//                    animation.setAnimationListener(new Animation.AnimationListener() {
-//                        @Override
-//                        public void onAnimationStart(Animation animation) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onAnimationEnd(Animation animation) {
-//                            if (convertView == null) {
-//                                convertView = viewStub.inflate();
-//                                ListView listView = (ListView) convertView.findViewById(R.id.view_spot_list);
-//                                listView.setEmptyView(findViewById(R.id.empty_view_spot));
-//
-//                            }
-//                            convertView.setVisibility(View.VISIBLE);
-//                        }
-//
-//                        @Override
-//                        public void onAnimationRepeat(Animation animation) {
-//
-//                        }
-//                    });
-//                    arrow.startAnimation(animation);
-//                } else {
-//                    Animation animation = new RotateAnimation(180, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-//                    animation.setDuration(10);
-//                    animation.setFillAfter(true);
-//                    animation.setAnimationListener(new Animation.AnimationListener() {
-//                        @Override
-//                        public void onAnimationStart(Animation animation) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onAnimationEnd(Animation animation) {
-//                            viewStub.setVisibility(View.GONE);
-//                        }
-//
-//                        @Override
-//                        public void onAnimationRepeat(Animation animation) {
-//
-//                        }
-//                    });
-//                    arrow.startAnimation(animation);
-//                }
-//                rotateCount[0]++;
-//            }
-//        });
 
         detail.setOnClickListener(new View.OnClickListener() {
             @Override
