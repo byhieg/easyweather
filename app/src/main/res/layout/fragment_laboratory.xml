@@ -1,15 +1,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="?attr/layoutBackground"
-    tools:context="com.weather.byhieg.easyweather.Fragment.LaboratoryFragment">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:background="?attr/layoutBackground"
+              tools:context="com.weather.byhieg.easyweather.Fragment.LaboratoryFragment">
 
     <include layout="@layout/night_mode" android:id="@+id/item1">
     </include>
-
-
-
 
 </LinearLayout>

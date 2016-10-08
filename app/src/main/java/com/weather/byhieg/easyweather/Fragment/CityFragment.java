@@ -54,7 +54,7 @@ public class CityFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        initData();
+  //      initData();
     }
 
     @Override
@@ -66,6 +66,7 @@ public class CityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        initData();
         handler = new Handler();
         myHandler = new CityManageActivity.MyHandler(new CityManageActivity());
         adapter = new CityListAdapter(cities, getActivity());
