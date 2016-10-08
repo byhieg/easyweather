@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.byhieglibrary.Activity.BaseFragment;
+import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 
 /**
@@ -31,6 +32,11 @@ public class AboutFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        getActivity().setTheme(R.style.DayTheme);
+        if (MyApplication.nightMode2()) {
+            initNightView(R.layout.night_mode_overlay);
+        }
+
         View view = inflater.inflate(R.layout.fragment_about, container, false);
         TextView tv = (TextView) view.findViewById(R.id.link);
         String textStr = "https://github.com/byhieg/easyweather";

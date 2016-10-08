@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.byhieglibrary.Activity.BaseFragment;
+import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 
 /**
@@ -27,6 +28,10 @@ public class SettingFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        getActivity().setTheme(R.style.DayTheme);
+        if (MyApplication.nightMode2()) {
+            initNightView(R.layout.night_mode_overlay);
+        }
         return inflater.inflate(R.layout.fragment_setting, container, false);
     }
 

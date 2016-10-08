@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.byhieglibrary.Activity.BaseFragment;
 import com.weather.byhieg.easyweather.Activity.WikiResultActivity;
+import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
@@ -34,6 +35,10 @@ public class WikiFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        getActivity().setTheme(R.style.DayTheme);
+        if (MyApplication.nightMode2()) {
+            initNightView(R.layout.night_mode_overlay);
+        }
         View view = inflater.inflate(R.layout.fragment_wiki, container, false);
         initData();
         initView(view);

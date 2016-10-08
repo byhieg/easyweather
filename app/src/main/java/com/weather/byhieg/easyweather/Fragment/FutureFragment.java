@@ -14,6 +14,7 @@ import com.example.byhieglibrary.Utils.DateUtil;
 import com.weather.byhieg.easyweather.Adapter.FutureListAdapter;
 import com.weather.byhieg.easyweather.Bean.FutureContext;
 import com.weather.byhieg.easyweather.Bean.WeatherBean;
+import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.Tools.HandleDaoData;
 import com.weather.byhieg.easyweather.Tools.MyJson;
@@ -39,6 +40,11 @@ public class FutureFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+        getActivity().setTheme(R.style.DayTheme);
+        if (MyApplication.nightMode2()) {
+            initNightView(R.layout.night_mode_overlay);
+        }
         View view = inflater.inflate(R.layout.fragment_future, container, false);
         initView(view);
         return view;

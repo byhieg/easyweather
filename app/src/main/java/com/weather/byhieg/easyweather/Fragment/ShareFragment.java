@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.example.byhieglibrary.Activity.BaseFragment;
 import com.example.byhieglibrary.Utils.ShareContent;
+import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.Tools.ImageUtils;
 
@@ -31,6 +32,10 @@ public class ShareFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        getActivity().setTheme(R.style.DayTheme);
+        if (MyApplication.nightMode2()) {
+            initNightView(R.layout.night_mode_overlay);
+        }
         View view = inflater.inflate(R.layout.fragment_share, container, false);
         initView(view);
         return view;
