@@ -34,5 +34,4 @@ dependencies {
     compile 'org.jetbrains:annotations-java5:15.0'
     compile 'com.zhy:flowlayout-lib:1.0.3'
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
-    compile 'cat.ereza:customactivityoncrash:1.5.0'
 }

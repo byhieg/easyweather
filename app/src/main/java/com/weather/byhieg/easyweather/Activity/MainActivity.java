@@ -418,7 +418,9 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private void updateView(WeatherBean weatherBean) throws ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         date.setText("今天" + simpleDateFormat.format(new Date()));
-        weekWeatherView.notifyDateChanged();
+        if(MyApplication.isNewDay){
+            weekWeatherView.notifyDateChanged();
+        }
         Date sqlDate = HandleDaoData.getCityWeather(HandleDaoData.getShowCity()).getUpdateTime();
         long time = DateUtil.getDifferenceofDate(new Date(), sqlDate) / (1000 * 60);
         if (time > 1000 * 60 * 60 || time < 0) {

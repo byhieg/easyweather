@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Handler;
 
 import com.example.byhieglibrary.Activity.BaseActivity;
-import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.Service.BackGroundService;
 
@@ -89,13 +88,5 @@ public class StartActivity extends BaseActivity {
         return ACTION_ADD_VIEWSPOT;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(MyApplication.nightMode2()){
-            initNightView(R.layout.night_mode_overlay);
-        }else {
-            removeNightView();
-        }
-    }
+
 }

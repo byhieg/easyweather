@@ -283,7 +283,7 @@ public class WeekWeatherView extends View {
     public void notifyDateChanged(){
         try {
             getData();
-            postInvalidate();
+            invalidate();
         } catch (Exception e) {
             e.printStackTrace();
         }

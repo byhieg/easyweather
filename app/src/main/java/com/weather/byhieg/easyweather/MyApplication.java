@@ -7,9 +7,6 @@ import android.content.SharedPreferences;
 import com.baidu.location.LocationClient;
 import com.weather.byhieg.easyweather.Db.DaoMaster;
 import com.weather.byhieg.easyweather.Db.DaoSession;
-import com.weather.byhieg.easyweather.Tools.CrashHandler;
-
-import cat.ereza.customactivityoncrash.CustomActivityOnCrash;
 
 public class MyApplication extends Application{
 
@@ -27,6 +24,8 @@ public class MyApplication extends Application{
     public static final String logFilename = "log";
     public static final String notificationname = "notification";
     public static final String widgetname = "widget";
+
+    public static boolean isNewDay = false;
 
 
     public static DaoMaster getDaoMaster() {
@@ -49,10 +48,9 @@ public class MyApplication extends Application{
     public void onCreate() {
         super.onCreate();
         mcontext = this;
-        CustomActivityOnCrash.install(this);
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(this);
-        crashHandler.sendPreviousReportsToServer();
+//        CrashHandler crashHandler = CrashHandler.getInstance();
+//        crashHandler.init(this);
+//        crashHandler.sendPreviousReportsToServer();
     }
 
     public static Context getAppContext() {
@@ -108,5 +106,7 @@ public class MyApplication extends Application{
         return mLocationClient;
     }
 
-
+    public static boolean isNewDay() {
+        return isNewDay;
+    }
 }
