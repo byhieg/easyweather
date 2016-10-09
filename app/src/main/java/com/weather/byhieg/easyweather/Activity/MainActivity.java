@@ -327,6 +327,8 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                                 MyApplication.getmLocationClient().start();
                                 LogUtils.e("Permissions","已经有权限了");
                             }
+                        }else{
+                            MyApplication.getmLocationClient().start();
                         }
 
                         break;
