@@ -78,6 +78,7 @@ import java.util.Locale;
 import butterknife.Bind;
 
 import static com.example.byhieglibrary.Utils.DisplayUtil.getViewHeight;
+import static com.weather.byhieg.easyweather.R.id.swipe_refresh;
 
 public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
@@ -140,7 +141,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     public ImageView refresh;
     @Bind(R.id.main_layout)
     public LinearLayout mainLayout;
-    @Bind(R.id.swipe_refresh)
+    @Bind(swipe_refresh)
     public SwipeRefreshLayout mSwipeLayout;
     @Bind(R.id.updateTime)
     public TextView updateTime;
@@ -218,15 +219,11 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             drawerList.add(drawerContext);
         }
         drawerListAdapter = new DrawerListAdapter(drawerList);
-
-
-
         try {
             weatherBean = HandleDaoData.getWeatherBean(HandleDaoData.getShowCity());
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         myListener = new MyLocationListener(this);
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
         IntentFilter intentFilter = new IntentFilter();
@@ -390,16 +387,12 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
             }
         });
-
         more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 showPopupWindow();
             }
         });
-
-
     }
 
 
@@ -416,11 +409,13 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
      */
     @SuppressLint("SimpleDateFormat")
     private void updateView(WeatherBean weatherBean) throws ParseException {
+        if(weatherBean == null) return;
+        mSwipeLayout.setVisibility(View.VISIBLE);
+        refresh.clearAnimation();
+        refresh.setVisibility(View.GONE);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         date.setText("今天" + simpleDateFormat.format(new Date()));
-        if(MyApplication.isNewDay){
-            weekWeatherView.notifyDateChanged();
-        }
+        weekWeatherView.notifyDateChanged();
         Date sqlDate = HandleDaoData.getCityWeather(HandleDaoData.getShowCity()).getUpdateTime();
         long time = DateUtil.getDifferenceofDate(new Date(), sqlDate) / (1000 * 60);
         if (time > 1000 * 60 * 60 || time < 0) {
@@ -477,13 +472,14 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
      */
 
     private void doRefreshInNoData() {
-        scrollView.setVisibility(View.GONE);
+        mSwipeLayout.setVisibility(View.GONE);
         refresh.setVisibility(View.VISIBLE);
         Animation animation = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         animation.setDuration(1000);
         animation.setRepeatCount(-1);
         animation.setInterpolator(new LinearInterpolator());
         refresh.startAnimation(animation);
+        showToast("从网络获取天气信息失败");
         new MyAsyncTask().execute(HandleDaoData.getShowCity());
     }
 
@@ -524,9 +520,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         protected void onPostExecute(String city) {
             if (HandleDaoData.isExistInCityWeather(city)) {
                 try {
-                    scrollView.setVisibility(View.VISIBLE);
-                    refresh.clearAnimation();
-                    refresh.setVisibility(View.GONE);
                     updateView(HandleDaoData.getWeatherBean(HandleDaoData.getShowCity()));
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -692,6 +685,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     private void getHoursData() {
         hoursWeathers.clear();
+        if(weatherBean == null) return;
         try {
             weatherBean = HandleDaoData.getWeatherBean(HandleDaoData.getShowCity());
             for (int i = 0; i < MyJson.getWeather(weatherBean).getHourly_forecast().size(); i++) {

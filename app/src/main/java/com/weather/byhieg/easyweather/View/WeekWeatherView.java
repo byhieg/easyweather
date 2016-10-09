@@ -259,6 +259,7 @@ public class WeekWeatherView extends View {
     private void getData() throws Exception {
         weekWeathers.clear();
         weatherBean = HandleDaoData.getWeatherBean(HandleDaoData.getShowCity());
+        if(weatherBean == null) return;
         for (int i = 0; i < MyJson.getWeather(weatherBean).getDaily_forecast().size(); i++) {
             WeekWeather weekWeather = new WeekWeather();
             String weatherCond = MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getCond().getTxt_d();

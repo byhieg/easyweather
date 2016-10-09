@@ -114,7 +114,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
             @Override
             public void run() {
                 Looper.prepare();
-                Toast toast = Toast.makeText(mContext, "程序出现BUG,马上反馈给程序员",
+                Toast toast = Toast.makeText(mContext, "程序出现问题,检查网络后重试",
                         Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();

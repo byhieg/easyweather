@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.widget.RemoteViews;
 
 import com.example.byhieglibrary.Utils.LogUtils;
@@ -16,6 +15,8 @@ import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.Tools.HandleDaoData;
 import com.weather.byhieg.easyweather.Tools.MyJson;
 import com.weather.byhieg.easyweather.Tools.WeatherIcon;
+
+import java.lang.reflect.Field;
 
 import static com.weather.byhieg.easyweather.Tools.Constants.NOTIFICATION_ID;
 
@@ -30,7 +31,6 @@ public class NotificationService extends Service{
     public NotificationManager notificationManager;
 
 
-    @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -52,13 +52,22 @@ public class NotificationService extends Service{
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         Notification notification = new Notification();
-        notification.icon = WeatherIcon.getWeatherColor(MyJson.getWeather(notificationWeather).getNow().getCond().getCode());
+        notification.icon = R.mipmap.icon;
         notification.tickerText = "天气状况查看";
         notification.when = System.currentTimeMillis();
         notification.flags = Notification.FLAG_NO_CLEAR;// 不能够自动清除
         notification.contentIntent = pendingIntent;
 
         RemoteViews contentViews = new RemoteViews(getPackageName(), R.layout.layout_notification);
+        try {
+            Class<?> clazz = Class.forName("com.android.internal.R$id");
+            Field field = clazz.getField("icon");
+            field.setAccessible(true);
+            int idIcon = field.getInt(null);
+            contentViews.setImageViewResource(idIcon,R.mipmap.icon);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         contentViews.setTextViewText(R.id.city_text,MyJson.getWeather(notificationWeather).getBasic().getCity());
         contentViews.setTextViewText(R.id.weather_text,MyJson.getWeather(notificationWeather).getNow().getCond().getTxt());
         contentViews.setImageViewResource(R.id.weather_image,

@@ -1,8 +1,6 @@
 package com.weather.byhieg.easyweather.Tools;
 
 import com.example.byhieglibrary.Net.HttpUtils;
-import com.example.byhieglibrary.Utils.DateUtil;
-import com.example.byhieglibrary.Utils.LogUtils;
 import com.example.byhieglibrary.Utils.StringUtils;
 import com.google.gson.Gson;
 import com.weather.byhieg.easyweather.Bean.WeatherBean;
@@ -47,13 +45,13 @@ public class NetTool {
                 Response netResponse = HttpUtils.getAsyn(url);
                 String response = StringUtils.delPosOfString(netResponse.body().string(), pos);
                 WeatherBean weatherBean = gson.fromJson(response, WeatherBean.class);
-                Date sqlDate = HandleDaoData.getCityWeather(HandleDaoData.getShowCity()).getUpdateTime();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                Date newDate = sdf.parse(MyJson.getWeather(weatherBean).getBasic().getUpdate().getLoc());
-                if (DateUtil.daysOfTwo(sqlDate, newDate) == 1) {
-                    MyApplication.isNewDay = true;
-                }
-                LogUtils.e("newDay",MyApplication.isNewDay + "");
+//                Date sqlDate = HandleDaoData.getCityWeather(HandleDaoData.getShowCity()).getUpdateTime();
+//                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+//                Date newDate = sdf.parse(MyJson.getWeather(weatherBean).getBasic().getUpdate().getLoc());
+//                if (DateUtil.daysOfTwo(sqlDate, newDate) == 1) {
+//                    MyApplication.isNewDay = true;
+//                }
+//                LogUtils.e("newDay",MyApplication.isNewDay + "");
                 HandleDaoData.updateCityWeather(PutDaoData.putWeatherData(weatherBean));
             }
         }

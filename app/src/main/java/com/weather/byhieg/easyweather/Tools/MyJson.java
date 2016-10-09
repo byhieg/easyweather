@@ -9,6 +9,9 @@ import com.weather.byhieg.easyweather.Bean.WeatherBean;
 public class MyJson {
 
     public static Weather getWeather(WeatherBean weatherBean){
+        if (weatherBean.getHeWeatherdataservice30().get(0) == null) {
+            return null;
+        }
         return weatherBean.getHeWeatherdataservice30().get(0);
     }
 }

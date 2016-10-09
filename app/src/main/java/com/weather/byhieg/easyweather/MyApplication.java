@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import com.baidu.location.LocationClient;
 import com.weather.byhieg.easyweather.Db.DaoMaster;
 import com.weather.byhieg.easyweather.Db.DaoSession;
+import com.weather.byhieg.easyweather.Tools.CrashHandler;
 
 public class MyApplication extends Application{
 
@@ -48,9 +49,9 @@ public class MyApplication extends Application{
     public void onCreate() {
         super.onCreate();
         mcontext = this;
-//        CrashHandler crashHandler = CrashHandler.getInstance();
-//        crashHandler.init(this);
-//        crashHandler.sendPreviousReportsToServer();
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(this);
+        crashHandler.sendPreviousReportsToServer();
     }
 
     public static Context getAppContext() {
