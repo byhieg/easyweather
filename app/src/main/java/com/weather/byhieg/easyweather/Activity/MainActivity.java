@@ -196,6 +196,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     @Override
     public void initData() {
+
         int[] images = {R.mipmap.ic_trending_up_black_24dp,
                 R.mipmap.ic_settings_black_24dp,
                 R.mipmap.ic_share_black_24dp,
@@ -236,7 +237,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         getHoursData();
         MyApplication.getmLocationClient().registerLocationListener(myListener);
         initLocation();
-
     }
 
     @Override

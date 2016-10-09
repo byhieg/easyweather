@@ -325,10 +325,10 @@ public  class HttpUtils {
     }
 
     public static void postFile(String url, ResultCallback resultCallback,File file, String fileKey){
-        getInstance().postFile(url,resultCallback,file,fileKey);
+        getInstance()._postFile(url,resultCallback,file,fileKey);
     }
     public static void postMap(String url,ResultCallback resultCallback,HashMap<String,String> params) {
-        getInstance().postMap(url,resultCallback,params);
+        getInstance()._postMap(url,resultCallback,params);
     }
     public static void download(final String url, final String destFileDir, final ResultCallback callback) {
         getInstance()._download(url,destFileDir,callback);

@@ -5,24 +5,30 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Looper;
-import android.text.format.Time;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import com.example.byhieglibrary.Net.HttpUtils;
+import com.example.byhieglibrary.Net.ResultCallback;
 import com.example.byhieglibrary.Utils.LogUtils;
 import com.weather.byhieg.easyweather.MyApplication;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Properties;
 import java.util.TreeSet;
+
+import okhttp3.Request;
 
 /**
  * Created by byhieg on 16-10-8.
@@ -114,24 +120,22 @@ public class CrashHandler implements UncaughtExceptionHandler {
             @Override
             public void run() {
                 Looper.prepare();
-                Toast toast = Toast.makeText(mContext, "程序出现问题,检查网络后重试",
+                Toast toast = Toast.makeText(mContext, "app出现问题，即将关闭",
                         Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
-//                MyToast myToast = MyToast.createMyToast();
-//                myToast.ToastShow(mContext, "程序出现BUG,马上反馈给程序员");
-//              MsgPrompt.showMsg(mContext, "程序出错啦", msg+"\n点确认退出");
                 Looper.loop();
             }
         }.start();
         //收集设备信息
         collectCrashDeviceInfo(mContext);
         //保存错误报告文件
+        saveCrashInfoToFile(ex);
+
         if (MyApplication.log()) {
-            saveCrashInfoToFile(ex);
+            sendPreviousReportsToServer();
         }
         //发送错误报告到服务器
-        //sendCrashReportsToServer(mContext);
         return true;
     }
 
@@ -153,13 +157,25 @@ public class CrashHandler implements UncaughtExceptionHandler {
             for (String fileName : sortedFiles) {
                 File cr = new File(ctx.getFilesDir(), fileName);
                 postReport(cr);
-                cr.delete();// 删除已发送的报告
             }
         }
     }
     private void postReport(File file) {
         // TODO 发送错误报告到服务器
+        String url = "http://115.159.145.201:8777/collectbug";
+        final File tmp = file;
+        HttpUtils.postFile(url, new ResultCallback<String>() {
+            @Override
+            public void onResponse(String response) {
+                LogUtils.e("success",response);
+                tmp.delete();
+            }
 
+            @Override
+            public void onError(Request request, IOException e) {
+                e.printStackTrace();
+            }
+        },file,"file");
     }
 
     /**
@@ -196,11 +212,13 @@ public class CrashHandler implements UncaughtExceptionHandler {
         mDeviceCrashInfo.put(STACK_TRACE, result);
         try {
             //long timestamp = System.currentTimeMillis();
-            Time t = new Time("GMT+8");
-            t.setToNow(); // 取得系统时间
-            int date = t.year * 10000 + t.month * 100 + t.monthDay;
-            int time = t.hour * 10000 + t.minute * 100 + t.second;
-            String fileName = "crash-" + date + "-" + time + CRASH_REPORTER_EXTENSION;
+//            Time t = new Time("GMT+8");
+//            t.setToNow(); // 取得系统时间
+//            int date = t.year * 10000 + t.month * 100 + t.monthDay;
+//            int time = t.hour * 10000 + t.minute * 100 + t.second;
+            Date date = new Date();
+            String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+            String fileName = "crash-" + time + CRASH_REPORTER_EXTENSION;
             FileOutputStream trace = mContext.openFileOutput(fileName,
                     Context.MODE_PRIVATE);
             mDeviceCrashInfo.store(trace, "");
