@@ -71,7 +71,7 @@ public class NotificationService extends Service{
         contentViews.setTextViewText(R.id.city_text,MyJson.getWeather(notificationWeather).getBasic().getCity());
         contentViews.setTextViewText(R.id.weather_text,MyJson.getWeather(notificationWeather).getNow().getCond().getTxt());
         contentViews.setImageViewResource(R.id.weather_image,
-                    WeatherIcon.getWeatherColor(MyJson.getWeather(notificationWeather).getNow().getCond().getCode()));
+                    WeatherIcon.getWeatherImage(MyJson.getWeather(notificationWeather).getNow().getCond().getCode()));
         contentViews.setTextViewText(R.id.temperature_text,MyJson.getWeather(notificationWeather).getNow().getTmp()+"℃");
         String exerciseStr = "运动情况:" + MyJson.getWeather(notificationWeather).getSuggestion().getSport().getBrf();
         contentViews.setTextViewText(R.id.exercise_text,exerciseStr);

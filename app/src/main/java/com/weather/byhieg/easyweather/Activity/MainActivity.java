@@ -425,7 +425,8 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         } else {
             updateTime.setText("最近更新：" + time + "分钟之前");
         }
-        tempImage.setImageResource(WeatherIcon.getWeatherColor(MyJson.getWeather(weatherBean).getNow().getCond().getCode()));
+        LogUtils.e("code",MyJson.getWeather(weatherBean).getNow().getCond().getCode());
+        tempImage.setImageResource(WeatherIcon.getWeatherImage(MyJson.getWeather(weatherBean).getNow().getCond().getCode()));
         toolbar.setTitle(MyJson.getWeather(weatherBean).getBasic().getCity());
         //主卡片
         temp.setText(MyJson.getWeather(weatherBean).getNow().getTmp() + "°");

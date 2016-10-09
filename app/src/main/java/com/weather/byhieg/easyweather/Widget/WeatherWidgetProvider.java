@@ -92,7 +92,7 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
             RemoteViews remoteView = new RemoteViews(context.getPackageName(), R.layout.weather_appwidget);
             remoteView.setTextViewText(R.id.widget_city,cityName);
             remoteView.setTextViewText(R.id.widget_temperature,temp+"℃");
-            remoteView.setImageViewResource(R.id.widget_weather_img, WeatherIcon.getWeatherColor(MyJson.getWeather(getCityData()).getNow().getCond().getCode()));
+            remoteView.setImageViewResource(R.id.widget_weather_img, WeatherIcon.getWeatherImage(MyJson.getWeather(getCityData()).getNow().getCond().getCode()));
             remoteView.setTextViewText(R.id.widget_weather_text,cond);
             // 更新 widget
             appWidgetManager.updateAppWidget(appID, remoteView);
