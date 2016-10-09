@@ -32,7 +32,6 @@
         android:layout_width="@dimen/tempTextSize"
         android:layout_height="@dimen/tempTextSize"
         android:layout_alignParentRight="true"
-        android:background="@mipmap/cloudy1"
         android:layout_alignBottom="@id/widget_temperature"
         android:id="@+id/widget_weather_img"/>
 
