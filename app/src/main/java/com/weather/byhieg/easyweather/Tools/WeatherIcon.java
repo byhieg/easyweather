@@ -1,6 +1,5 @@
 package com.weather.byhieg.easyweather.Tools;
 
-import com.example.byhieglibrary.Utils.LogUtils;
 import com.weather.byhieg.easyweather.R;
 
 import java.util.Calendar;
@@ -15,9 +14,7 @@ public class WeatherIcon {
     public static int getWeatherImage(String weatherCode) {
         Calendar cal = Calendar.getInstance();
         int hour = cal.get(Calendar.HOUR_OF_DAY);
-        LogUtils.e("hour",hour + "");
         int code = Integer.parseInt(weatherCode);
-        LogUtils.e("code", code + "");
         if (hour > 18 || hour < 6) {
             if (code == 100) {
                 return R.mipmap.sunny_night;

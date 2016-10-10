@@ -9,7 +9,6 @@ import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.PathEffect;
 import android.graphics.Typeface;
-import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 
 import com.example.byhieglibrary.Utils.DateUtil;
@@ -102,6 +101,7 @@ public class ImageUtils {
         String[] lowTmp = new String[7];
 
         File imgFile[] = new File[3];
+
         switch (flag) {
             case BRIEF:
                 canvas.save();
@@ -126,7 +126,7 @@ public class ImageUtils {
                         3 * padding,
                         paint);
 
-                imgFile[0] = new File(Environment.getExternalStorageDirectory(),
+                imgFile[0] = new File(context.getExternalFilesDir(null),
                         "IMG-BRIEF" + System.currentTimeMillis() + ".png");//创建一个文件
                 try {
                     OutputStream os = new FileOutputStream(imgFile[0]);//创建输出流
@@ -174,7 +174,7 @@ public class ImageUtils {
                         6 * padding,
                         textPaint);
 
-                imgFile[1] = new File(Environment.getExternalStorageDirectory(),
+                imgFile[1] = new File(context.getExternalFilesDir(null),
                         "IMG-DETAIL" + System.currentTimeMillis() + ".png");//创建一个文件
                 try {
                     OutputStream os = new FileOutputStream(imgFile[1]);//创建输出流
@@ -224,7 +224,7 @@ public class ImageUtils {
                             textPaint);
                     canvas.restore();
                 }
-                imgFile[2] = new File(Environment.getExternalStorageDirectory(),
+                imgFile[2] = new File(context.getExternalFilesDir(null),
                         "IMG-FUTURE" + System.currentTimeMillis() + ".png");//创建一个文件
                 try {
                     OutputStream os = new FileOutputStream(imgFile[2]);//创建输出流

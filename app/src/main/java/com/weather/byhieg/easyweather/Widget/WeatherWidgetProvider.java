@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.widget.RemoteViews;
 
 import com.weather.byhieg.easyweather.Bean.WeatherBean;
+import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.Tools.HandleDaoData;
 import com.weather.byhieg.easyweather.Tools.MyJson;
@@ -95,7 +96,9 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
             remoteView.setImageViewResource(R.id.widget_weather_img, WeatherIcon.getWeatherImage(MyJson.getWeather(getCityData()).getNow().getCond().getCode()));
             remoteView.setTextViewText(R.id.widget_weather_text,cond);
             // 更新 widget
-            appWidgetManager.updateAppWidget(appID, remoteView);
+            if (MyApplication.widget()) {
+                appWidgetManager.updateAppWidget(appID, remoteView);
+            }
         }
     }
     private WeatherBean getCityData(){

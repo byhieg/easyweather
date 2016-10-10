@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 
-import com.weather.byhieg.easyweather.MyApplication;
-
 public class WeatherWidgetService extends Service {
 
     public WeatherWidgetService() {
@@ -64,9 +62,7 @@ public class WeatherWidgetService extends Service {
                 while (true) {
                     count++;
                     Intent updateIntent=new Intent(ACTION_UPDATE_ALL);
-                    if (MyApplication.widget()) {
-                        mContext.sendBroadcast(updateIntent);
-                    }
+                    mContext.sendBroadcast(updateIntent);
                     Thread.sleep(UPDATE_TIME);
                 }
             } catch (InterruptedException e) {

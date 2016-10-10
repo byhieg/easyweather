@@ -62,6 +62,12 @@ public class SettingFragment extends BaseFragment {
         boolean widgetChecked = widget.getBoolean("ischecked", true);
         widgetSwitch.setChecked(widgetChecked);
         switchStatus(widgetSwitch, MyApplication.widgetname,3);
+
+        Switch cacheSwitch = (Switch) view.findViewById(R.id.cache_switch);
+        SharedPreferences cache = getActivity().getSharedPreferences(MyApplication.cachename, getActivity().MODE_PRIVATE);
+        boolean cacheChecked = cache.getBoolean("ischecked", true);
+        cacheSwitch.setChecked(cacheChecked);
+        switchStatus(cacheSwitch,MyApplication.cachename,4);
     }
 
     public void switchStatus(Switch aSwitch, final String fileName, final int flag) {

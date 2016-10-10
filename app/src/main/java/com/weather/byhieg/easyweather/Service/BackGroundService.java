@@ -19,6 +19,7 @@ import com.weather.byhieg.easyweather.Tools.NetTool;
 import com.weather.byhieg.easyweather.View.MyToast;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
@@ -37,7 +38,7 @@ public class BackGroundService extends IntentService {
             final String action = intent.getAction();
             if (StartActivity.getActionGetWeather().equals(action)) {
                 getWeatherData();
-            }else if (StartActivity.getActionAddCity().equals(action)) {
+            } else if (StartActivity.getActionAddCity().equals(action)) {
                 try {
                     addCityData();
                 } catch (Exception e) {
@@ -46,6 +47,10 @@ public class BackGroundService extends IntentService {
             } else if (StartActivity.getActionStartNotification().equals(action)) {
                 if (MyApplication.notification()) {
                     startService(new Intent(this, NotificationService.class));
+                }
+            } else if (StartActivity.getActionFileProcess().equals(action)) {
+                if (MyApplication.cache()) {
+                    deleteCacheFile();
                 }
             }
         }
@@ -164,7 +169,27 @@ public class BackGroundService extends IntentService {
 
     }
 
+    private void deleteCacheFile() {
+        File dir = MyApplication.getAppContext().getExternalFilesDir(null);
+        LogUtils.e("fileDir", dir.getAbsolutePath());
+        File[] children = dir.listFiles();
+        for (int i = 0; i < children.length; i++) {
+//            LogUtils.e("children", children[i]);
+//            File tmp = new File(children[i]);
+            if (children[i].exists() && children[i].isFile()) {
+                LogUtils.e("exist", "文件存在");
+                if (children[i].delete()) {
+                    LogUtils.e("delete", "删除成功");
+                }
+            }else{
+                LogUtils.e("no exist","文件不存在");
+            }
 
+
+        }
+
+
+    }
 }
 
 

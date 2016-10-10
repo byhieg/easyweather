@@ -25,6 +25,7 @@ public class MyApplication extends Application{
     public static final String logFilename = "log";
     public static final String notificationname = "notification";
     public static final String widgetname = "widget";
+    public static final String cachename = "cache";
 
     public static boolean isNewDay = false;
 
@@ -95,6 +96,12 @@ public class MyApplication extends Application{
 
     public static boolean widget(){
         SharedPreferences share = mcontext.getSharedPreferences(widgetname, MODE_PRIVATE);
+        boolean ischecked = share.getBoolean("ischecked",true);
+        return ischecked;
+    }
+
+    public static boolean cache(){
+        SharedPreferences share = mcontext.getSharedPreferences(cachename, MODE_PRIVATE);
         boolean ischecked = share.getBoolean("ischecked",true);
         return ischecked;
     }

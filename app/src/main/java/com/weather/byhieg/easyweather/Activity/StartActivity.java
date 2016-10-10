@@ -13,12 +13,14 @@ public class StartActivity extends BaseActivity {
     private static final String ACTION_GET_WEATHER = "com.weather.byhieg.easyweather.Activity.action.getWeather";
     private static final String ACTION_START_NOTIFICATION = "com.weather.byhieg.easyweather.Activity.action.notification";
     private static final String ACTION_ADD_VIEWSPOT = "com.weather.byhieg.easyweather.Activity.action.viewspot";
+    private static final String ACTION_FILE_PROCESS = "com.weather.byhieg.easyweather.Activity.action.fileprocess";
 
     @Override
     public void initData() {
         startGetWeatherService();
         startAddCityService();
         startNotificationService();
+        startFileProcessService();
     }
 
     @Override
@@ -65,14 +67,14 @@ public class StartActivity extends BaseActivity {
         startService(intent);
     }
 
-    private void startGetViewSpotService(){
+
+    private void startFileProcessService(){
         Intent intent = new Intent(this, BackGroundService.class);
-        intent.setAction(ACTION_ADD_VIEWSPOT);
+        intent.setAction(ACTION_FILE_PROCESS);
         startService(intent);
     }
 
     public static String getActionAddCity() {
-
         return ACTION_ADD_CITY;
     }
 
@@ -89,4 +91,7 @@ public class StartActivity extends BaseActivity {
     }
 
 
+    public static String getActionFileProcess(){
+        return ACTION_FILE_PROCESS;
+    }
 }
