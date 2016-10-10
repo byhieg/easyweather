@@ -72,7 +72,6 @@ git clone https://github.com/byhieg/easyweather.git
 ![Alt text](https://github.com/byhieg/easyweather/blob/master/images/9.png)
 ![Alt text](https://github.com/byhieg/easyweather/blob/master/images/10.png)
 ![Alt text](https://github.com/byhieg/easyweather/blob/master/images/11.png)
-
 ## 讨论
 邮箱：byhieg@gmail.com
 
