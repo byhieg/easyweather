@@ -26,6 +26,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -37,6 +38,7 @@ import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -187,6 +189,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private LocalReceiver localReceiver;
     private LocalBroadcastManager localBroadcastManager;
     private BDLocationListener myListener;
+    public Button button;
 
 
     @Override
@@ -196,7 +199,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     @Override
     public void initData() {
-
+        button = new Button(this);
         int[] images = {R.mipmap.ic_trending_up_black_24dp,
                 R.mipmap.ic_settings_black_24dp,
                 R.mipmap.ic_share_black_24dp,
@@ -393,6 +396,12 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             @Override
             public void onClick(View v) {
                 showPopupWindow();
+            }
+        });
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("button","被点击");
             }
         });
     }
@@ -747,5 +756,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             }
         }
     }
+
+
 
 }
