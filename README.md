@@ -56,8 +56,8 @@ git clone https://github.com/byhieg/easyweather.git
 -  完成分享功能，手机已有，可接受ACTION_SEND,皆可分享。
 
 ## To Do List
-- [ ]  加入单元测试。
-- [ ]  对App进行充分测试后上线到商店
+- [ ]  将APP上线到商店
+- [ ]  修改App的天气API,支持和风天气V5
 
 
 ## 截图
