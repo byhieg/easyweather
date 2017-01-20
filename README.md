@@ -51,7 +51,6 @@ git clone https://github.com/byhieg/easyweather.git
 -  支持夜间模式。
 -  设置指定城市为首页城市
 -  滑动删除喜欢的城市
--  添加景点天气
 -  完善设置，分享，帮助，天气百科，关于，反馈，喜欢等功能。
 -  完成分享功能，手机已有，可接受ACTION_SEND,皆可分享。
 
