@@ -25,7 +25,7 @@
 6. 支持查询常见的天气百科，如雷阵雨，风力等级等含义。
 
 ## 安装
-目前版本还没彻底完工，暂无应用市场上架。
+暂无应用市场上架。
 目前仅支持clone代码，通过Android-Studio运行安装。
 ```
 git clone https://github.com/byhieg/easyweather.git
@@ -55,8 +55,9 @@ git clone https://github.com/byhieg/easyweather.git
 -  完成分享功能，手机已有，可接受ACTION_SEND,皆可分享。
 
 ## To Do List
-- [ ]  将APP上线到商店
 - [ ]  修改App的天气API,支持和风天气V5
+- [ ]  修改App技术架构，采用MVP+Rx+Retrofit的架构
+- [ ]  新架构在新的分支，Master分支还是旧的完整版本
 
 
 ## 截图
