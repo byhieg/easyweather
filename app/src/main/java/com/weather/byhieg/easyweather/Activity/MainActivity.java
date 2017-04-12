@@ -682,6 +682,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
+
             }
         });
     }
@@ -710,8 +711,8 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     }
 
 
-    @Override public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults)
-    {
+    @Override
+    public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions,grantResults);
         switch(requestCode)
         {
