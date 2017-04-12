@@ -9,6 +9,7 @@
 
 
 简易天气是一个基于和风天气数据采用MD设计的Android天气App。目前的版本采用传统的MVC模式构建。通过丰富多彩的页面为用户提供日常所需的天气资讯。
+这是分支MVP+Rx+Retrofit的README
 ##功能
 简易天气的功能有：
 
@@ -25,7 +26,7 @@
 6. 支持查询常见的天气百科，如雷阵雨，风力等级等含义。
 
 ## 安装
-目前版本还没彻底完工，暂无应用市场上架。
+暂无应用市场上架。
 目前仅支持clone代码，通过Android-Studio运行安装。
 ```
 git clone https://github.com/byhieg/easyweather.git
@@ -51,13 +52,13 @@ git clone https://github.com/byhieg/easyweather.git
 -  支持夜间模式。
 -  设置指定城市为首页城市
 -  滑动删除喜欢的城市
--  添加景点天气
 -  完善设置，分享，帮助，天气百科，关于，反馈，喜欢等功能。
 -  完成分享功能，手机已有，可接受ACTION_SEND,皆可分享。
 
 ## To Do List
-- [ ]  加入单元测试。
-- [ ]  对App进行充分测试后上线到商店
+- [ ]  修改App的天气API,支持和风天气V5
+- [ ]  修改App技术架构，采用MVP+Rx+Retrofit的架构
+- [ ]  新架构在新的分支，Master分支还是旧的完整版本
 
 
 ## 截图
