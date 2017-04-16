@@ -91,7 +91,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     public DrawerLayout drawerLayout;
     @Bind(R.id.recyclerview)
     public RecyclerView recyclerView;
-//    @Bind(R.id.view_spot)
+    //    @Bind(R.id.view_spot)
 //    public ViewStub viewStub;
 //    @Bind(R.id.arrow)
 //    public ImageView arrow;
@@ -282,9 +282,9 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     @Override
     public void initTheme() {
-        if(MyApplication.nightMode()){
+        if (MyApplication.nightMode()) {
             setTheme(R.style.NightTheme);
-        }else {
+        } else {
             setTheme(R.style.DayTheme);
         }
     }
@@ -297,12 +297,12 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 switch (item.getItemId()) {
                     case R.id.feedback:
                         AlertDialog.Builder dialogBuilder;
-                        if (MyApplication.nightMode2()){
-                           dialogBuilder  = new AlertDialog.Builder(MainActivity.this, R.style.NightDialog);
-                        }else{
+                        if (MyApplication.nightMode2()) {
+                            dialogBuilder = new AlertDialog.Builder(MainActivity.this, R.style.NightDialog);
+                        } else {
                             dialogBuilder = new AlertDialog.Builder(MainActivity.this);
                         }
-                       dialogBuilder.setTitle("反馈").setMessage("在使用过程中，有任何问题均可以发送到邮箱：byhieg@gmail.com").setPositiveButton("恩", new DialogInterface.OnClickListener() {
+                        dialogBuilder.setTitle("反馈").setMessage("在使用过程中，有任何问题均可以发送到邮箱：byhieg@gmail.com").setPositiveButton("恩", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
@@ -312,11 +312,11 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
                     case R.id.location:
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED||
+                            if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED ||
                                     checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
                                     checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-                                LogUtils.e("Permissions","还是没有权限啊");
+                                LogUtils.e("Permissions", "还是没有权限啊");
                                 // 申请一个（或多个）权限，并提供用于回调返回的获取码（用户定义)
                                 requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE,
                                         Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -326,11 +326,11 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                                         Manifest.permission.CHANGE_WIFI_STATE,
                                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                                         Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS}, Constants.PERMISSION);
-                            }else{
+                            } else {
                                 MyApplication.getmLocationClient().start();
-                                LogUtils.e("Permissions","已经有权限了");
+                                LogUtils.e("Permissions", "已经有权限了");
                             }
-                        }else{
+                        } else {
                             MyApplication.getmLocationClient().start();
                         }
 
@@ -401,7 +401,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("button","被点击");
+                Log.i("button", "被点击");
             }
         });
     }
@@ -420,7 +420,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
      */
     @SuppressLint("SimpleDateFormat")
     private void updateView(WeatherBean weatherBean) throws ParseException {
-        if(weatherBean == null) return;
+        if (weatherBean == null) return;
         mSwipeLayout.setVisibility(View.VISIBLE);
         refresh.clearAnimation();
         refresh.setVisibility(View.GONE);
@@ -434,7 +434,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         } else {
             updateTime.setText("最近更新：" + time + "分钟之前");
         }
-        LogUtils.e("code",MyJson.getWeather(weatherBean).getNow().getCond().getCode());
+        LogUtils.e("code", MyJson.getWeather(weatherBean).getNow().getCond().getCode());
         tempImage.setImageResource(WeatherIcon.getWeatherImage(MyJson.getWeather(weatherBean).getNow().getCond().getCode()));
         toolbar.setTitle(MyJson.getWeather(weatherBean).getBasic().getCity());
         //主卡片
@@ -691,13 +691,14 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
+
             }
         });
     }
 
     private void getHoursData() {
         hoursWeathers.clear();
-        if(weatherBean == null) return;
+        if (weatherBean == null) return;
         try {
             weatherBean = HandleDaoData.getWeatherBean(HandleDaoData.getShowCity());
             for (int i = 0; i < MyJson.getWeather(weatherBean).getHourly_forecast().size(); i++) {
@@ -719,24 +720,20 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     }
 
 
-    @Override public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults)
-    {
-        super.onRequestPermissionsResult(requestCode, permissions,grantResults);
-        switch(requestCode)
-        {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
             // requestCode即所声明的权限获取码，在checkSelfPermission时传入
             case Constants.PERMISSION:
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
-            {
-                // 获取到权限，作相应处理（调用定位SDK应当确保相关权限均被授权，否则可能引起定位失败）
-                MyApplication.getmLocationClient().start();
-            }
-            else
-            {
-                // 没有获取到权限，做特殊处理
-                showToast("没有权限，定位失败");
-            }
-            break;
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // 获取到权限，作相应处理（调用定位SDK应当确保相关权限均被授权，否则可能引起定位失败）
+                    MyApplication.getmLocationClient().start();
+                } else {
+                    // 没有获取到权限，做特殊处理
+                    showToast("没有权限，定位失败");
+                }
+                break;
             default:
                 break;
         }
@@ -756,7 +753,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             }
         }
     }
-
 
 
 }

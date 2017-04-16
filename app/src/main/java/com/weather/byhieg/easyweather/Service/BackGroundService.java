@@ -23,6 +23,8 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class BackGroundService extends IntentService {
@@ -136,10 +138,10 @@ public class BackGroundService extends IntentService {
         LoveCity firstCity = HandleDaoData.getLoveCity(1);
         if (firstCity != null) {
             final List<LoveCity> cityList = HandleDaoData.getLoveCity();
-            Thread[] threads = new Thread[cityList.size()];
+            ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
             for (int i = 0; i < cityList.size(); i++) {
                 final int index = i;
-                threads[i] = new Thread(new Runnable() {
+                singleThreadExecutor.execute(new Runnable() {
                     @Override
                     public void run() {
                         try {
@@ -157,13 +159,6 @@ public class BackGroundService extends IntentService {
 
                     }
                 });
-                threads[i].start();
-                try {
-                    threads[i].join();
-                } catch (InterruptedException e) {
-
-                    LogUtils.e("线程异常!!!", getClass().getSimpleName());
-                }
             }
         }
 
