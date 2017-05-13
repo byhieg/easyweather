@@ -27,7 +27,7 @@ public class TextShowView extends View {
     private Paint mPaint,bPaint;
     private int height,width;
 
-
+gitgit
     public TextShowView(Context context) {
         super(context);
         init();
