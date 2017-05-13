@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.example.byhieglibrary.Utils.LogUtils;
 import com.weather.byhieg.easyweather.Activity.CityManageActivity;
 import com.weather.byhieg.easyweather.Adapter.CityListAdapter;
 import com.weather.byhieg.easyweather.Bean.CityContext;
@@ -66,10 +67,8 @@ public class CityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        initData();
         handler = new Handler();
         myHandler = new CityManageActivity.MyHandler(new CityManageActivity());
-        adapter = new CityListAdapter(cities, getActivity());
         View view = inflater.inflate(R.layout.fragment_city, container, false);
         initView(view);
         return view;
@@ -80,6 +79,8 @@ public class CityFragment extends Fragment {
         mainLayout = (RelativeLayout) view.findViewById(R.id.fragment_city);
         refreshBar = (RelativeLayout) view.findViewById(R.id.refresh_bar);
         refresh = (ImageView) view.findViewById(R.id.refresh);
+        initData();
+        adapter = new CityListAdapter(cities, getActivity());
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -150,12 +151,14 @@ public class CityFragment extends Fragment {
 
     private void initData() {
         String provinceName = getArguments().getString("ProvinceName");
+        LogUtils.e("province", provinceName);
         List<City> cityList = HandleDaoData.getCityFromProvince(provinceName);
         for (City item : cityList) {
             CityContext cityContext = new CityContext();
             cityContext.setCityName(item.getCitynName());
             cities.add(cityContext);
         }
+        LogUtils.e("city", cities + "");
     }
 
 }
