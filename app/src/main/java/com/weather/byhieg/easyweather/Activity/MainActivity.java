@@ -57,17 +57,16 @@ import com.weather.byhieg.easyweather.Adapter.PopupWindowAdapter;
 import com.weather.byhieg.easyweather.Bean.DrawerContext;
 import com.weather.byhieg.easyweather.Bean.HoursWeather;
 import com.weather.byhieg.easyweather.Bean.WeatherBean;
-import com.weather.byhieg.easyweather.Db.LoveCity;
 import com.weather.byhieg.easyweather.Interface.MyItemClickListener;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.Service.NotificationService;
-import com.weather.byhieg.easyweather.Tools.Constants;
-import com.weather.byhieg.easyweather.Tools.HandleDaoData;
-import com.weather.byhieg.easyweather.Tools.MyJson;
-import com.weather.byhieg.easyweather.Tools.MyLocationListener;
-import com.weather.byhieg.easyweather.Tools.NetTool;
-import com.weather.byhieg.easyweather.Tools.WeatherIcon;
+import com.weather.byhieg.easyweather.tools.Constants;
+import com.weather.byhieg.easyweather.tools.HandleDaoData;
+import com.weather.byhieg.easyweather.tools.MyJson;
+import com.weather.byhieg.easyweather.tools.MyLocationListener;
+import com.weather.byhieg.easyweather.tools.NetTool;
+import com.weather.byhieg.easyweather.tools.WeatherIcon;
 import com.weather.byhieg.easyweather.View.WeekWeatherView;
 
 import java.text.ParseException;
@@ -77,7 +76,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 import static com.example.byhieglibrary.Utils.DisplayUtil.getViewHeight;
 import static com.weather.byhieg.easyweather.R.id.swipe_refresh;
@@ -85,95 +84,95 @@ import static com.weather.byhieg.easyweather.R.id.swipe_refresh;
 public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     public Toolbar toolbar;
-    @Bind(R.id.drawer_layout)
+    @BindView(R.id.drawer_layout)
     public DrawerLayout drawerLayout;
-    @Bind(R.id.recyclerview)
+    @BindView(R.id.recyclerview)
     public RecyclerView recyclerView;
 //    @Bind(R.id.view_spot)
 //    public ViewStub viewStub;
 //    @Bind(R.id.arrow)
 //    public ImageView arrow;
-    @Bind(R.id.arrow_detail)
+    @BindView(R.id.arrow_detail)
     public ImageView arrowDetail;
-    @Bind(R.id.expand_view)
+    @BindView(R.id.expand_view)
     public LinearLayout expandView;
-    @Bind(R.id.detail)
+    @BindView(R.id.detail)
     public LinearLayout detail;
-    @Bind(R.id.date)
+    @BindView(R.id.date)
     public TextView date;
-    @Bind(R.id.temp)
+    @BindView(R.id.temp)
     public TextView temp;
-    @Bind(R.id.tempImage)
+    @BindView(R.id.tempImage)
     public ImageView tempImage;
-    @Bind(R.id.tempHigh)
+    @BindView(R.id.tempHigh)
     public TextView tempHigh;
-    @Bind(R.id.tempLow)
+    @BindView(R.id.tempLow)
     public TextView tempLow;
-    @Bind(R.id.cloth)
+    @BindView(R.id.cloth)
     public TextView cloth;
-    @Bind(R.id.pm)
+    @BindView(R.id.pm)
     public TextView pm;
-    @Bind(R.id.hum)
+    @BindView(R.id.hum)
     public TextView hum;
-    @Bind(R.id.wind)
+    @BindView(R.id.wind)
     public TextView wind;
-    @Bind(R.id.wind_dir)
+    @BindView(R.id.wind_dir)
     public TextView windDir;
-    @Bind(R.id.to_detail)
+    @BindView(R.id.to_detail)
     public TextView toDetail;
-    @Bind(R.id.qlty)
+    @BindView(R.id.qlty)
     public TextView qlty;
-    @Bind(R.id.vis)
+    @BindView(R.id.vis)
     public TextView vis;
-    @Bind(R.id.pres)
+    @BindView(R.id.pres)
     public TextView pres;
-    @Bind(R.id.uv)
+    @BindView(R.id.uv)
     public TextView uv;
-    @Bind(R.id.sunrise)
+    @BindView(R.id.sunrise)
     public TextView sunrise;
-    @Bind(R.id.sunset)
+    @BindView(R.id.sunset)
     public TextView sunset;
-    @Bind(R.id.condition)
+    @BindView(R.id.condition)
     public TextView condition;
-    @Bind(R.id.scrollView)
+    @BindView(R.id.scrollView)
     public ScrollView scrollView;
-    @Bind(R.id.refresh)
+    @BindView(R.id.refresh)
     public ImageView refresh;
-    @Bind(R.id.main_layout)
+    @BindView(R.id.main_layout)
     public LinearLayout mainLayout;
-    @Bind(swipe_refresh)
+    @BindView(swipe_refresh)
     public SwipeRefreshLayout mSwipeLayout;
-    @Bind(R.id.updateTime)
+    @BindView(R.id.updateTime)
     public TextView updateTime;
-    @Bind(R.id.cloth_brf)
+    @BindView(R.id.cloth_brf)
     public TextView clothBrf;
-    @Bind(R.id.cloth_txt)
+    @BindView(R.id.cloth_txt)
     public TextView clothTxt;
-    @Bind(R.id.sport_brf)
+    @BindView(R.id.sport_brf)
     public TextView sportBrf;
-    @Bind(R.id.sport_txt)
+    @BindView(R.id.sport_txt)
     public TextView sportTxt;
-    @Bind(R.id.action_bar)
+    @BindView(R.id.action_bar)
     public LinearLayout action_bar;
-    @Bind(R.id.cold_brf)
+    @BindView(R.id.cold_brf)
     public TextView codeBrf;
-    @Bind(R.id.cold_txt)
+    @BindView(R.id.cold_txt)
     public TextView coldTxt;
-    @Bind(R.id.week_Weather_view)
+    @BindView(R.id.week_Weather_view)
     public WeekWeatherView weekWeatherView;
-    @Bind(R.id.weather_cond)
+    @BindView(R.id.weather_cond)
     public TextView weatherCond;
-    @Bind(R.id.update_time_hours)
+    @BindView(R.id.update_time_hours)
     public TextView updateHours;
-    @Bind(R.id.wind_hours)
+    @BindView(R.id.wind_hours)
     public TextView windHours;
-    @Bind(R.id.weather_tmp)
+    @BindView(R.id.weather_tmp)
     public TextView weatherTmp;
-    @Bind(R.id.item_future)
+    @BindView(R.id.item_future)
     public LinearLayout itemFuture;
-    @Bind(R.id.more)
+    @BindView(R.id.more)
     public TextView more;
 
 

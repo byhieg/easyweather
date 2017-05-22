@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.weather.byhieg.easyweather.Bean.CityManageContext;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
-import com.weather.byhieg.easyweather.Tools.WeatherColor;
+import com.weather.byhieg.easyweather.tools.WeatherColor;
 
 import java.util.List;
 

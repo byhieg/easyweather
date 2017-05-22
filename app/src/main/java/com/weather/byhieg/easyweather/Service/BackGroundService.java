@@ -9,13 +9,10 @@ import com.example.byhieglibrary.Utils.LogUtils;
 import com.google.gson.Gson;
 import com.weather.byhieg.easyweather.Activity.StartActivity;
 import com.weather.byhieg.easyweather.Bean.UrlCity;
-import com.weather.byhieg.easyweather.Db.City;
-import com.weather.byhieg.easyweather.Db.LoveCity;
-import com.weather.byhieg.easyweather.Db.Province;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
-import com.weather.byhieg.easyweather.Tools.HandleDaoData;
-import com.weather.byhieg.easyweather.Tools.NetTool;
+import com.weather.byhieg.easyweather.tools.HandleDaoData;
+import com.weather.byhieg.easyweather.tools.NetTool;
 import com.weather.byhieg.easyweather.View.MyToast;
 
 import java.io.BufferedReader;

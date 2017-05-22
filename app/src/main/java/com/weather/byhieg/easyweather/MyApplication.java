@@ -5,19 +5,20 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.baidu.location.LocationClient;
-import com.weather.byhieg.easyweather.Db.DaoMaster;
-import com.weather.byhieg.easyweather.Db.DaoSession;
-import com.weather.byhieg.easyweather.Tools.CrashHandler;
+import com.weather.byhieg.easyweather.tools.CrashHandler;
+import com.weather.byhieg.easyweather.data.source.local.DaoMaster;
+import com.weather.byhieg.easyweather.data.source.local.DaoSession;
+
+import cn.byhieg.betterload.network.NetService;
 
 public class MyApplication extends Application{
 
     private static MyApplication mcontext;
-    public static DaoSession daoSession;
     public static DaoMaster daoMaster;
     public static LocationClient mLocationClient;
 
 
-    private static final String cityUrl = "https://api.heweather.com/x3/weather";
+    private static final String cityUrl = "https://free-api.heweather.com/";
     private static final String heweatherKey = "93d476b872724a9681a642dce28c6523";
 
     public static final String shareFilename1 ="nightMode";
@@ -31,25 +32,20 @@ public class MyApplication extends Application{
 
 
     public static DaoMaster getDaoMaster() {
-
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(getAppContext(), "Weather-db", null);
-        daoMaster = new DaoMaster(helper.getWritableDatabase());
         return daoMaster;
     }
     public static DaoSession getDaoSession() {
-        if (daoSession == null) {
-            if (daoMaster == null) {
-                daoMaster = getDaoMaster();
-            }
-            daoSession = daoMaster.newSession();
-        }
-        return daoSession;
+        return daoMaster.newSession();
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
         mcontext = this;
+        NetService.getInstance().init(cityUrl);
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(getAppContext(),
+                "weather-db", null);
+        daoMaster = new DaoMaster(helper.getWritableDatabase());
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(this);
         crashHandler.sendPreviousReportsToServer();

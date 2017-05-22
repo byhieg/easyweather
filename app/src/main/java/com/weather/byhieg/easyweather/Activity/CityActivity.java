@@ -20,13 +20,13 @@ import com.weather.byhieg.easyweather.Fragment.ProvinceFragment;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 
 public class CityActivity extends BaseActivity{
 
 
-    @Bind(R.id.city_list_toolbar)
+    @BindView(R.id.city_list_toolbar)
     public Toolbar toolbar;
 
     private  FragmentManager fm;

@@ -17,26 +17,24 @@ import com.example.byhieglibrary.Utils.LogUtils;
 import com.weather.byhieg.easyweather.Adapter.CityManageAdapter;
 import com.weather.byhieg.easyweather.Bean.CityManageContext;
 import com.weather.byhieg.easyweather.Bean.WeatherBean;
-import com.weather.byhieg.easyweather.Db.LoveCity;
 import com.weather.byhieg.easyweather.Fragment.CityFragment;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
-import com.weather.byhieg.easyweather.Tools.HandleDaoData;
-import com.weather.byhieg.easyweather.Tools.MyJson;
+import com.weather.byhieg.easyweather.tools.HandleDaoData;
+import com.weather.byhieg.easyweather.tools.MyJson;
 import com.weather.byhieg.easyweather.View.SlideCutListView;
 
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.Bind;
+import butterknife.BindView;
 
 public class CityManageActivity extends BaseActivity {
 
-    @Bind(R.id.city_toolbar)
+    @BindView(R.id.city_toolbar)
     public Toolbar toolbar;
-    @Bind(R.id.card_view_group)
+    @BindView(R.id.card_view_group)
     public SlideCutListView cardViewGroup;
 
 

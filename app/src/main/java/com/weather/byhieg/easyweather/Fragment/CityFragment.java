@@ -22,11 +22,9 @@ import com.example.byhieglibrary.Utils.LogUtils;
 import com.weather.byhieg.easyweather.Activity.CityManageActivity;
 import com.weather.byhieg.easyweather.Adapter.CityListAdapter;
 import com.weather.byhieg.easyweather.Bean.CityContext;
-import com.weather.byhieg.easyweather.Db.City;
-import com.weather.byhieg.easyweather.Db.LoveCity;
 import com.weather.byhieg.easyweather.R;
-import com.weather.byhieg.easyweather.Tools.HandleDaoData;
-import com.weather.byhieg.easyweather.Tools.NetTool;
+import com.weather.byhieg.easyweather.tools.HandleDaoData;
+import com.weather.byhieg.easyweather.tools.NetTool;
 
 import java.util.ArrayList;
 import java.util.List;

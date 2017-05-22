@@ -14,7 +14,7 @@ import com.example.byhieglibrary.Activity.BaseFragment;
 import com.example.byhieglibrary.Utils.ShareContent;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
-import com.weather.byhieg.easyweather.Tools.ImageUtils;
+import com.weather.byhieg.easyweather.tools.ImageUtils;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -14,13 +14,12 @@ import com.weather.byhieg.easyweather.Fragment.SettingFragment;
 import com.weather.byhieg.easyweather.Fragment.ShareFragment;
 import com.weather.byhieg.easyweather.Fragment.WikiFragment;
 import com.weather.byhieg.easyweather.R;
-import com.weather.byhieg.easyweather.Tools.Constants;
-
-import butterknife.Bind;
+import com.weather.byhieg.easyweather.tools.Constants;
+import butterknife.BindView;
 
 public class SlideMenuActivity extends BaseActivity {
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     public Toolbar toolbar;
 
     private FragmentManager fm;

@@ -13,16 +13,16 @@ import com.example.byhieglibrary.Activity.BaseActivity;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 public class LoveAppActivity extends BaseActivity {
 
 
-    @Bind(R.id.web_view)
+    @BindView(R.id.web_view)
     public WebView webView;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     public Toolbar toolbar;
-    @Bind(R.id.progress_bar)
+    @BindView(R.id.progress_bar)
     public ProgressBar progressBar;
 
 

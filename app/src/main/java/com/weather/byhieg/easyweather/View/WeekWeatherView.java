@@ -17,8 +17,8 @@ import com.example.byhieglibrary.Utils.IntegerUtils;
 import com.weather.byhieg.easyweather.Bean.WeatherBean;
 import com.weather.byhieg.easyweather.Bean.WeekWeather;
 import com.weather.byhieg.easyweather.R;
-import com.weather.byhieg.easyweather.Tools.HandleDaoData;
-import com.weather.byhieg.easyweather.Tools.MyJson;
+import com.weather.byhieg.easyweather.tools.HandleDaoData;
+import com.weather.byhieg.easyweather.tools.MyJson;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

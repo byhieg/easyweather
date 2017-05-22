@@ -18,31 +18,27 @@ import com.example.byhieglibrary.Activity.BaseActivity;
 import com.example.byhieglibrary.Utils.LogUtils;
 import com.weather.byhieg.easyweather.Adapter.CityListAdapter;
 import com.weather.byhieg.easyweather.Bean.CityContext;
-import com.weather.byhieg.easyweather.Db.City;
-import com.weather.byhieg.easyweather.Db.LoveCity;
-import com.weather.byhieg.easyweather.Db.Province;
 import com.weather.byhieg.easyweather.Fragment.CityFragment;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
-import com.weather.byhieg.easyweather.Tools.HandleDaoData;
-import com.weather.byhieg.easyweather.Tools.NetTool;
+import com.weather.byhieg.easyweather.tools.HandleDaoData;
+import com.weather.byhieg.easyweather.tools.NetTool;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.Bind;
+import butterknife.BindView;
 
 public class SearchResultActivity extends BaseActivity {
 
-    @Bind(R.id.result_toolbar)
+    @BindView(R.id.result_toolbar)
     public Toolbar toolbar;
-    @Bind(R.id.result_list)
+    @BindView(R.id.result_list)
     public ListView listView;
-    @Bind(R.id.search_result)
+    @BindView(R.id.search_result)
     public RelativeLayout mainLayout;
-    @Bind(R.id.refresh_bar)
+    @BindView(R.id.refresh_bar)
     public RelativeLayout refreshBar;
-    @Bind(R.id.refresh)
+    @BindView(R.id.refresh)
     public ImageView refresh;
 
     private Handler handler;

@@ -9,9 +9,9 @@ import android.widget.RemoteViews;
 import com.weather.byhieg.easyweather.Bean.WeatherBean;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
-import com.weather.byhieg.easyweather.Tools.HandleDaoData;
-import com.weather.byhieg.easyweather.Tools.MyJson;
-import com.weather.byhieg.easyweather.Tools.WeatherIcon;
+import com.weather.byhieg.easyweather.tools.HandleDaoData;
+import com.weather.byhieg.easyweather.tools.MyJson;
+import com.weather.byhieg.easyweather.tools.WeatherIcon;
 
 import java.util.HashSet;
 import java.util.Iterator;

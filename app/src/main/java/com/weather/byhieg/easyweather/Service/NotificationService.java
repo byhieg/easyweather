@@ -12,13 +12,13 @@ import com.example.byhieglibrary.Utils.LogUtils;
 import com.weather.byhieg.easyweather.Activity.MainActivity;
 import com.weather.byhieg.easyweather.Bean.WeatherBean;
 import com.weather.byhieg.easyweather.R;
-import com.weather.byhieg.easyweather.Tools.HandleDaoData;
-import com.weather.byhieg.easyweather.Tools.MyJson;
-import com.weather.byhieg.easyweather.Tools.WeatherIcon;
+import com.weather.byhieg.easyweather.tools.HandleDaoData;
+import com.weather.byhieg.easyweather.tools.MyJson;
+import com.weather.byhieg.easyweather.tools.WeatherIcon;
 
 import java.lang.reflect.Field;
 
-import static com.weather.byhieg.easyweather.Tools.Constants.NOTIFICATION_ID;
+import static com.weather.byhieg.easyweather.tools.Constants.NOTIFICATION_ID;
 
 /**
  * Created by byhieg on 16-10-7.
