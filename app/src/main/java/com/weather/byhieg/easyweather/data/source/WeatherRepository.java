@@ -67,25 +67,25 @@ public class WeatherRepository implements WeatherDataSource {
         isCachedDirty = true;
     }
 
-    @Override
-    public void getAllProvince(GetProvinceCallBack callBack) {
-        mWeatherLocalDataSource.getAllProvince(callBack);
-    }
-
-    @Override
-    public void getAllCity() {
-
-    }
-
-    @Override
-    public void addCity() {
-
-    }
-
-    @Override
-    public void addProvince() {
-        mWeatherLocalDataSource.addProvince();
-    }
+//    @Override
+//    public void getAllProvince(GetProvinceCallBack callBack) {
+//        mWeatherLocalDataSource.getAllProvince(callBack);
+//    }
+//
+//    @Override
+//    public void getAllCity() {
+//
+//    }
+//
+//    @Override
+//    public void addCity() {
+//
+//    }
+//
+//    @Override
+//    public void addProvinces() {
+//        mWeatherLocalDataSource.addProvinces();
+//    }
 
 
     class MyCallBack implements GetWeatherCallBack {

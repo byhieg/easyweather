@@ -1,4 +1,4 @@
-package com.weather.byhieg.easyweather.Service;
+package com.weather.byhieg.easyweather.startweather;
 
 import android.app.Notification;
 import android.app.NotificationManager;

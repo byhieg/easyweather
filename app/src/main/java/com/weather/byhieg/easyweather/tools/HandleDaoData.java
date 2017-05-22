@@ -159,36 +159,6 @@ public class HandleDaoData {
      * 对ProvinceDao进行的操作
      *******************************************************************************************/
 
-    /**
-     * 添加省份进入省份表中
-     * @param province 省份数据
-     */
-    public static void insertProvince(Province province) {
-        MyApplication.getDaoSession().getProvinceDao().insert(province);
-    }
-
-
-    public static boolean isExistInProvince(){
-        Province tempProvince = MyApplication.
-                getDaoSession().
-                getProvinceDao().
-                loadByRowId(1);
-
-        return tempProvince != null;
-    }
-
-    public static List<Province> getAllProvince(){
-        return MyApplication.getDaoSession().getProvinceDao().loadAll();
-    }
-
-    public static List<Province> getProvince(String name) {
-        return MyApplication.
-                getDaoSession().
-                getProvinceDao().
-                queryBuilder().
-                where(ProvinceDao.Properties.ProvinceName.like("%" + name + "%")).
-                list();
-    }
 
     /******************************************************************************************
      *  对LoveCityDao进行的操作

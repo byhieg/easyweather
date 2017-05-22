@@ -21,13 +21,6 @@ public interface WeatherDataSource {
         void onFailure(String failureMessage);
     }
 
-    interface GetProvinceCallBack{
-        void onSuccess(List<ProvinceEntity> provinces);
-
-        void onFailure(String failureMessage);
-
-    }
-
 
     void getWeatherData();
 
@@ -37,12 +30,6 @@ public interface WeatherDataSource {
 
     void refreshWeather();
 
-    void getAllProvince(GetProvinceCallBack callBack);
 
-    void getAllCity();
-
-    void addCity();
-
-    void addProvince();
 
 }

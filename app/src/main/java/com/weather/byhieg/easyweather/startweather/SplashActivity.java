@@ -1,4 +1,4 @@
-package com.weather.byhieg.easyweather.Activity;
+package com.weather.byhieg.easyweather.startweather;
 
 import android.content.Intent;
 import android.os.Bundle;

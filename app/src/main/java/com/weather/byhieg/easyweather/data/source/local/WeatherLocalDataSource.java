@@ -2,18 +2,22 @@ package com.weather.byhieg.easyweather.data.source.local;
 
 import android.util.Log;
 
+import com.weather.byhieg.easyweather.Bean.UrlCity;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.data.HWeather;
+import com.weather.byhieg.easyweather.data.source.CityDataSource;
 import com.weather.byhieg.easyweather.data.source.WeatherDataSource;
 import com.weather.byhieg.easyweather.data.source.local.dao.CityEntityDao;
 import com.weather.byhieg.easyweather.data.source.local.dao.LoveCityEntityDao;
 import com.weather.byhieg.easyweather.data.source.local.dao.ProvinceEntityDao;
+import com.weather.byhieg.easyweather.data.source.local.entity.CityEntity;
 import com.weather.byhieg.easyweather.data.source.local.entity.ProvinceEntity;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static com.weather.byhieg.easyweather.tools.Knife.isListEmpty;
 
 
 /**
@@ -21,7 +25,7 @@ import java.util.concurrent.Executors;
  * Contact with byhieg@gmail.com
  */
 
-public class WeatherLocalDataSource implements WeatherDataSource {
+public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource{
 
     private final static String TAG = "WeatherLocalDataSource";
 
@@ -57,47 +61,129 @@ public class WeatherLocalDataSource implements WeatherDataSource {
 
     }
 
-    @Override
-    public void getAllProvince(final GetProvinceCallBack callBack) {
-        Log.e(TAG, "getAllProvince已经执行");
-        List<ProvinceEntity> provinces = mProvinceDao.loadAll();
-        if (provinces.size() != 0) {
-            callBack.onSuccess(provinces);
-        } else {
-            callBack.onFailure("数据为空");
-        }
-    }
-
-    @Override
-    public void getAllCity() {
-
-    }
-
-    @Override
-    public void addCity() {
-
-    }
-
-    @Override
-    public void addProvince() {
-        final String[] provinces = {"北京", "天津", "河北", "山西", "山东", "辽宁", "吉林", "黑龙江",
-                "上海", "江苏", "浙江", "安徽", "福建", "江西", "河南", "湖北", "湖南", "广东", "广西",
-                "海南", "重庆", "四川", "贵州", "云南", "陕西", "甘肃", "青海", "内蒙古", "西藏", "宁夏",
-                "新疆", "香港", "澳门", "台湾"};
-
-        Log.e(TAG, "执行了");
-        for (int i = 0; i < provinces.length; i++) {
-            ProvinceEntity entity = new ProvinceEntity(null,provinces[i]);
-            mProvinceDao.insert(entity);
-            Log.e(TAG, entity.getId() + "");
-        }
-
-
-    }
-
     public void saveWeather(HWeather weather) {
 
     }
 
 
+    @Override
+    public void addCities(UrlCity city) {
+        for (int i = 0; i < city.getCity_info().size(); i++) {
+            CityEntity entity = new CityEntity();
+            entity.setProvinceName(city.getCity_info().get(i).getProv());
+            entity.setCityName(city.getCity_info().get(i).getCity());
+            addCity(entity);
+        }
+    }
+
+    @Override
+    public void addCity(CityEntity city) {
+        mCityDao.insert(city);
+    }
+
+    @Override
+    public boolean isExistInCity() {
+        CityEntity tempCity = mCityDao.loadByRowId(1);
+        return tempCity != null;
+    }
+
+    @Override
+    public void getCityFromProvince(String provinceName, GetCityCallBack callBack) {
+        List<CityEntity> res = mCityDao.queryBuilder().
+                where(CityEntityDao.Properties.ProvinceName.like(provinceName)).
+                list();
+        if (isListEmpty(res)) {
+            callBack.onFailure("该省份下没有城市");
+        }else{
+            callBack.onSuccess(res);
+        }
+    }
+
+    @Override
+    public void getAllCity(GetCityCallBack callBack) {
+        List<CityEntity> res = mCityDao.loadAll();
+        if (isListEmpty(res)) {
+            callBack.onFailure("该省份下没有城市");
+        }else{
+            callBack.onSuccess(res);
+        }
+    }
+
+    @Override
+    public void getCities(String name, GetCityCallBack callBack) {
+        List<CityEntity> res = mCityDao.queryBuilder().
+                where(CityEntityDao.Properties.CityName.like("%" + name + "%")).
+                list();
+
+        if (isListEmpty(res)) {
+            callBack.onFailure("该省份下没有城市");
+        }else{
+            callBack.onSuccess(res);
+        }
+    }
+
+    @Override
+    public boolean isExistInCity(String name) {
+        List<CityEntity> res = mCityDao.queryBuilder().
+                where(CityEntityDao.Properties.CityName.eq(name)).
+                list();
+        if (isListEmpty(res)) {
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    @Override
+    public void addProvinces() {
+        final String[] provinces = {"北京", "天津", "河北", "山西", "山东", "辽宁", "吉林", "黑龙江",
+                "上海", "江苏", "浙江", "安徽", "福建", "江西", "河南", "湖北", "湖南", "广东", "广西",
+                "海南", "重庆", "四川", "贵州", "云南", "陕西", "甘肃", "青海", "内蒙古", "西藏", "宁夏",
+                "新疆", "香港", "澳门", "台湾"};
+
+        if (!isExistInProvince()) {
+            for (int i = 0; i < provinces.length; i++) {
+                ProvinceEntity entity = new ProvinceEntity(null,provinces[i]);
+                addProvinces(entity);
+            }
+        }
+
+    }
+
+    @Override
+    public void addProvinces(ProvinceEntity province) {
+        mProvinceDao.insert(province);
+    }
+
+    @Override
+    public boolean isExistInProvince() {
+        ProvinceEntity tempProvince = mProvinceDao.loadByRowId(1);
+        return tempProvince != null;
+    }
+
+    @Override
+    public void getProvince(String name, GetProvinceCallBack callBack) {
+        List<ProvinceEntity> res = mProvinceDao.queryBuilder().
+                where(ProvinceEntityDao.Properties.ProvinceName.like("%" + name + "%")).
+                list();
+
+        if (isListEmpty(res)) {
+            callBack.onFailure("没有含有该名字省份");
+        }else{
+            callBack.onSuccess(res);
+        }
+    }
+
+
+    @Override
+    public void getAllProvince(final GetProvinceCallBack callBack) {
+        Log.e(TAG, "getAllProvince已经执行");
+        List<ProvinceEntity> res = mProvinceDao.loadAll();
+        if (isListEmpty(res)) {
+            callBack.onFailure("数据为空");
+        } else {
+            callBack.onSuccess(res);
+
+        }
+    }
 }

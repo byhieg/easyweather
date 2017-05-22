@@ -15,7 +15,7 @@ import android.widget.Switch;
 import com.example.byhieglibrary.Activity.BaseFragment;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
-import com.weather.byhieg.easyweather.Service.NotificationService;
+import com.weather.byhieg.easyweather.startweather.NotificationService;
 
 /**
  * A simple {@link Fragment} subclass.

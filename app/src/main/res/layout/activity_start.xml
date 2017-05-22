@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/maincolor"
-    tools:context="com.weather.byhieg.easyweather.Activity.StartActivity">
+    tools:context="com.weather.byhieg.easyweather.startweather.StartActivity">
 
-    <com.weather.byhieg.easyweather.View.TextShowView
+    <com.weather.byhieg.easyweather.customview.TextShowView
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

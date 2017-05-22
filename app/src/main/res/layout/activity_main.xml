@@ -65,7 +65,7 @@
                             android:background="@color/blueviolet"
                             android:orientation="vertical" />
                         <include layout="@layout/item_flux" />
-                        <com.weather.byhieg.easyweather.View.WeekWeatherView
+                        <com.weather.byhieg.easyweather.customview.WeekWeatherView
                             android:id="@+id/week_Weather_view"
                             android:layout_width="match_parent"
                             android:layout_height="250dp"

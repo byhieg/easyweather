@@ -1,4 +1,4 @@
-package com.weather.byhieg.easyweather.View;
+package com.weather.byhieg.easyweather.customview;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

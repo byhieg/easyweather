@@ -1,26 +1,35 @@
-package com.weather.byhieg.easyweather.Activity;
+package com.weather.byhieg.easyweather.startweather;
 
 import android.content.Intent;
 import android.os.Handler;
 
 import com.example.byhieglibrary.Activity.BaseActivity;
+import com.weather.byhieg.easyweather.Activity.MainActivity;
 import com.weather.byhieg.easyweather.R;
-import com.weather.byhieg.easyweather.Service.BackGroundService;
 
-public class StartActivity extends BaseActivity {
+public class StartActivity extends BaseActivity implements StartWeatherContract.View {
 
-    private static final String ACTION_ADD_CITY = "com.weather.byhieg.easyweather.Activity.action.addCity";
-    private static final String ACTION_GET_WEATHER = "com.weather.byhieg.easyweather.Activity.action.getWeather";
-    private static final String ACTION_START_NOTIFICATION = "com.weather.byhieg.easyweather.Activity.action.notification";
-    private static final String ACTION_ADD_VIEWSPOT = "com.weather.byhieg.easyweather.Activity.action.viewspot";
-    private static final String ACTION_FILE_PROCESS = "com.weather.byhieg.easyweather.Activity.action.fileprocess";
+    private static final String ACTION_ADD_CITY = "com.weather.byhieg.easyweather.startweather" +
+            ".Activity.action.addCity";
+
+    private static final String ACTION_GET_WEATHER = "com.weather.byhieg.easyweather.startweather" +
+            ".Activity.action.getWeather";
+
+    private static final String ACTION_START_NOTIFICATION = "com.weather.byhieg.easyweather" +
+            ".startweather.Activity.action.notification";
+
+    private static final String ACTION_ADD_VIEWSPOT = "com.weather.byhieg.easyweather" +
+            ".startweather.Activity.action.viewspot";
+
+    private static final String ACTION_FILE_PROCESS = "com.weather.byhieg.easyweather.startweather" +
+            ".Activity.action.fileprocess";
+
+    private StartWeatherContract.Presenter mPresenter;
 
     @Override
     public void initData() {
-        startGetWeatherService();
-        startAddCityService();
-        startNotificationService();
-        startFileProcessService();
+       mPresenter = new StartWeatherPresenter(this);
+       mPresenter.start();
     }
 
     @Override
@@ -47,6 +56,18 @@ public class StartActivity extends BaseActivity {
     @Override
     public int getLayoutId() {
         return R.layout.activity_start;
+    }
+
+
+
+    @Override
+    public void setPresenter(StartWeatherContract.Presenter presenter) {
+
+    }
+
+    @Override
+    public void startService() {
+
     }
 
     private void startAddCityService(){
@@ -94,4 +115,6 @@ public class StartActivity extends BaseActivity {
     public static String getActionFileProcess(){
         return ACTION_FILE_PROCESS;
     }
+
+
 }

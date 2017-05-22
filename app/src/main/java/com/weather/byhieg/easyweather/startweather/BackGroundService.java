@@ -1,4 +1,4 @@
-package com.weather.byhieg.easyweather.Service;
+package com.weather.byhieg.easyweather.startweather;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -7,13 +7,13 @@ import android.os.Looper;
 
 import com.example.byhieglibrary.Utils.LogUtils;
 import com.google.gson.Gson;
-import com.weather.byhieg.easyweather.Activity.StartActivity;
 import com.weather.byhieg.easyweather.Bean.UrlCity;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
+import com.weather.byhieg.easyweather.data.source.local.WeatherLocalDataSource;
 import com.weather.byhieg.easyweather.tools.HandleDaoData;
 import com.weather.byhieg.easyweather.tools.NetTool;
-import com.weather.byhieg.easyweather.View.MyToast;
+import com.weather.byhieg.easyweather.customview.MyToast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -26,6 +26,7 @@ import java.util.concurrent.Executors;
 
 public class BackGroundService extends IntentService {
 
+    private WeatherLocalDataSource mLocalDataSource;
 
     public BackGroundService() {
         super("BackGroundService");
@@ -59,17 +60,8 @@ public class BackGroundService extends IntentService {
      * 将所有城市放入数据库
      */
     private void addCityData() throws Exception {
-        String[] provinces = {"北京", "天津", "河北", "山西", "山东", "辽宁", "吉林", "黑龙江", "上海", "江苏", "浙江", "安徽", "福建", "江西",
-                "河南", "湖北", "湖南", "广东", "广西", "海南", "重庆", "四川", "贵州", "云南", "陕西", "甘肃", "青海", "内蒙古",
-                "西藏", "宁夏", "新疆", "香港", "澳门", "台湾"};
-        if (!HandleDaoData.isExistInProvince()) {
-            for (String item : provinces) {
-                Province province = new Province();
-                province.setProvinceName(item);
-                HandleDaoData.insertProvince(province);
-            }
-        }
 
+        mLocalDataSource.addProvinces();
 
         if (!HandleDaoData.isExistInCity()) {
             Gson gson = new Gson();
@@ -81,40 +73,10 @@ public class BackGroundService extends IntentService {
                 sb.append(line);
             }
             UrlCity urlCity = gson.fromJson(sb.toString(), UrlCity.class);
-            for (int i = 0; i < urlCity.getCity_info().size(); i++) {
-                City city = new City();
-                city.setProvinceName(urlCity.getCity_info().get(i).getProv());
-                city.setCitynName(urlCity.getCity_info().get(i).getCity());
-                city.setLove("no");
-                HandleDaoData.insertCity(city);
-            }
+            mLocalDataSource.addCities(urlCity);
         }
 
     }
-
-//    private void addViewSpot() throws IOException {
-//        if (!HandleDaoData.isExistInViewSpot()) {
-//            Gson gson = new Gson();
-//            InputStream inputStream = getResources().openRawResource(R.raw.viewspot);
-//            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-//            StringBuilder sb = new StringBuilder();
-//            String line;
-//            while ((line = reader.readLine()) != null) {
-//                sb.append(line);
-//            }
-//
-//            UrlViewSpot urlViewSpot = gson.fromJson(sb.toString(), UrlViewSpot.class);
-//            for(int i = 0 ;i < urlViewSpot.getCity_info().size();i++) {
-//                ViewSpot viewSpot = new ViewSpot();
-//                viewSpot.setLove("no");
-//                viewSpot.setDirectName(urlViewSpot.getCity_info().get(i).getCnty());
-//                viewSpot.setViewSpotID(urlViewSpot.getCity_info().get(i).getId());
-//                viewSpot.setViewSpotName(urlViewSpot.getCity_info().get(i).getCity());
-//                HandleDaoData.insertViewSpot(viewSpot);
-//            }
-//        }
-//
-//    }
 
     /**
      * 获取天气

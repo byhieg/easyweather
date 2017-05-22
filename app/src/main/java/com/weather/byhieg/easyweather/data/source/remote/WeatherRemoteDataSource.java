@@ -66,26 +66,6 @@ public class WeatherRemoteDataSource implements WeatherDataSource {
 
     }
 
-    @Override
-    public void getAllProvince(GetProvinceCallBack callBack) {
-
-    }
-
-
-    @Override
-    public void getAllCity() {
-
-    }
-
-    @Override
-    public void addCity() {
-
-    }
-
-    @Override
-    public void addProvince() {
-
-    }
 
 
 }

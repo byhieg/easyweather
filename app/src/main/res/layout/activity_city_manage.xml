@@ -11,7 +11,7 @@
     <include layout="@layout/toolbar"
         android:id ="@+id/city_toolbar"/>
 
-    <com.weather.byhieg.easyweather.View.SlideCutListView
+    <com.weather.byhieg.easyweather.customview.SlideCutListView
         android:id="@+id/card_view_group"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,5 +25,5 @@
         android:divider="@color/white"
         android:listSelector="@android:color/transparent"
         android:background="@color/white">
-    </com.weather.byhieg.easyweather.View.SlideCutListView>
+    </com.weather.byhieg.easyweather.customview.SlideCutListView>
 </LinearLayout>

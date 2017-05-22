@@ -22,7 +22,7 @@ import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.tools.HandleDaoData;
 import com.weather.byhieg.easyweather.tools.MyJson;
-import com.weather.byhieg.easyweather.View.SlideCutListView;
+import com.weather.byhieg.easyweather.customview.SlideCutListView;
 
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;

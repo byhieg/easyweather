@@ -1,4 +1,4 @@
-package com.weather.byhieg.easyweather.View;
+package com.weather.byhieg.easyweather.customview;
 
 /**
  * Created by byhieg on 16-10-7.

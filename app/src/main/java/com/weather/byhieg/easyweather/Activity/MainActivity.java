@@ -60,14 +60,15 @@ import com.weather.byhieg.easyweather.Bean.WeatherBean;
 import com.weather.byhieg.easyweather.Interface.MyItemClickListener;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
-import com.weather.byhieg.easyweather.Service.NotificationService;
+import com.weather.byhieg.easyweather.startweather.NotificationService;
+import com.weather.byhieg.easyweather.data.source.local.entity.LoveCityEntity;
 import com.weather.byhieg.easyweather.tools.Constants;
 import com.weather.byhieg.easyweather.tools.HandleDaoData;
 import com.weather.byhieg.easyweather.tools.MyJson;
 import com.weather.byhieg.easyweather.tools.MyLocationListener;
 import com.weather.byhieg.easyweather.tools.NetTool;
 import com.weather.byhieg.easyweather.tools.WeatherIcon;
-import com.weather.byhieg.easyweather.View.WeekWeatherView;
+import com.weather.byhieg.easyweather.customview.WeekWeatherView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -496,7 +497,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
-        final List<LoveCity> cityList = HandleDaoData.getLoveCity();
+        final List<LoveCityEntity> cityList = HandleDaoData.getLoveCity();
         Thread[] threads = new Thread[cityList.size()];
         for (int i = 0; i < cityList.size(); i++) {
             final int index = i;
