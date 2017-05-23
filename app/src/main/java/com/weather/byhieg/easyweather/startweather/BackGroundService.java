@@ -2,8 +2,6 @@ package com.weather.byhieg.easyweather.startweather;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Looper;
 
 import com.example.byhieglibrary.Utils.LogUtils;
 import com.google.gson.Gson;
@@ -11,12 +9,11 @@ import com.weather.byhieg.easyweather.Bean.UrlCity;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.data.source.CityDataSource;
+import com.weather.byhieg.easyweather.data.source.CityRepository;
 import com.weather.byhieg.easyweather.data.source.WeatherRepository;
 import com.weather.byhieg.easyweather.data.source.local.WeatherLocalDataSource;
 import com.weather.byhieg.easyweather.data.source.local.entity.LoveCityEntity;
-import com.weather.byhieg.easyweather.tools.HandleDaoData;
 import com.weather.byhieg.easyweather.tools.MainThreadAction;
-import com.weather.byhieg.easyweather.tools.NetTool;
 import com.weather.byhieg.easyweather.customview.MyToast;
 
 import java.io.BufferedReader;
@@ -27,13 +24,11 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import cn.byhieg.betterload.network.NetService;
-
 
 public class BackGroundService extends IntentService {
 
-    private WeatherLocalDataSource mLocalDataSource;
-    private WeatherRepository mRepository;
+    private CityRepository mCityRepository;
+    private WeatherRepository mWeatherRepository;
 
     public BackGroundService() {
         super("BackGroundService");
@@ -68,9 +63,9 @@ public class BackGroundService extends IntentService {
      */
     private void addCityData() throws Exception {
 
-        mLocalDataSource.addProvince();
+        mCityRepository.addProvince();
 
-        if (!mLocalDataSource.isExistInCity()) {
+        if (!mCityRepository.isExistInCity()) {
             Gson gson = new Gson();
             InputStream inputStream = getResources().openRawResource(R.raw.city);
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -80,7 +75,7 @@ public class BackGroundService extends IntentService {
                 sb.append(line);
             }
             UrlCity urlCity = gson.fromJson(sb.toString(), UrlCity.class);
-            mLocalDataSource.addCities(urlCity);
+            mCityRepository.addCities(urlCity);
         }
 
     }
@@ -92,7 +87,7 @@ public class BackGroundService extends IntentService {
      * 查询天气数据库，必要时进行网络请求
      */
     private void getWeatherData() {
-        mLocalDataSource.getLoveCity(new CityDataSource.GetLoveCityCallBack() {
+        mCityRepository.getLoveCity(new CityDataSource.GetLoveCityCallBack() {
             @Override
             public void onSuccess(final List<LoveCityEntity> loveCities) {
                 ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
@@ -102,7 +97,7 @@ public class BackGroundService extends IntentService {
                         @Override
                         public void run() {
                             try {
-                                mRepository.getWeatherDataFromCity(loveCities.get(index).getCityName());
+                                mWeatherRepository.updateCityWeather(loveCities.get(index).getCityName());
                             } catch (Exception e) {
                                 MainThreadAction.getInstance().post(new Runnable() {
                                     @Override
@@ -120,7 +115,7 @@ public class BackGroundService extends IntentService {
             @Override
             public void onFailure(String failureMessage) {
                 LoveCityEntity entity = new LoveCityEntity(null,"成都",1);
-                mLocalDataSource.addLoveCity(entity);
+                mCityRepository.addLoveCity(entity);
                 getWeatherData();
             }
         });

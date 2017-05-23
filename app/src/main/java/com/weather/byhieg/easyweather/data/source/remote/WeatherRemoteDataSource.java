@@ -3,6 +3,8 @@ package com.weather.byhieg.easyweather.data.source.remote;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.data.HWeather;
 import com.weather.byhieg.easyweather.data.source.WeatherDataSource;
+import com.weather.byhieg.easyweather.data.source.local.entity.CityEntity;
+import com.weather.byhieg.easyweather.data.source.local.entity.WeatherEntity;
 import com.weather.byhieg.easyweather.data.source.remote.conf.ApiService;
 
 import java.util.LinkedHashMap;
@@ -30,9 +32,31 @@ public class WeatherRemoteDataSource implements WeatherDataSource {
     }
 
 
+    /**
+     * 该方法由localDataSource实现
+     * @return
+     */
     @Override
-    public void getWeatherData() {
+    public String getShowCity() {
+        return null;
+    }
 
+    /**
+     * 该方法由localDataSource实现
+     * @return
+     */
+    @Override
+    public void addWeather(WeatherEntity entity) {
+
+    }
+
+    /**
+     * 该方法由localDataSource实现
+     * @return
+     */
+    @Override
+    public boolean isExistInCityWeather(String cityName) {
+        return false;
     }
 
     @Override
@@ -55,19 +79,55 @@ public class WeatherRemoteDataSource implements WeatherDataSource {
         });
     }
 
+    /**
+     * 该方法由localDataSource实现
+     * @return
+     */
     @Override
-    public void updateCityWeather(String cityName, GetWeatherCallBack callBack) throws Exception {
-        checkNotNull(cityName);
-        getWeatherDataFromCity(cityName,callBack);
-    }
-
-    @Override
-    public void refreshWeather() {
+    public void getWeatherEntity(String cityName, GetWeatherEntityCallBack callBack) {
 
     }
 
+    /**
+     * 该方法由localDataSource实现
+     * @return
+     */
     @Override
-    public HWeather getWeatherDataFromCity(String cityName) throws Exception {
+    public WeatherEntity getWeatherEntity(String cityName) {
+        return null;
+    }
+
+    /**
+     * 该方法由repository实现
+     * @param cityName
+     * @throws Exception
+     */
+    @Override
+    public void updateCityWeather(String cityName) throws Exception {
+
+    }
+
+    /**
+     * 该方法由localDataSource实现
+     * @return
+     */
+    @Override
+    public HWeather getLocalWeather(String cityName) {
+        return null;
+    }
+
+
+    /**
+     * 该方法由localDataSource实现
+     * @return
+     */
+    @Override
+    public void saveWeather(HWeather weather) {
+
+    }
+
+    @Override
+    public HWeather getWeatherDataFromCity(String cityName){
         checkNotNull(cityName);
         Map<String, String> maps = new LinkedHashMap<>();
         maps.put("key", MyApplication.getHeweatherKey());

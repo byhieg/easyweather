@@ -43,5 +43,5 @@ greendao{
 
     schemaVersion 1
 
-    daoPackage 'greendao'
+    daoPackage 'com.weather.byhieg.easyweather.data.source.local.dao'
 }

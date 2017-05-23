@@ -2,9 +2,16 @@ package com.weather.byhieg.easyweather.data.source;
 
 import android.util.Log;
 
+import com.orhanobut.logger.Logger;
+import com.weather.byhieg.easyweather.Bean.UrlCity;
 import com.weather.byhieg.easyweather.data.HWeather;
 import com.weather.byhieg.easyweather.data.source.local.WeatherLocalDataSource;
+import com.weather.byhieg.easyweather.data.source.local.entity.CityEntity;
+import com.weather.byhieg.easyweather.data.source.local.entity.WeatherEntity;
 import com.weather.byhieg.easyweather.data.source.remote.WeatherRemoteDataSource;
+import static com.weather.byhieg.easyweather.tools.Knife.*;
+
+import java.util.Date;
 
 
 /**
@@ -20,8 +27,6 @@ public class WeatherRepository implements WeatherDataSource {
 
     private final WeatherRemoteDataSource mWeatherRemoteDataSource;
     private final WeatherLocalDataSource mWeatherLocalDataSource;
-    private static final Object lock = new Object();
-    private MyCallBack mCallBack = new MyCallBack();
 
     private boolean isCachedDirty = false;
 
@@ -43,33 +48,80 @@ public class WeatherRepository implements WeatherDataSource {
 
 
     @Override
-    public void getWeatherData() {
-        mWeatherLocalDataSource.getWeatherData();
+    public String getShowCity() {
+        return mWeatherLocalDataSource.getShowCity();
+    }
+
+    @Override
+    public void addWeather(WeatherEntity entity) {
+        mWeatherLocalDataSource.addWeather(entity);
+    }
+
+    @Override
+    public boolean isExistInCityWeather(String cityName) {
+        return mWeatherLocalDataSource.isExistInCityWeather(cityName);
     }
 
     @Override
     public void getWeatherDataFromCity(String cityName, GetWeatherCallBack callBack) throws Exception {
-//        if (isCachedDirty) {
-//            mWeatherRemoteDataSource.getWeatherDataFromCity(cityName, mCallBack);
-//        }
-//        mWeatherLocalDataSource.getWeatherDataFromCity(cityName, callBack);
-        mWeatherRemoteDataSource.getWeatherDataFromCity(cityName,callBack);
+         mWeatherRemoteDataSource.getWeatherDataFromCity(cityName,callBack);
     }
 
     @Override
-    public void updateCityWeather(String cityName, GetWeatherCallBack callBack) throws Exception {
-        mWeatherRemoteDataSource.updateCityWeather(cityName, mCallBack);
+    public void getWeatherEntity(String cityName, GetWeatherEntityCallBack callBack) {
+        mWeatherLocalDataSource.getWeatherEntity(cityName, callBack);
+    }
+
+    @Override
+    public WeatherEntity getWeatherEntity(String cityName) {
+        return mWeatherLocalDataSource.getWeatherEntity(cityName);
+    }
+
+    @Override
+    public void updateCityWeather(final String cityName){
+        if (isExistInCityWeather(cityName)) {
+            getWeatherEntity(cityName, new GetWeatherEntityCallBack() {
+                @Override
+                public void onSuccess(WeatherEntity entity) {
+                    try {
+                        Date oldTime = entity.getUpdateTime();
+                        Date nowDate = convertData(new Date());
+                        if (isNeedUpdate(oldTime,nowDate)){
+                            isCachedDirty = true;
+                            HWeather weather = getWeatherDataFromCity(cityName);
+                            saveWeather(weather);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(String failureMessage) {
+                    Logger.e(failureMessage);
+                }
+            });
+        }else{
+            HWeather weather = getWeatherDataFromCity(cityName);
+            saveWeather(weather);
+        }
 
     }
 
     @Override
-    public void refreshWeather() {
-        isCachedDirty = true;
+    public HWeather getLocalWeather(String cityName) {
+        return mWeatherLocalDataSource.getLocalWeather(cityName);
+    }
+
+
+    @Override
+    public void saveWeather(HWeather weather) {
+        mWeatherLocalDataSource.saveWeather(weather);
     }
 
     @Override
-    public HWeather getWeatherDataFromCity(String cityName) throws Exception {
-        return null;
+    public HWeather getWeatherDataFromCity(String cityName) {
+        return mWeatherRemoteDataSource.getWeatherDataFromCity(cityName);
     }
 
     class MyCallBack implements GetWeatherCallBack {

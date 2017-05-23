@@ -1,7 +1,9 @@
 package com.weather.byhieg.easyweather.data.source;
 
 import com.weather.byhieg.easyweather.data.HWeather;
+import com.weather.byhieg.easyweather.data.source.local.entity.CityEntity;
 import com.weather.byhieg.easyweather.data.source.local.entity.ProvinceEntity;
+import com.weather.byhieg.easyweather.data.source.local.entity.WeatherEntity;
 
 import java.util.List;
 
@@ -21,14 +23,31 @@ public interface WeatherDataSource {
         void onFailure(String failureMessage);
     }
 
+    interface GetWeatherEntityCallBack{
 
-    void getWeatherData();
+        void onSuccess(WeatherEntity entity);
+
+        void onFailure(String failureMessage);
+    }
+
+
+    String getShowCity();
+
+    void addWeather(WeatherEntity entity);
+
+    boolean isExistInCityWeather(String cityName);
 
     void getWeatherDataFromCity(String cityName, GetWeatherCallBack callBack) throws Exception;
 
-    void updateCityWeather(String cityName, GetWeatherCallBack callBack) throws Exception;
+    void getWeatherEntity(String cityName,GetWeatherEntityCallBack callBack);
 
-    void refreshWeather();
+    WeatherEntity getWeatherEntity(String cityName);
 
-    HWeather getWeatherDataFromCity(String cityName) throws Exception;
+    void updateCityWeather(String cityName) throws Exception;
+
+    HWeather getLocalWeather(String cityName);
+
+    void saveWeather(HWeather weather);
+
+    HWeather getWeatherDataFromCity(String cityName);
 }

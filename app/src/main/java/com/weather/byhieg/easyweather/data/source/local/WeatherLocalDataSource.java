@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.orhanobut.logger.Logger;
 import com.weather.byhieg.easyweather.Bean.UrlCity;
+import com.weather.byhieg.easyweather.Bean.WeatherBean;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.data.HWeather;
 import com.weather.byhieg.easyweather.data.source.CityDataSource;
@@ -11,14 +12,23 @@ import com.weather.byhieg.easyweather.data.source.WeatherDataSource;
 import com.weather.byhieg.easyweather.data.source.local.dao.CityEntityDao;
 import com.weather.byhieg.easyweather.data.source.local.dao.LoveCityEntityDao;
 import com.weather.byhieg.easyweather.data.source.local.dao.ProvinceEntityDao;
+import com.weather.byhieg.easyweather.data.source.local.dao.WeatherEntityDao;
 import com.weather.byhieg.easyweather.data.source.local.entity.CityEntity;
 import com.weather.byhieg.easyweather.data.source.local.entity.LoveCityEntity;
 import com.weather.byhieg.easyweather.data.source.local.entity.ProvinceEntity;
+import com.weather.byhieg.easyweather.data.source.local.entity.WeatherEntity;
+import com.weather.byhieg.easyweather.tools.WeatherJsonConverter;
 
+import java.io.ByteArrayInputStream;
+import java.io.ObjectInputStream;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static com.weather.byhieg.easyweather.tools.Knife.checkNotNull;
+import static com.weather.byhieg.easyweather.tools.Knife.convertData;
+import static com.weather.byhieg.easyweather.tools.Knife.convertHWeather;
+import static com.weather.byhieg.easyweather.tools.Knife.convertObject;
 import static com.weather.byhieg.easyweather.tools.Knife.isListEmpty;
 
 
@@ -30,48 +40,114 @@ import static com.weather.byhieg.easyweather.tools.Knife.isListEmpty;
 public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource{
 
     private final static String TAG = "WeatherLocalDataSource";
-
-    private ExecutorService mService = Executors.newFixedThreadPool(4);
     private ProvinceEntityDao mProvinceDao;
     private CityEntityDao mCityDao;
     private LoveCityEntityDao mLoveCityDao;
+    private WeatherEntityDao mWeatherDao;
 
     public WeatherLocalDataSource() {
         mProvinceDao = MyApplication.getDaoSession().getProvinceEntityDao();
         mCityDao = MyApplication.getDaoSession().getCityEntityDao();
         mLoveCityDao = MyApplication.getDaoSession().getLoveCityEntityDao();
+        mWeatherDao = MyApplication.getDaoSession().getWeatherEntityDao();
+    }
 
+
+    @Override
+    public String getShowCity() {
+        LoveCityEntity entity =  mLoveCityDao.queryBuilder().
+                where(LoveCityEntityDao.Properties.Order.eq(1)).
+                list().
+                get(0);
+
+        return entity.getCityName();
     }
 
     @Override
-    public void getWeatherData() {
+    public void addWeather(WeatherEntity entity) {
+        mWeatherDao.insert(entity);
+    }
 
+    @Override
+    public boolean isExistInCityWeather(String cityName) {
+        List<WeatherEntity> res = mWeatherDao.queryBuilder().
+                where(WeatherEntityDao.Properties.CityName.eq(cityName)).
+                limit(1).list();
+        if (isListEmpty(res)) {
+            return false;
+        }else{
+            return true;
+        }
     }
 
     @Override
     public void getWeatherDataFromCity(String cityName, GetWeatherCallBack callBack) throws Exception {
+        List<WeatherEntity> res = mWeatherDao.
+                queryBuilder().
+                where(WeatherEntityDao.Properties.CityName.eq(cityName)).list();
+        if (isListEmpty(res)) {
+            callBack.onFailure("没有该城市的天气");
+        }else{
+            byte[] bytes = res.get(res.size() - 1).getWeather();
+            callBack.onSuccess(convertObject(bytes,HWeather.class));
+        }
+    }
+
+    @Override
+    public void getWeatherEntity(String cityName, GetWeatherEntityCallBack callBack) {
+        List<WeatherEntity> res = mWeatherDao.queryBuilder().
+                where(WeatherEntityDao.Properties.CityName.eq(cityName)).list();
+        if (isListEmpty(res)) {
+            callBack.onFailure("没有该城市的天气数据");
+        }else{
+            callBack.onSuccess(res.get(res.size() - 1));
+        }
+    }
+
+    @Override
+    public WeatherEntity getWeatherEntity(String cityName) {
+        List<WeatherEntity> res = mWeatherDao.queryBuilder().
+                where(WeatherEntityDao.Properties.CityName.eq(cityName)).list();
+        if (isListEmpty(res)) {
+            return res.get(res.size() - 1);
+        }else{
+            return null;
+        }
+    }
+
+    /**
+     * 该方法由repository实现
+     * @param cityName
+     * @throws Exception
+     */
+    @Override
+    public void updateCityWeather(String cityName) throws Exception {
 
     }
 
     @Override
-    public void updateCityWeather(String cityName, GetWeatherCallBack callBack) throws Exception {
-
+    public HWeather getLocalWeather(String cityName) {
+        WeatherEntity entity = getWeatherEntity(cityName);
+        checkNotNull(entity);
+        return convertObject(entity.getWeather(), HWeather.class);
     }
 
-    @Override
-    public void refreshWeather() {
 
+    @Override
+    public void saveWeather(HWeather weather) {
+        addWeather(convertHWeather(weather));
     }
 
+    /**
+     * 该方法由remoteDataSource实现
+     * @param cityName
+     * @return
+     * @throws Exception
+     */
     @Override
-    public HWeather getWeatherDataFromCity(String cityName) throws Exception {
+    public HWeather getWeatherDataFromCity(String cityName) {
         return null;
     }
-
-    public void saveWeather(HWeather weather) {
-
-    }
-
 
     @Override
     public void addCities(UrlCity city) {
