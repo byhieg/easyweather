@@ -49,36 +49,44 @@ import org.greenrobot.greendao.annotation.Id;
 
 
 @Entity
-public class LoveCityEntity{
+public class LoveCityEntity {
 
     @Id(autoincrement = true)
     private Long id;
     private String cityName;
     private int order;
+
     @Generated(hash = 1968781902)
     public LoveCityEntity(Long id, String cityName, int order) {
         this.id = id;
         this.cityName = cityName;
         this.order = order;
     }
+
     @Generated(hash = 2010273138)
     public LoveCityEntity() {
     }
+
     public Long getId() {
         return this.id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
+
     public String getCityName() {
         return this.cityName;
     }
+
     public void setCityName(String cityName) {
         this.cityName = cityName;
     }
+
     public int getOrder() {
         return this.order;
     }
+
     public void setOrder(int order) {
         this.order = order;
     }

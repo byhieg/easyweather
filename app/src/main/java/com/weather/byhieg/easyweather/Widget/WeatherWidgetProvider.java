@@ -10,7 +10,7 @@ import com.weather.byhieg.easyweather.Bean.WeatherBean;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.tools.HandleDaoData;
-import com.weather.byhieg.easyweather.tools.MyJson;
+import com.weather.byhieg.easyweather.tools.WeatherJsonConverter;
 import com.weather.byhieg.easyweather.tools.WeatherIcon;
 
 import java.util.HashSet;
@@ -87,13 +87,13 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
         while (it.hasNext()) {
             appID = ((Integer) it.next()).intValue();
             // 获取 example_appwidget.xml 对应的RemoteViews
-            String cityName = MyJson.getWeather(getCityData()).getBasic().getCity();
-            String temp = MyJson.getWeather(getCityData()).getNow().getTmp();
-            String cond = MyJson.getWeather(getCityData()).getNow().getCond().getTxt();
+            String cityName = WeatherJsonConverter.getWeather(getCityData()).getBasic().getCity();
+            String temp = WeatherJsonConverter.getWeather(getCityData()).getNow().getTmp();
+            String cond = WeatherJsonConverter.getWeather(getCityData()).getNow().getCond().getTxt();
             RemoteViews remoteView = new RemoteViews(context.getPackageName(), R.layout.weather_appwidget);
             remoteView.setTextViewText(R.id.widget_city,cityName);
             remoteView.setTextViewText(R.id.widget_temperature,temp+"℃");
-            remoteView.setImageViewResource(R.id.widget_weather_img, WeatherIcon.getWeatherImage(MyJson.getWeather(getCityData()).getNow().getCond().getCode()));
+            remoteView.setImageViewResource(R.id.widget_weather_img, WeatherIcon.getWeatherImage(WeatherJsonConverter.getWeather(getCityData()).getNow().getCond().getCode()));
             remoteView.setTextViewText(R.id.widget_weather_text,cond);
             // 更新 widget
             if (MyApplication.widget()) {

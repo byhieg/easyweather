@@ -16,7 +16,7 @@ public class PutDaoData {
         CityWeather weather = new CityWeather();
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
-        Date date = simpleDateFormat.parse(MyJson.getWeather(weatherBean).getBasic().getUpdate().getLoc());
+        Date date = simpleDateFormat.parse(WeatherJsonConverter.getWeather(weatherBean).getBasic().getUpdate().getLoc());
         weather.setUpdateTime(date);
         weather.setCityName(weatherBean.getHeWeatherdataservice30().get(0).getBasic().getCity());
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

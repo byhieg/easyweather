@@ -16,12 +16,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Scroller;
 
-/**
- * @blog http://blog.csdn.net/xiaanming
- *
- * @author xiaanming
- *
- */
 public class SlideCutListView extends ListView {
     /**
      * 当前滑动的ListView　position

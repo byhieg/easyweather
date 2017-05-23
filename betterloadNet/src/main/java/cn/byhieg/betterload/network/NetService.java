@@ -1,5 +1,7 @@
 package cn.byhieg.betterload.network;
 
+import com.orhanobut.logger.Logger;
+
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -206,6 +208,29 @@ public class NetService {
             failureMessage.setFailureMessage(e.getMessage());
             responseListener.onFailure(failureMessage.toString());
         }
+
+    }
+
+
+    public <T> T syncRequest(final Call<T> requestCall) {
+        Call<T> call;
+        if (requestCall.isExecuted()) {
+            call = requestCall.clone();
+        } else {
+            call = requestCall;
+        }
+        try{
+            Response<T> response = call.execute();
+            if (response.isSuccessful()) {
+                T result = response.body();
+                return result;
+            }else {
+                return null;
+            }
+        } catch (IOException e) {
+            Logger.e(e.getMessage());
+        }
+        return null;
 
     }
 //

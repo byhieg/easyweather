@@ -64,7 +64,7 @@ import com.weather.byhieg.easyweather.startweather.NotificationService;
 import com.weather.byhieg.easyweather.data.source.local.entity.LoveCityEntity;
 import com.weather.byhieg.easyweather.tools.Constants;
 import com.weather.byhieg.easyweather.tools.HandleDaoData;
-import com.weather.byhieg.easyweather.tools.MyJson;
+import com.weather.byhieg.easyweather.tools.WeatherJsonConverter;
 import com.weather.byhieg.easyweather.tools.MyLocationListener;
 import com.weather.byhieg.easyweather.tools.NetTool;
 import com.weather.byhieg.easyweather.tools.WeatherIcon;
@@ -434,45 +434,45 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         } else {
             updateTime.setText("最近更新：" + time + "分钟之前");
         }
-        LogUtils.e("code",MyJson.getWeather(weatherBean).getNow().getCond().getCode());
-        tempImage.setImageResource(WeatherIcon.getWeatherImage(MyJson.getWeather(weatherBean).getNow().getCond().getCode()));
-        toolbar.setTitle(MyJson.getWeather(weatherBean).getBasic().getCity());
+        LogUtils.e("code", WeatherJsonConverter.getWeather(weatherBean).getNow().getCond().getCode());
+        tempImage.setImageResource(WeatherIcon.getWeatherImage(WeatherJsonConverter.getWeather(weatherBean).getNow().getCond().getCode()));
+        toolbar.setTitle(WeatherJsonConverter.getWeather(weatherBean).getBasic().getCity());
         //主卡片
-        temp.setText(MyJson.getWeather(weatherBean).getNow().getTmp() + "°");
-        tempHigh.setText("高 " + MyJson.getWeather(weatherBean).getDaily_forecast().get(0).getTmp().getMax() + "°");
-        tempLow.setText("低 " + MyJson.getWeather(weatherBean).getDaily_forecast().get(0).getTmp().getMin() + "°");
-        cloth.setText(MyJson.getWeather(weatherBean).getSuggestion().getDrsg().getBrf());
-        condition.setText(MyJson.getWeather(weatherBean).getNow().getCond().getTxt());
-        pm.setText(MyJson.getWeather(weatherBean).getAqi().getCity().getPm25());
-        hum.setText(MyJson.getWeather(weatherBean).getNow().getHum() + "%");
-        wind.setText(MyJson.getWeather(weatherBean).getNow().getWind().getSpd() + "km/h");
-        windDir.setText(MyJson.getWeather(weatherBean).getNow().getWind().getDir());
-        qlty.setText(MyJson.getWeather(weatherBean).getAqi().getCity().getQlty());
-        vis.setText(MyJson.getWeather(weatherBean).getNow().getVis() + "km");
-        pres.setText(MyJson.getWeather(weatherBean).getNow().getPres() + "帕");
-        uv.setText(MyJson.getWeather(weatherBean).getSuggestion().getUv().getBrf());
-        sunrise.setText(MyJson.getWeather(weatherBean).getDaily_forecast().get(0).getAstro().getSr());
-        sunset.setText(MyJson.getWeather(weatherBean).getDaily_forecast().get(0).getAstro().getSs());
+        temp.setText(WeatherJsonConverter.getWeather(weatherBean).getNow().getTmp() + "°");
+        tempHigh.setText("高 " + WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(0).getTmp().getMax() + "°");
+        tempLow.setText("低 " + WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(0).getTmp().getMin() + "°");
+        cloth.setText(WeatherJsonConverter.getWeather(weatherBean).getSuggestion().getDrsg().getBrf());
+        condition.setText(WeatherJsonConverter.getWeather(weatherBean).getNow().getCond().getTxt());
+        pm.setText(WeatherJsonConverter.getWeather(weatherBean).getAqi().getCity().getPm25());
+        hum.setText(WeatherJsonConverter.getWeather(weatherBean).getNow().getHum() + "%");
+        wind.setText(WeatherJsonConverter.getWeather(weatherBean).getNow().getWind().getSpd() + "km/h");
+        windDir.setText(WeatherJsonConverter.getWeather(weatherBean).getNow().getWind().getDir());
+        qlty.setText(WeatherJsonConverter.getWeather(weatherBean).getAqi().getCity().getQlty());
+        vis.setText(WeatherJsonConverter.getWeather(weatherBean).getNow().getVis() + "km");
+        pres.setText(WeatherJsonConverter.getWeather(weatherBean).getNow().getPres() + "帕");
+        uv.setText(WeatherJsonConverter.getWeather(weatherBean).getSuggestion().getUv().getBrf());
+        sunrise.setText(WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(0).getAstro().getSr());
+        sunset.setText(WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(0).getAstro().getSs());
 
         //穿衣指数
-        clothBrf.setText(MyJson.getWeather(weatherBean).getSuggestion().getDrsg().getBrf());
-        clothTxt.setText(MyJson.getWeather(weatherBean).getSuggestion().getDrsg().getTxt());
+        clothBrf.setText(WeatherJsonConverter.getWeather(weatherBean).getSuggestion().getDrsg().getBrf());
+        clothTxt.setText(WeatherJsonConverter.getWeather(weatherBean).getSuggestion().getDrsg().getTxt());
 
         //运动指数
-        sportBrf.setText(MyJson.getWeather(weatherBean).getSuggestion().getSport().getBrf());
-        sportTxt.setText(MyJson.getWeather(weatherBean).getSuggestion().getSport().getTxt());
+        sportBrf.setText(WeatherJsonConverter.getWeather(weatherBean).getSuggestion().getSport().getBrf());
+        sportTxt.setText(WeatherJsonConverter.getWeather(weatherBean).getSuggestion().getSport().getTxt());
 
         //感冒指数
-        codeBrf.setText(MyJson.getWeather(weatherBean).getSuggestion().getFlu().getBrf());
-        coldTxt.setText(MyJson.getWeather(weatherBean).getSuggestion().getFlu().getTxt());
+        codeBrf.setText(WeatherJsonConverter.getWeather(weatherBean).getSuggestion().getFlu().getBrf());
+        coldTxt.setText(WeatherJsonConverter.getWeather(weatherBean).getSuggestion().getFlu().getTxt());
 
         //未来三小时天气
-        if (MyJson.getWeather(weatherBean).getHourly_forecast().size() != 0) {
-            weatherCond.setText(MyJson.getWeather(weatherBean).getHourly_forecast().get(0).getPop() + "%");
-            updateHours.setText(MyJson.getWeather(weatherBean).getHourly_forecast().get(0).getDate());
-            windHours.setText(MyJson.getWeather(weatherBean).getHourly_forecast().get(0).getWind().getDir() + " " +
-                    MyJson.getWeather(weatherBean).getHourly_forecast().get(0).getWind().getSc());
-            weatherTmp.setText(MyJson.getWeather(weatherBean).getHourly_forecast().get(0).getTmp() + "°");
+        if (WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().size() != 0) {
+            weatherCond.setText(WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().get(0).getPop() + "%");
+            updateHours.setText(WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().get(0).getDate());
+            windHours.setText(WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().get(0).getWind().getDir() + " " +
+                    WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().get(0).getWind().getSc());
+            weatherTmp.setText(WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().get(0).getTmp() + "°");
         } else {
             itemFuture.setVisibility(View.GONE);
         }
@@ -701,16 +701,16 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         if(weatherBean == null) return;
         try {
             weatherBean = HandleDaoData.getWeatherBean(HandleDaoData.getShowCity());
-            for (int i = 0; i < MyJson.getWeather(weatherBean).getHourly_forecast().size(); i++) {
+            for (int i = 0; i < WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().size(); i++) {
                 HoursWeather hw = new HoursWeather();
-                hw.setTmp(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getTmp() + "°");
-                hw.setHum(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getHum() + "%");
-                hw.setWind_class(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getSc());
-                hw.setWind_deg(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getDeg());
-                hw.setWind_speed(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getSpd());
-                hw.setWind_dir(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getDir());
-                hw.setPop(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getPop() + "%");
-                hw.setUpdate(MyJson.getWeather(weatherBean).getHourly_forecast().get(i).getDate());
+                hw.setTmp(WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().get(i).getTmp() + "°");
+                hw.setHum(WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().get(i).getHum() + "%");
+                hw.setWind_class(WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getSc());
+                hw.setWind_deg(WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getDeg());
+                hw.setWind_speed(WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getSpd());
+                hw.setWind_dir(WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getDir());
+                hw.setPop(WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().get(i).getPop() + "%");
+                hw.setUpdate(WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().get(i).getDate());
                 hoursWeathers.add(hw);
             }
         } catch (Exception e) {

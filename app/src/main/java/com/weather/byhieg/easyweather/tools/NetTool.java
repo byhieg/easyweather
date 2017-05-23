@@ -47,7 +47,7 @@ public class NetTool {
                 WeatherBean weatherBean = gson.fromJson(response, WeatherBean.class);
 //                Date sqlDate = HandleDaoData.getCityWeather(HandleDaoData.getShowCity()).getUpdateTime();
 //                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-//                Date newDate = sdf.parse(MyJson.getWeather(weatherBean).getBasic().getUpdate().getLoc());
+//                Date newDate = sdf.parse(WeatherJsonConverter.getWeather(weatherBean).getBasic().getUpdate().getLoc());
 //                if (DateUtil.daysOfTwo(sqlDate, newDate) == 1) {
 //                    MyApplication.isNewDay = true;
 //                }

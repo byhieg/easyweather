@@ -21,7 +21,7 @@ import com.weather.byhieg.easyweather.Fragment.CityFragment;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.tools.HandleDaoData;
-import com.weather.byhieg.easyweather.tools.MyJson;
+import com.weather.byhieg.easyweather.tools.WeatherJsonConverter;
 import com.weather.byhieg.easyweather.customview.SlideCutListView;
 
 import java.lang.ref.WeakReference;
@@ -96,11 +96,11 @@ public class CityManageActivity extends BaseActivity {
                             format(HandleDaoData.getCityWeather(name).
                                     getUpdateTime()));
 
-                    context.setTmp(MyJson.getWeather(weatherBean).getNow().getTmp());
-                    context.setHum(MyJson.getWeather(weatherBean).getNow().getHum());
-                    context.setCond(MyJson.getWeather(weatherBean).getNow().getCond().getTxt());
+                    context.setTmp(WeatherJsonConverter.getWeather(weatherBean).getNow().getTmp());
+                    context.setHum(WeatherJsonConverter.getWeather(weatherBean).getNow().getHum());
+                    context.setCond(WeatherJsonConverter.getWeather(weatherBean).getNow().getCond().getTxt());
                     context.setCityName(name);
-                    context.setCode(MyJson.getWeather(weatherBean).getNow().getCond().getCode());
+                    context.setCode(WeatherJsonConverter.getWeather(weatherBean).getNow().getCond().getCode());
                 }
             } catch (Exception e) {
                 e.printStackTrace();

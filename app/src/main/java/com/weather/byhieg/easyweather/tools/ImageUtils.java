@@ -78,20 +78,20 @@ public class ImageUtils {
         Date sqlDate = HandleDaoData.getCityWeather(HandleDaoData.getShowCity()).getUpdateTime();
         @SuppressLint("SimpleDateFormat")
         String updateTime = new SimpleDateFormat("MM-dd HH:mm").format(sqlDate);
-        String city = MyJson.getWeather(weatherBean).getBasic().getCity();
-        String tmp = MyJson.getWeather(weatherBean).getNow().getTmp() + "°";
-        String cond = MyJson.getWeather(weatherBean).getNow().getCond().getTxt();
+        String city = WeatherJsonConverter.getWeather(weatherBean).getBasic().getCity();
+        String tmp = WeatherJsonConverter.getWeather(weatherBean).getNow().getTmp() + "°";
+        String cond = WeatherJsonConverter.getWeather(weatherBean).getNow().getCond().getTxt();
 
-        String tmpRange = MyJson.getWeather(weatherBean).getDaily_forecast().get(0).getTmp().getMin() + "°" + "/" +
-                MyJson.getWeather(weatherBean).getDaily_forecast().get(0).getTmp().getMax() + "°";
-        String hum = "湿度：" + MyJson.getWeather(weatherBean).getNow().getHum() + "%";
-        String speed = "风速：" + MyJson.getWeather(weatherBean).getNow().getWind().getSpd() + "km/h";
-        String uv = "紫外线：" + MyJson.getWeather(weatherBean).getSuggestion().getUv().getBrf();
+        String tmpRange = WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(0).getTmp().getMin() + "°" + "/" +
+                WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(0).getTmp().getMax() + "°";
+        String hum = "湿度：" + WeatherJsonConverter.getWeather(weatherBean).getNow().getHum() + "%";
+        String speed = "风速：" + WeatherJsonConverter.getWeather(weatherBean).getNow().getWind().getSpd() + "km/h";
+        String uv = "紫外线：" + WeatherJsonConverter.getWeather(weatherBean).getSuggestion().getUv().getBrf();
         String[] weeks = new String[7];
         try {
             weeks = DateUtil.
                     getNextWeek(new SimpleDateFormat("yyyy-MM-dd").
-                            parse(MyJson.getWeather(weatherBean).getDaily_forecast().get(0).getDate()));
+                            parse(WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(0).getDate()));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -187,13 +187,13 @@ public class ImageUtils {
             case FUTURE:
                 canvas.save();
                 canvas.drawColor(ContextCompat.getColor(context, R.color.white));
-                for(int i = 0 ;i < MyJson.getWeather(weatherBean).getDaily_forecast().size();i++) {
-                    weekTmp[i] = MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getCond().getTxt_d();
+                for(int i = 0; i < WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().size(); i++) {
+                    weekTmp[i] = WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(i).getCond().getTxt_d();
                     if(weekTmp[i].contains("/")){
                         weekTmp[i] = weekTmp[i].split("/")[1];
                     }
-                    highTmp[i] = "高" + MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getTmp().getMax() + "°";
-                    lowTmp[i] = "低" + MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getTmp().getMin() + "°";
+                    highTmp[i] = "高" + WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(i).getTmp().getMax() + "°";
+                    lowTmp[i] = "低" + WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(i).getTmp().getMin() + "°";
                 }
                 textPaint.setColor(Color.BLACK);
                 for(int i = 1 ; i < 7 ;i++){

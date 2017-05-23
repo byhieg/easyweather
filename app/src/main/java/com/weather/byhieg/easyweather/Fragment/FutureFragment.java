@@ -17,7 +17,7 @@ import com.weather.byhieg.easyweather.Bean.WeatherBean;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.tools.HandleDaoData;
-import com.weather.byhieg.easyweather.tools.MyJson;
+import com.weather.byhieg.easyweather.tools.WeatherJsonConverter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -66,23 +66,23 @@ public class FutureFragment extends BaseFragment {
         WeatherBean weatherBean = HandleDaoData.getWeatherBean(HandleDaoData.getShowCity());
         String[] weeks = DateUtil.
                 getNextWeek(new SimpleDateFormat("yyyy-MM-dd").
-                        parse(MyJson.getWeather(weatherBean).getDaily_forecast().get(0).getDate()));
+                        parse(WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(0).getDate()));
 
-        for(int i = 0;i < MyJson.getWeather(weatherBean).getDaily_forecast().size();i++) {
+        for(int i = 0; i < WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().size(); i++) {
             FutureContext fc = new FutureContext();
-            fc.setCond(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getCond().getTxt_d());
-            fc.setHum(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getHum());
-            fc.setTmp(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getTmp().getMax() + "°" + "/" +
-                    MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getTmp().getMin() + "°");
+            fc.setCond(WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(i).getCond().getTxt_d());
+            fc.setHum(WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(i).getHum());
+            fc.setTmp(WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(i).getTmp().getMax() + "°" + "/" +
+                    WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(i).getTmp().getMin() + "°");
 
-            fc.setWind(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getWind().getSpd());
-            fc.setVis(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getVis());
-            fc.setPop(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getPop());
-            fc.setSunrise(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getAstro().getSr());
-            fc.setSunset(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getAstro().getSs());
-            fc.setPcpn(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getPcpn());
-            fc.setPres(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getPres());
-            fc.setDes(MyJson.getWeather(weatherBean).getDaily_forecast().get(i).getWind().getDir());
+            fc.setWind(WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(i).getWind().getSpd());
+            fc.setVis(WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(i).getVis());
+            fc.setPop(WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(i).getPop());
+            fc.setSunrise(WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(i).getAstro().getSr());
+            fc.setSunset(WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(i).getAstro().getSs());
+            fc.setPcpn(WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(i).getPcpn());
+            fc.setPres(WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(i).getPres());
+            fc.setDes(WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(i).getWind().getDir());
             fc.setTime(weeks[i]);
             lists.add(fc);
         }

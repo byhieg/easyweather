@@ -10,8 +10,12 @@ import com.google.gson.Gson;
 import com.weather.byhieg.easyweather.Bean.UrlCity;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
+import com.weather.byhieg.easyweather.data.source.CityDataSource;
+import com.weather.byhieg.easyweather.data.source.WeatherRepository;
 import com.weather.byhieg.easyweather.data.source.local.WeatherLocalDataSource;
+import com.weather.byhieg.easyweather.data.source.local.entity.LoveCityEntity;
 import com.weather.byhieg.easyweather.tools.HandleDaoData;
+import com.weather.byhieg.easyweather.tools.MainThreadAction;
 import com.weather.byhieg.easyweather.tools.NetTool;
 import com.weather.byhieg.easyweather.customview.MyToast;
 
@@ -23,10 +27,13 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import cn.byhieg.betterload.network.NetService;
+
 
 public class BackGroundService extends IntentService {
 
     private WeatherLocalDataSource mLocalDataSource;
+    private WeatherRepository mRepository;
 
     public BackGroundService() {
         super("BackGroundService");
@@ -61,9 +68,9 @@ public class BackGroundService extends IntentService {
      */
     private void addCityData() throws Exception {
 
-        mLocalDataSource.addProvinces();
+        mLocalDataSource.addProvince();
 
-        if (!HandleDaoData.isExistInCity()) {
+        if (!mLocalDataSource.isExistInCity()) {
             Gson gson = new Gson();
             InputStream inputStream = getResources().openRawResource(R.raw.city);
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -85,42 +92,38 @@ public class BackGroundService extends IntentService {
      * 查询天气数据库，必要时进行网络请求
      */
     private void getWeatherData() {
-        List<LoveCity> city = HandleDaoData.getLoveCity();
-        if (city != null) {
-            if (city.size() == 0) {
-                LoveCity chengdu = new LoveCity();
-                chengdu.setCitynName("成都");
-                chengdu.setOrder(1);
-                HandleDaoData.insertLoveCity(chengdu);
-            }
-        }
-        LoveCity firstCity = HandleDaoData.getLoveCity(1);
-        if (firstCity != null) {
-            final List<LoveCity> cityList = HandleDaoData.getLoveCity();
-            ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
-            for (int i = 0; i < cityList.size(); i++) {
-                final int index = i;
-                singleThreadExecutor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            NetTool.doNetWeather(cityList.get(index).getCitynName());
-                        } catch (Exception e) {
-                            Handler handler = new Handler(Looper.getMainLooper());
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    MyToast myToast = MyToast.createMyToast();
-                                    myToast.ToastShow(BackGroundService.this, "网络异常,请检查网络");
-                                }
-                            });
+        mLocalDataSource.getLoveCity(new CityDataSource.GetLoveCityCallBack() {
+            @Override
+            public void onSuccess(final List<LoveCityEntity> loveCities) {
+                ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
+                for (int i = 0; i < loveCities.size(); i++) {
+                    final int index = i;
+                    singleThreadExecutor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                mRepository.getWeatherDataFromCity(loveCities.get(index).getCityName());
+                            } catch (Exception e) {
+                                MainThreadAction.getInstance().post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        MyToast myToast = MyToast.createMyToast();
+                                        myToast.ToastShow(BackGroundService.this, "网络异常,请检查网络");
+                                    }
+                                });
+                            }
                         }
-
-                    }
-                });
+                    });
+                }
             }
-        }
 
+            @Override
+            public void onFailure(String failureMessage) {
+                LoveCityEntity entity = new LoveCityEntity(null,"成都",1);
+                mLocalDataSource.addLoveCity(entity);
+                getWeatherData();
+            }
+        });
     }
 
     private void deleteCacheFile() {

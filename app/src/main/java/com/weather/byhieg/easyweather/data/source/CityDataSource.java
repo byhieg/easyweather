@@ -2,6 +2,7 @@ package com.weather.byhieg.easyweather.data.source;
 
 import com.weather.byhieg.easyweather.Bean.UrlCity;
 import com.weather.byhieg.easyweather.data.source.local.entity.CityEntity;
+import com.weather.byhieg.easyweather.data.source.local.entity.LoveCityEntity;
 import com.weather.byhieg.easyweather.data.source.local.entity.ProvinceEntity;
 
 import java.util.List;
@@ -39,14 +40,39 @@ public interface CityDataSource {
 
     void getAllProvince(GetProvinceCallBack callBack);
 
-    void addProvinces();
+    void addProvince();
 
-    void addProvinces(ProvinceEntity province);
+    void addProvince(ProvinceEntity province);
 
     boolean isExistInProvince();
 
     void getProvince(String name,GetProvinceCallBack callBack);
 
+
+    /******************************************************************************************
+     *  对LoveCityDao进行的操作
+     *******************************************************************************************/
+
+
+    void getLoveCity(String cityName,GetLoveCityCallBack callBack);
+
+    void getLoveCity(int order,GetLoveCityCallBack callBack);
+
+    void getLoveCity(GetLoveCityCallBack callBack);
+
+    void addLoveCity(LoveCityEntity loveCity);
+
+    boolean isExistInLoveCity(String cityName);
+
+    void updateCityOrder(String cityName,int order);
+
+    void deleteCity(String cityName);
+
+    interface GetLoveCityCallBack{
+        void onSuccess(List<LoveCityEntity> loveCities);
+        void onFailure(String failureMessage);
+
+    }
 
     interface GetProvinceCallBack{
         void onSuccess(List<ProvinceEntity> provinces);
@@ -59,5 +85,8 @@ public interface CityDataSource {
 
         void onFailure(String failureMessage);
     }
+
+
+
 
 }

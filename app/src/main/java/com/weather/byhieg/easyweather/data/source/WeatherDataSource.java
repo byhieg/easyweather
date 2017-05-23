@@ -30,6 +30,5 @@ public interface WeatherDataSource {
 
     void refreshWeather();
 
-
-
+    HWeather getWeatherDataFromCity(String cityName) throws Exception;
 }

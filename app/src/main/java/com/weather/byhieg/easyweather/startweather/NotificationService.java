@@ -13,7 +13,7 @@ import com.weather.byhieg.easyweather.Activity.MainActivity;
 import com.weather.byhieg.easyweather.Bean.WeatherBean;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.tools.HandleDaoData;
-import com.weather.byhieg.easyweather.tools.MyJson;
+import com.weather.byhieg.easyweather.tools.WeatherJsonConverter;
 import com.weather.byhieg.easyweather.tools.WeatherIcon;
 
 import java.lang.reflect.Field;
@@ -68,12 +68,12 @@ public class NotificationService extends Service{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        contentViews.setTextViewText(R.id.city_text,MyJson.getWeather(notificationWeather).getBasic().getCity());
-        contentViews.setTextViewText(R.id.weather_text,MyJson.getWeather(notificationWeather).getNow().getCond().getTxt());
+        contentViews.setTextViewText(R.id.city_text, WeatherJsonConverter.getWeather(notificationWeather).getBasic().getCity());
+        contentViews.setTextViewText(R.id.weather_text, WeatherJsonConverter.getWeather(notificationWeather).getNow().getCond().getTxt());
         contentViews.setImageViewResource(R.id.weather_image,
-                    WeatherIcon.getWeatherImage(MyJson.getWeather(notificationWeather).getNow().getCond().getCode()));
-        contentViews.setTextViewText(R.id.temperature_text,MyJson.getWeather(notificationWeather).getNow().getTmp()+"℃");
-        String exerciseStr = "运动情况:" + MyJson.getWeather(notificationWeather).getSuggestion().getSport().getBrf();
+                    WeatherIcon.getWeatherImage(WeatherJsonConverter.getWeather(notificationWeather).getNow().getCond().getCode()));
+        contentViews.setTextViewText(R.id.temperature_text, WeatherJsonConverter.getWeather(notificationWeather).getNow().getTmp()+"℃");
+        String exerciseStr = "运动情况:" + WeatherJsonConverter.getWeather(notificationWeather).getSuggestion().getSport().getBrf();
         contentViews.setTextViewText(R.id.exercise_text,exerciseStr);
         notification.contentView = contentViews;
         notificationManager.notify(NOTIFICATION_ID, notification);
