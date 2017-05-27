@@ -44,7 +44,7 @@
             android:value=".Activity.SearchResultActivity" />
 
         <activity
-            android:name=".Activity.MainActivity"
+            android:name=".home.MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -91,7 +91,7 @@
         <activity
             android:name=".Activity.SlideMenuActivity"
             android:launchMode="singleTask"
-            android:parentActivityName=".Activity.MainActivity"
+            android:parentActivityName=".home.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- 声明widget对应的AppWidgetProvider -->

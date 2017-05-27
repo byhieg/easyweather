@@ -25,12 +25,13 @@ public interface CityDataSource {
 
     void getCityFromProvince(String provinceName,GetCityCallBack callBack);
 
-
     void getAllCity(GetCityCallBack callBack);
 
     void getCities(String name,GetCityCallBack callBack);
 
     boolean isExistInCity(String name);
+
+    List<CityEntity> getAllCities();
 
 
     /******************************************************************************************
@@ -48,11 +49,15 @@ public interface CityDataSource {
 
     void getProvince(String name,GetProvinceCallBack callBack);
 
+    List<ProvinceEntity> getAllProvince();
+
 
     /******************************************************************************************
      *  对LoveCityDao进行的操作
      *******************************************************************************************/
 
+
+    List<LoveCityEntity> getAllLoveCities();
 
     void getLoveCity(String cityName,GetLoveCityCallBack callBack);
 

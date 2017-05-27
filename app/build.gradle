@@ -38,7 +38,7 @@ dependencies {
     compile project(':betterloadNet')
 }
 
-greendao{
+greendao {
     targetGenDir 'src/main/java'
 
     schemaVersion 1

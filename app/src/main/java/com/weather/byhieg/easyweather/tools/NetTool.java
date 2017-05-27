@@ -25,35 +25,35 @@ public class NetTool {
      *
      * @param cityName 根据城市名字进行网络请求
      */
-    public static synchronized void doNetWeather(String cityName) throws Exception {
-        Gson gson = new Gson();
-        int[] pos = {11, 15, 22, 23};
-        Map<String, String> params = new HashMap<>();
-        params.put("city", cityName);
-        params.put("key", MyApplication.getHeweatherKey());
-        String url = HttpUtils.url(MyApplication.getCityUrl(), null, params);
-
-        if(!HandleDaoData.isExistInCityWeather(cityName)){
-            Response netResponse = HttpUtils.getAsyn(url);
-            String response = StringUtils.delPosOfString(netResponse.body().string(), pos);
-            WeatherBean weatherBean = gson.fromJson(response, WeatherBean.class);
-            HandleDaoData.insertCityWeather(PutDaoData.putWeatherData(weatherBean));
-        }else{
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
-            Date nowDate = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
-            if((nowDate.getTime() - (HandleDaoData.getCityWeather(cityName)).getUpdateTime().getTime()) > 1000 * 60 * UPDATERATE){
-                Response netResponse = HttpUtils.getAsyn(url);
-                String response = StringUtils.delPosOfString(netResponse.body().string(), pos);
-                WeatherBean weatherBean = gson.fromJson(response, WeatherBean.class);
-//                Date sqlDate = HandleDaoData.getCityWeather(HandleDaoData.getShowCity()).getUpdateTime();
-//                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-//                Date newDate = sdf.parse(WeatherJsonConverter.getWeather(weatherBean).getBasic().getUpdate().getLoc());
-//                if (DateUtil.daysOfTwo(sqlDate, newDate) == 1) {
-//                    MyApplication.isNewDay = true;
-//                }
-//                LogUtils.e("newDay",MyApplication.isNewDay + "");
-                HandleDaoData.updateCityWeather(PutDaoData.putWeatherData(weatherBean));
-            }
-        }
-    }
+//    public static synchronized void doNetWeather(String cityName) throws Exception {
+//        Gson gson = new Gson();
+//        int[] pos = {11, 15, 22, 23};
+//        Map<String, String> params = new HashMap<>();
+//        params.put("city", cityName);
+//        params.put("key", MyApplication.getHeweatherKey());
+//        String url = HttpUtils.url(MyApplication.getCityUrl(), null, params);
+//
+//        if(!HandleDaoData.isExistInCityWeather(cityName)){
+//            Response netResponse = HttpUtils.getAsyn(url);
+//            String response = StringUtils.delPosOfString(netResponse.body().string(), pos);
+//            WeatherBean weatherBean = gson.fromJson(response, WeatherBean.class);
+//            HandleDaoData.insertCityWeather(PutDaoData.putWeatherData(weatherBean));
+//        }else{
+//            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+//            Date nowDate = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
+//            if((nowDate.getTime() - (HandleDaoData.getCityWeather(cityName)).getUpdateTime().getTime()) > 1000 * 60 * UPDATERATE){
+//                Response netResponse = HttpUtils.getAsyn(url);
+//                String response = StringUtils.delPosOfString(netResponse.body().string(), pos);
+//                WeatherBean weatherBean = gson.fromJson(response, WeatherBean.class);
+////                Date sqlDate = HandleDaoData.getCityWeather(HandleDaoData.getShowCity()).getUpdateTime();
+////                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+////                Date newDate = sdf.parse(WeatherJsonConverter.getWeather(weatherBean).getBasic().getUpdate().getLoc());
+////                if (DateUtil.daysOfTwo(sqlDate, newDate) == 1) {
+////                    MyApplication.isNewDay = true;
+////                }
+////                LogUtils.e("newDay",MyApplication.isNewDay + "");
+//                HandleDaoData.updateCityWeather(PutDaoData.putWeatherData(weatherBean));
+//            }
+//        }
+//    }
 }

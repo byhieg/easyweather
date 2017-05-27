@@ -16,40 +16,40 @@ public class HandleDaoData {
      * @throws Exception
      */
 
-    public static WeatherBean getWeatherBean(String city) throws Exception{
-        List<CityWeather> cityWeather = MyApplication.
-                                  getDaoSession().
-                                  getCityWeatherDao().
-                                  queryBuilder().
-                                  where(CityWeatherDao.Properties.CityName.like(city)).limit(1).list();
-
-        if (cityWeather != null && cityWeather.size() != 0) {
-            byte[] javaObjBytes = cityWeather.get(0).getWeatherBean();
-            ByteArrayInputStream bai = new ByteArrayInputStream(javaObjBytes);
-            return (WeatherBean) new ObjectInputStream(bai).readObject();
-        }else{
-            return null;
-        }
-    }
+//    public static WeatherBean getWeatherBean(String city) throws Exception{
+//        List<CityWeather> cityWeather = MyApplication.
+//                                  getDaoSession().
+//                                  getCityWeatherDao().
+//                                  queryBuilder().
+//                                  where(CityWeatherDao.Properties.CityName.like(city)).limit(1).list();
+//
+//        if (cityWeather != null && cityWeather.size() != 0) {
+//            byte[] javaObjBytes = cityWeather.get(0).getWeatherBean();
+//            ByteArrayInputStream bai = new ByteArrayInputStream(javaObjBytes);
+//            return (WeatherBean) new ObjectInputStream(bai).readObject();
+//        }else{
+//            return null;
+//        }
+//    }
 
     /**
      *
      * @return 要展示的城市的名字
      */
 
-    public static String getShowCity() {
-        LoveCity city = MyApplication.
-                        getDaoSession().
-                        getLoveCityDao().
-                        queryBuilder().
-                        where(LoveCityDao.Properties.Order.eq(1)).list().get(0);
-
-        if (city != null) {
-            return city.getCitynName();
-        }else{
-            return null;
-        }
-    }
+//    public static String getShowCity() {
+//        LoveCity city = MyApplication.
+//                        getDaoSession().
+//                        getLoveCityDao().
+//                        queryBuilder().
+//                        where(LoveCityDao.Properties.Order.eq(1)).list().get(0);
+//
+//        if (city != null) {
+//            return city.getCitynName();
+//        }else{
+//            return null;
+//        }
+//    }
 
     /******************************************************************************************
      *  对CityWeatherDao进行的操作
@@ -59,9 +59,9 @@ public class HandleDaoData {
      * 插入城市天气
      * @param cityWeather 要插入的城市天气
      */
-    public static void insertCityWeather(CityWeather cityWeather){
-        MyApplication.getDaoSession().getCityWeatherDao().insert(cityWeather);
-    }
+//    public static void insertCityWeather(CityWeather cityWeather){
+//        MyApplication.getDaoSession().getCityWeatherDao().insert(cityWeather);
+//    }
 
     /**
      * 查询城市天气表中　该城市的天气是否存在
@@ -69,44 +69,44 @@ public class HandleDaoData {
      * @return true 存在
      */
 
-    public static boolean isExistInCityWeather(String city) {
-        List<CityWeather> cityWeathers = MyApplication.
-                                         getDaoSession().
-                                         getCityWeatherDao().
-                                         queryBuilder().
-                                         where(CityWeatherDao.Properties.CityName.eq(city)).
-                                         limit(1).list();
-
-        return cityWeathers != null && cityWeathers.size() != 0;
-    }
+//    public static boolean isExistInCityWeather(String city) {
+//        List<CityWeather> cityWeathers = MyApplication.
+//                                         getDaoSession().
+//                                         getCityWeatherDao().
+//                                         queryBuilder().
+//                                         where(CityWeatherDao.Properties.CityName.eq(city)).
+//                                         limit(1).list();
+//
+//        return cityWeathers != null && cityWeathers.size() != 0;
+//    }
 
 
     /**
      * 根据天气数据 更新表中内容
      * @param cityWeather 天气数据
      */
-    public static void updateCityWeather(CityWeather cityWeather) {
-        String name = cityWeather.getCityName();
-        CityWeather temp = getCityWeather(name);
-        temp.setWeatherBean(cityWeather.getWeatherBean());
-        temp.setUpdateTime(cityWeather.getUpdateTime());
-        MyApplication.getDaoSession().getCityWeatherDao().update(temp);
-    }
+//    public static void updateCityWeather(CityWeather cityWeather) {
+//        String name = cityWeather.getCityName();
+//        CityWeather temp = getCityWeather(name);
+//        temp.setWeatherBean(cityWeather.getWeatherBean());
+//        temp.setUpdateTime(cityWeather.getUpdateTime());
+//        MyApplication.getDaoSession().getCityWeatherDao().update(temp);
+//    }
 
 
-    public static CityWeather getCityWeather(String cityName){
-        List<CityWeather> cityWeathers = MyApplication.
-                                  getDaoSession().
-                                  getCityWeatherDao().
-                                  queryBuilder().
-                                  where(CityWeatherDao.Properties.CityName.eq(cityName)).list();
-        if (cityWeathers.size() != 0) {
-            return cityWeathers.get(cityWeathers.size() - 1);
-        }else {
-            return null;
-        }
-
-    }
+//    public static CityWeather getCityWeather(String cityName){
+//        List<CityWeather> cityWeathers = MyApplication.
+//                                  getDaoSession().
+//                                  getCityWeatherDao().
+//                                  queryBuilder().
+//                                  where(CityWeatherDao.Properties.CityName.eq(cityName)).list();
+//        if (cityWeathers.size() != 0) {
+//            return cityWeathers.get(cityWeathers.size() - 1);
+//        }else {
+//            return null;
+//        }
+//
+//    }
 
     /******************************************************************************************
      * 对CityDao进行的操作

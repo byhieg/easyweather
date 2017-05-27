@@ -128,8 +128,11 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
     @Override
     public HWeather getLocalWeather(String cityName) {
         WeatherEntity entity = getWeatherEntity(cityName);
-        checkNotNull(entity);
-        return convertObject(entity.getWeather(), HWeather.class);
+        if (entity == null) {
+            return null;
+        }else{
+            return convertObject(entity.getWeather(), HWeather.class);
+        }
     }
 
 
@@ -218,6 +221,11 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
     }
 
     @Override
+    public List<CityEntity> getAllCities() {
+        return mCityDao.loadAll();
+    }
+
+    @Override
     public void addProvince() {
         final String[] provinces = {"北京", "天津", "河北", "山西", "山东", "辽宁", "吉林", "黑龙江",
                 "上海", "江苏", "浙江", "安徽", "福建", "江西", "河南", "湖北", "湖南", "广东", "广西",
@@ -267,6 +275,16 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
         }else{
             callBack.onSuccess(res);
         }
+    }
+
+    @Override
+    public List<ProvinceEntity> getAllProvince() {
+        return mProvinceDao.loadAll();
+    }
+
+    @Override
+    public List<LoveCityEntity> getAllLoveCities() {
+        return mLoveCityDao.loadAll();
     }
 
 

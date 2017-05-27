@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="300dp"
     android:layout_height="match_parent"
-    android:layout_gravity="start"
     android:background="@color/white">
 
     <RelativeLayout
@@ -21,22 +20,4 @@
             android:textColor="@color/white"/>
 
     </RelativeLayout>
-
-    <!--<include layout="@layout/item_drawer_list"/>-->
-
-    <!--<ViewStub-->
-        <!--android:id="@+id/view_spot"-->
-        <!--android:layout_marginLeft="40dp"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout="@layout/layout_viewspot_list"/>-->
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </android.support.v7.widget.RecyclerView>
-
-
 </LinearLayout>

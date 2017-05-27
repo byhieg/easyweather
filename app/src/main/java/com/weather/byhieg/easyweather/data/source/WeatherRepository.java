@@ -9,6 +9,7 @@ import com.weather.byhieg.easyweather.data.source.local.WeatherLocalDataSource;
 import com.weather.byhieg.easyweather.data.source.local.entity.CityEntity;
 import com.weather.byhieg.easyweather.data.source.local.entity.WeatherEntity;
 import com.weather.byhieg.easyweather.data.source.remote.WeatherRemoteDataSource;
+
 import static com.weather.byhieg.easyweather.tools.Knife.*;
 
 import java.util.Date;
@@ -64,7 +65,7 @@ public class WeatherRepository implements WeatherDataSource {
 
     @Override
     public void getWeatherDataFromCity(String cityName, GetWeatherCallBack callBack) throws Exception {
-         mWeatherRemoteDataSource.getWeatherDataFromCity(cityName,callBack);
+        mWeatherRemoteDataSource.getWeatherDataFromCity(cityName, callBack);
     }
 
     @Override
@@ -78,35 +79,39 @@ public class WeatherRepository implements WeatherDataSource {
     }
 
     @Override
-    public void updateCityWeather(final String cityName){
+    public void updateCityWeather(final String cityName) throws Exception {
         if (isExistInCityWeather(cityName)) {
-            getWeatherEntity(cityName, new GetWeatherEntityCallBack() {
-                @Override
-                public void onSuccess(WeatherEntity entity) {
-                    try {
-                        Date oldTime = entity.getUpdateTime();
-                        Date nowDate = convertData(new Date());
-                        if (isNeedUpdate(oldTime,nowDate)){
-                            isCachedDirty = true;
-                            HWeather weather = getWeatherDataFromCity(cityName);
-                            saveWeather(weather);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onFailure(String failureMessage) {
-                    Logger.e(failureMessage);
-                }
-            });
-        }else{
+//            getWeatherEntity(cityName, new GetWeatherEntityCallBack() {
+//                @Override
+//                public void onSuccess(WeatherEntity entity) {
+//                    Date oldTime = entity.getUpdateTime();
+//                    Date nowDate = convertData(new Date());
+//                    if (isNeedUpdate(oldTime, nowDate)) {
+//                        isCachedDirty = true;
+//                        HWeather weather = getWeatherDataFromCity(cityName);
+//                        saveWeather(weather);
+//                    }
+//                }
+//                @Override
+//                public void onFailure(String failureMessage) {
+//                    Logger.e(failureMessage);
+//                }
+//            });
+            WeatherEntity entity = getWeatherEntity(cityName);
+            Date oldTime = entity.getUpdateTime();
+            Date nowDate = convertData(new Date());
+            if (isNeedUpdate(oldTime, nowDate)) {
+                isCachedDirty = true;
+                HWeather weather = getWeatherDataFromCity(cityName);
+                saveWeather(weather);
+            }
+        } else {
             HWeather weather = getWeatherDataFromCity(cityName);
             saveWeather(weather);
         }
 
     }
+
 
     @Override
     public HWeather getLocalWeather(String cityName) {
@@ -120,7 +125,7 @@ public class WeatherRepository implements WeatherDataSource {
     }
 
     @Override
-    public HWeather getWeatherDataFromCity(String cityName) {
+    public HWeather getWeatherDataFromCity(String cityName) throws Exception {
         return mWeatherRemoteDataSource.getWeatherDataFromCity(cityName);
     }
 

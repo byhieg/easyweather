@@ -6,6 +6,8 @@ import com.weather.byhieg.easyweather.data.source.local.entity.CityEntity;
 import com.weather.byhieg.easyweather.data.source.local.entity.LoveCityEntity;
 import com.weather.byhieg.easyweather.data.source.local.entity.ProvinceEntity;
 
+import java.util.List;
+
 /**
  * Created by byhieg on 17/5/23.
  * Contact with byhieg@gmail.com
@@ -70,6 +72,11 @@ public class CityRepository implements CityDataSource{
     }
 
     @Override
+    public List<CityEntity> getAllCities() {
+        return mWeatherLocalDataSource.getAllCities();
+    }
+
+    @Override
     public void getAllProvince(GetProvinceCallBack callBack) {
         mWeatherLocalDataSource.getAllProvince(callBack);
     }
@@ -92,6 +99,16 @@ public class CityRepository implements CityDataSource{
     @Override
     public void getProvince(String name, GetProvinceCallBack callBack) {
          mWeatherLocalDataSource.getProvince(name,callBack);
+    }
+
+    @Override
+    public List<ProvinceEntity> getAllProvince() {
+        return mWeatherLocalDataSource.getAllProvince();
+    }
+
+    @Override
+    public List<LoveCityEntity> getAllLoveCities() {
+        return mWeatherLocalDataSource.getAllLoveCities();
     }
 
     @Override

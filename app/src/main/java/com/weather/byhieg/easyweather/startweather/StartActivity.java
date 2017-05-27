@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Handler;
 
 import com.example.byhieglibrary.Activity.BaseActivity;
-import com.weather.byhieg.easyweather.Activity.MainActivity;
+import com.weather.byhieg.easyweather.home.MainActivity;
 import com.weather.byhieg.easyweather.R;
 
 public class StartActivity extends BaseActivity implements StartWeatherContract.View {

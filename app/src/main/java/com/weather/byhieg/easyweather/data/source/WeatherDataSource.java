@@ -41,6 +41,7 @@ public interface WeatherDataSource {
 
     void getWeatherEntity(String cityName,GetWeatherEntityCallBack callBack);
 
+
     WeatherEntity getWeatherEntity(String cityName);
 
     void updateCityWeather(String cityName) throws Exception;
@@ -49,5 +50,5 @@ public interface WeatherDataSource {
 
     void saveWeather(HWeather weather);
 
-    HWeather getWeatherDataFromCity(String cityName);
+    HWeather getWeatherDataFromCity(String cityName) throws Exception;
 }

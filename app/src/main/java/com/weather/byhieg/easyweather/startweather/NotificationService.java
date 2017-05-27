@@ -9,10 +9,10 @@ import android.os.IBinder;
 import android.widget.RemoteViews;
 
 import com.example.byhieglibrary.Utils.LogUtils;
-import com.weather.byhieg.easyweather.Activity.MainActivity;
-import com.weather.byhieg.easyweather.Bean.WeatherBean;
+import com.weather.byhieg.easyweather.home.MainActivity;
 import com.weather.byhieg.easyweather.R;
-import com.weather.byhieg.easyweather.tools.HandleDaoData;
+import com.weather.byhieg.easyweather.data.HWeather;
+import com.weather.byhieg.easyweather.data.source.WeatherRepository;
 import com.weather.byhieg.easyweather.tools.WeatherJsonConverter;
 import com.weather.byhieg.easyweather.tools.WeatherIcon;
 
@@ -27,9 +27,9 @@ import static com.weather.byhieg.easyweather.tools.Constants.NOTIFICATION_ID;
 
 public class NotificationService extends Service{
 
-    public WeatherBean notificationWeather;
+    public HWeather notificationWeather;
     public NotificationManager notificationManager;
-
+    private WeatherRepository mRepository;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -39,13 +39,14 @@ public class NotificationService extends Service{
     @Override
     public void onCreate() {
         super.onCreate();
+        mRepository = WeatherRepository.getInstance();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         LogUtils.e("notificaiton","启动了");
         try {
-            notificationWeather = HandleDaoData.getWeatherBean(HandleDaoData.getShowCity());
+            notificationWeather = mRepository.getLocalWeather(mRepository.getShowCity());
         } catch (Exception e) {
             e.printStackTrace();
         }
