@@ -19,6 +19,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
@@ -195,7 +196,8 @@ public class MainActivity extends BaseActivity implements ActivityCompat.OnReque
 //    private LocalBroadcastManager localBroadcastManager;
     private BDLocationListener myListener;
     public Button button;
-
+    private HomePresenter mHomePresenter;
+    private FragmentManager fm;
 
     @Override
     public int getLayoutId() {
@@ -204,36 +206,18 @@ public class MainActivity extends BaseActivity implements ActivityCompat.OnReque
 
     @Override
     public void initData() {
-//        button = new Button(this);
-//        int[] images = {R.mipmap.ic_trending_up_black_24dp,
-//                R.mipmap.ic_settings_black_24dp,
-//                R.mipmap.ic_share_black_24dp,
-//                R.mipmap.ic_help_black_24dp,
-//                R.mipmap.ic_hourglass_empty_black_24dp,
-//                R.mipmap.ic_wikipedia,
-//                R.mipmap.ic_more_black_24dp};
-//
-//        int[] names = {R.string.future,
-//                R.string.setting,
-//                R.string.share,
-//                R.string.help,
-//                R.string.laboratory,
-//                R.string.wiki,
-//                R.string.about};
-//
-//        for (int i = 0; i < 7; i++) {
-//            DrawerContext drawerContext = new DrawerContext();
-//            drawerContext.setImage(images[i]);
-//            drawerContext.setName(names[i]);
-//            drawerList.add(drawerContext);
-//        }
-//        drawerListAdapter = new DrawerListAdapter(drawerList);
-//        try {
-//            weatherBean = HandleDaoData.getWeatherBean(HandleDaoData.getShowCity());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        myListener = new MyLocationListener(this);
+        fm = getSupportFragmentManager();
+        HomeFragment homeFragment = (HomeFragment) fm.findFragmentById(R.id.fragment_container);
+        if (homeFragment == null) {
+            homeFragment = HomeFragment.newInstance();
+            fm.beginTransaction().add(R.id.fragment_container,homeFragment).commit();
+        }
+
+        mHomePresenter = new HomePresenter(homeFragment);
+        myListener = new MyLocationListener(this);
+        MyApplication.getmLocationClient().registerLocationListener(myListener);
+
+
 //        localBroadcastManager = LocalBroadcastManager.getInstance(this);
 //        IntentFilter intentFilter = new IntentFilter();
 //        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
@@ -243,7 +227,6 @@ public class MainActivity extends BaseActivity implements ActivityCompat.OnReque
 //        registerReceiver(networkChangeReceiver, intentFilter);
 //        localBroadcastManager.registerReceiver(localReceiver, intentFilter);
 //        getHoursData();
-//        MyApplication.getmLocationClient().registerLocationListener(myListener);
 //        initLocation();
     }
 
@@ -257,7 +240,8 @@ public class MainActivity extends BaseActivity implements ActivityCompat.OnReque
             getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0);
+        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
+                toolbar, 0, 0);
         mDrawerToggle.syncState();
         drawerLayout.addDrawerListener(mDrawerToggle);
 
@@ -332,11 +316,11 @@ public class MainActivity extends BaseActivity implements ActivityCompat.OnReque
                                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                                         Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS}, Constants.PERMISSION);
                             }else{
-//                                MyApplication.getmLocationClient().start();
+                                mHomePresenter.doBaiduLocation();
                                 LogUtils.e("Permissions","已经有权限了");
                             }
                         }else{
-//                            MyApplication.getmLocationClient().start();
+                            mHomePresenter.doBaiduLocation();
                         }
 
                         break;

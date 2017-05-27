@@ -83,10 +83,6 @@ public class HomePresenter implements HomeContract.Presenter {
         return mWeatherRepository.getShowCity();
     }
 
-    @Override
-    public void updateWeather() {
-
-    }
 
     @Override
     public void doRefreshInNoData() {

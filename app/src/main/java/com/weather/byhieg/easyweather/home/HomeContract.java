@@ -39,8 +39,6 @@ public interface HomeContract {
 
         String getShowCity();
 
-        void updateWeather();
-
         void doRefreshInNoData();
 
         void refreshData();
