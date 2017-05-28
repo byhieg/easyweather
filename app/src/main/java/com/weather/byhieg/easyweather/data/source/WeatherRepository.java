@@ -2,11 +2,8 @@ package com.weather.byhieg.easyweather.data.source;
 
 import android.util.Log;
 
-import com.orhanobut.logger.Logger;
-import com.weather.byhieg.easyweather.Bean.UrlCity;
 import com.weather.byhieg.easyweather.data.HWeather;
 import com.weather.byhieg.easyweather.data.source.local.WeatherLocalDataSource;
-import com.weather.byhieg.easyweather.data.source.local.entity.CityEntity;
 import com.weather.byhieg.easyweather.data.source.local.entity.WeatherEntity;
 import com.weather.byhieg.easyweather.data.source.remote.WeatherRemoteDataSource;
 
@@ -85,7 +82,7 @@ public class WeatherRepository implements WeatherDataSource {
 //                @Override
 //                public void onSuccess(WeatherEntity entity) {
 //                    Date oldTime = entity.getUpdateTime();
-//                    Date nowDate = convertData(new Date());
+//                    Date nowDate = convertDate(new Date());
 //                    if (isNeedUpdate(oldTime, nowDate)) {
 //                        isCachedDirty = true;
 //                        HWeather weather = getWeatherDataFromCity(cityName);
@@ -99,7 +96,7 @@ public class WeatherRepository implements WeatherDataSource {
 //            });
             WeatherEntity entity = getWeatherEntity(cityName);
             Date oldTime = entity.getUpdateTime();
-            Date nowDate = convertData(new Date());
+            Date nowDate = convertDate(new Date());
             if (isNeedUpdate(oldTime, nowDate)) {
                 isCachedDirty = true;
                 HWeather weather = getWeatherDataFromCity(cityName);

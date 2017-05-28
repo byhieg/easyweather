@@ -88,7 +88,8 @@ import butterknife.BindView;
 import static com.example.byhieglibrary.Utils.DisplayUtil.getViewHeight;
 import static com.weather.byhieg.easyweather.R.id.swipe_refresh;
 
-public class MainActivity extends BaseActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
+public class MainActivity extends BaseActivity implements ActivityCompat
+        .OnRequestPermissionsResultCallback,HomeFragment.Callback {
 
 
     @BindView(R.id.toolbar)
@@ -98,104 +99,8 @@ public class MainActivity extends BaseActivity implements ActivityCompat.OnReque
     @BindView(R.id.nav_view)
     public NavigationView mNavigationView;
 
-//    @Bind(R.id.view_spot)
-//    public ViewStub viewStub;
-//    @Bind(R.id.arrow)
-//    public ImageView arrow;
-//    @BindView(R.id.arrow_detail)
-//    public ImageView arrowDetail;
-//    @BindView(R.id.expand_view)
-//    public LinearLayout expandView;
-//    @BindView(R.id.detail)
-//    public LinearLayout detail;
-//    @BindView(R.id.date)
-//    public TextView date;
-//    @BindView(R.id.temp)
-//    public TextView temp;
-//    @BindView(R.id.tempImage)
-//    public ImageView tempImage;
-//    @BindView(R.id.tempHigh)
-//    public TextView tempHigh;
-//    @BindView(R.id.tempLow)
-//    public TextView tempLow;
-//    @BindView(R.id.cloth)
-//    public TextView cloth;
-//    @BindView(R.id.pm)
-//    public TextView pm;
-//    @BindView(R.id.hum)
-//    public TextView hum;
-//    @BindView(R.id.wind)
-//    public TextView wind;
-//    @BindView(R.id.wind_dir)
-//    public TextView windDir;
-//    @BindView(R.id.to_detail)
-//    public TextView toDetail;
-//    @BindView(R.id.qlty)
-//    public TextView qlty;
-//    @BindView(R.id.vis)
-//    public TextView vis;
-//    @BindView(R.id.pres)
-//    public TextView pres;
-//    @BindView(R.id.uv)
-//    public TextView uv;
-//    @BindView(R.id.sunrise)
-//    public TextView sunrise;
-//    @BindView(R.id.sunset)
-//    public TextView sunset;
-//    @BindView(R.id.condition)
-//    public TextView condition;
-//    @BindView(R.id.scrollView)
-//    public ScrollView scrollView;
-//    @BindView(R.id.refresh)
-//    public ImageView refresh;
-//
-//    @BindView(swipe_refresh)
-//    public SwipeRefreshLayout mSwipeLayout;
-//    @BindView(R.id.updateTime)
-//    public TextView updateTime;
-//    @BindView(R.id.cloth_brf)
-//    public TextView clothBrf;
-//    @BindView(R.id.cloth_txt)
-//    public TextView clothTxt;
-//    @BindView(R.id.sport_brf)
-//    public TextView sportBrf;
-//    @BindView(R.id.sport_txt)
-//    public TextView sportTxt;
-//    @BindView(R.id.action_bar)
-//    public LinearLayout action_bar;
-//    @BindView(R.id.cold_brf)
-//    public TextView codeBrf;
-//    @BindView(R.id.cold_txt)
-//    public TextView coldTxt;
-//    @BindView(R.id.week_Weather_view)
-//    public WeekWeatherView weekWeatherView;
-//    @BindView(R.id.weather_cond)
-//    public TextView weatherCond;
-//    @BindView(R.id.update_time_hours)
-//    public TextView updateHours;
-//    @BindView(R.id.wind_hours)
-//    public TextView windHours;
-//    @BindView(R.id.weather_tmp)
-//    public TextView weatherTmp;
-//    @BindView(R.id.item_future)
-//    public LinearLayout itemFuture;
-//    @BindView(R.id.more)
-//    public TextView more;
 
-
-//    public static final int COMPLETE_REFRESH = 0x100;
-//    public static final int FAILURE_REFRESH = 0x101;
-//    private DrawerListAdapter drawerListAdapter;
-//    private ArrayList<DrawerContext> drawerList = new ArrayList<>();
-//    private WeatherBean weatherBean;
-//    private int[] rotateCount = {0, 0};
-//    private List<HoursWeather> hoursWeathers = new ArrayList<>();
-//    private NetworkChangeReceiver networkChangeReceiver;
-//    private MyHandler handler = new MyHandler();
-//    private LocalReceiver localReceiver;
-//    private LocalBroadcastManager localBroadcastManager;
     private BDLocationListener myListener;
-    public Button button;
     private HomePresenter mHomePresenter;
     private FragmentManager fm;
 
@@ -217,17 +122,9 @@ public class MainActivity extends BaseActivity implements ActivityCompat.OnReque
         myListener = new MyLocationListener(this);
         MyApplication.getmLocationClient().registerLocationListener(myListener);
 
+//
 
-//        localBroadcastManager = LocalBroadcastManager.getInstance(this);
-//        IntentFilter intentFilter = new IntentFilter();
-//        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-//        intentFilter.addAction("com.weather.byhieg.easyweather.Activity.LOCAL_BROADCAST");
-//        localReceiver = new LocalReceiver();
-//        networkChangeReceiver = new NetworkChangeReceiver();
-//        registerReceiver(networkChangeReceiver, intentFilter);
-//        localBroadcastManager.registerReceiver(localReceiver, intentFilter);
-//        getHoursData();
-//        initLocation();
+
     }
 
     @Override
@@ -244,29 +141,6 @@ public class MainActivity extends BaseActivity implements ActivityCompat.OnReque
                 toolbar, 0, 0);
         mDrawerToggle.syncState();
         drawerLayout.addDrawerListener(mDrawerToggle);
-
-//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-//        recyclerView.setLayoutManager(layoutManager);
-//
-//        recyclerView.setAdapter(drawerListAdapter);
-//
-//        mSwipeLayout.setOnRefreshListener(this);
-//        mSwipeLayout.setColorSchemeResources(android.R.color.holo_blue_light,
-//                android.R.color.holo_red_light,
-//                android.R.color.holo_orange_light,
-//                android.R.color.holo_green_light);
-//
-//        if (weatherBean != null) {
-//            try {
-//                updateView(weatherBean);
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
-//        } else {
-//            doRefreshInNoData();
-//        }
-
-
     }
 
     @Override
@@ -338,62 +212,6 @@ public class MainActivity extends BaseActivity implements ActivityCompat.OnReque
             }
         });
 
-//        detail.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (rotateCount[1] % 2 == 0) {
-//                    expandView.setVisibility(View.VISIBLE);
-//                    toDetail.setText("简略");
-//                    Animation animation = new RotateAnimation(0, 180, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-//                    animation.setDuration(10);
-//                    animation.setFillAfter(true);
-//                    arrowDetail.startAnimation(animation);
-//                    action_bar.setVisibility(View.GONE);
-//
-//                } else {
-//                    expandView.setVisibility(View.GONE);
-//                    toDetail.setText("详情");
-//                    Animation animation = new RotateAnimation(180, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-//                    animation.setDuration(10);
-//                    animation.setFillAfter(true);
-//                    arrowDetail.startAnimation(animation);
-//                    action_bar.setVisibility(View.VISIBLE);
-//                }
-//                rotateCount[1]++;
-//            }
-//        });
-//
-//        refresh.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                doRefreshInNoData();
-//            }
-//        });
-//
-//        drawerListAdapter.setOnItemClickListener(new MyItemClickListener() {
-//            @Override
-//            public void onItemClick(View view, int postion) {
-//
-//                Intent intent = new Intent(getApplicationContext(), SlideMenuActivity.class);
-//                intent.putExtra("itemId", postion);
-//                startActivity(intent);
-//                overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
-//
-//            }
-//        });
-//        more.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showPopupWindow();
-//            }
-//        });
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.i("button","被点击");
-//            }
-//        });
-
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -438,206 +256,13 @@ public class MainActivity extends BaseActivity implements ActivityCompat.OnReque
         return super.onCreateOptionsMenu(menu);
     }
 
-//    /**
-//     * 将天气数据放入视图中
-//     *
-//     * @param weatherBean 天气的数据
-//     */
-//    @SuppressLint("SimpleDateFormat")
-//    private void updateView(WeatherBean weatherBean) throws ParseException {
-//        if(weatherBean == null) return;
-//        mSwipeLayout.setVisibility(View.VISIBLE);
-//        refresh.clearAnimation();
-//        refresh.setVisibility(View.GONE);
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-//        date.setText("今天" + simpleDateFormat.format(new Date()));
-//        weekWeatherView.notifyDateChanged();
-//        Date sqlDate = HandleDaoData.getCityWeather(HandleDaoData.getShowCity()).getUpdateTime();
-//        long time = DateUtil.getDifferenceofDate(new Date(), sqlDate) / (1000 * 60);
-//        if (time > 1000 * 60 * 60 || time < 0) {
-//            updateTime.setText("最近更新：" + new SimpleDateFormat("MM-dd HH:mm:ss").format(sqlDate));
-//        } else {
-//            updateTime.setText("最近更新：" + time + "分钟之前");
-//        }
-//        LogUtils.e("code", WeatherJsonConverter.getWeather(weatherBean).getNow().getCond().getCode());
-//        tempImage.setImageResource(WeatherIcon.getWeatherImage(WeatherJsonConverter.getWeather(weatherBean).getNow().getCond().getCode()));
-//        toolbar.setTitle(WeatherJsonConverter.getWeather(weatherBean).getBasic().getCity());
-//        //主卡片
-//        temp.setText(WeatherJsonConverter.getWeather(weatherBean).getNow().getTmp() + "°");
-//        tempHigh.setText("高 " + WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(0).getTmp().getMax() + "°");
-//        tempLow.setText("低 " + WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(0).getTmp().getMin() + "°");
-//        cloth.setText(WeatherJsonConverter.getWeather(weatherBean).getSuggestion().getDrsg().getBrf());
-//        condition.setText(WeatherJsonConverter.getWeather(weatherBean).getNow().getCond().getTxt());
-//        pm.setText(WeatherJsonConverter.getWeather(weatherBean).getAqi().getCity().getPm25());
-//        hum.setText(WeatherJsonConverter.getWeather(weatherBean).getNow().getHum() + "%");
-//        wind.setText(WeatherJsonConverter.getWeather(weatherBean).getNow().getWind().getSpd() + "km/h");
-//        windDir.setText(WeatherJsonConverter.getWeather(weatherBean).getNow().getWind().getDir());
-//        qlty.setText(WeatherJsonConverter.getWeather(weatherBean).getAqi().getCity().getQlty());
-//        vis.setText(WeatherJsonConverter.getWeather(weatherBean).getNow().getVis() + "km");
-//        pres.setText(WeatherJsonConverter.getWeather(weatherBean).getNow().getPres() + "帕");
-//        uv.setText(WeatherJsonConverter.getWeather(weatherBean).getSuggestion().getUv().getBrf());
-//        sunrise.setText(WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(0).getAstro().getSr());
-//        sunset.setText(WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(0).getAstro().getSs());
-//
-//        //穿衣指数
-//        clothBrf.setText(WeatherJsonConverter.getWeather(weatherBean).getSuggestion().getDrsg().getBrf());
-//        clothTxt.setText(WeatherJsonConverter.getWeather(weatherBean).getSuggestion().getDrsg().getTxt());
-//
-//        //运动指数
-//        sportBrf.setText(WeatherJsonConverter.getWeather(weatherBean).getSuggestion().getSport().getBrf());
-//        sportTxt.setText(WeatherJsonConverter.getWeather(weatherBean).getSuggestion().getSport().getTxt());
-//
-//        //感冒指数
-//        codeBrf.setText(WeatherJsonConverter.getWeather(weatherBean).getSuggestion().getFlu().getBrf());
-//        coldTxt.setText(WeatherJsonConverter.getWeather(weatherBean).getSuggestion().getFlu().getTxt());
-//
-//        //未来三小时天气
-//        if (WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().size() != 0) {
-//            weatherCond.setText(WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().get(0).getPop() + "%");
-//            updateHours.setText(WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().get(0).getDate());
-//            windHours.setText(WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().get(0).getWind().getDir() + " " +
-//                    WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().get(0).getWind().getSc());
-//            weatherTmp.setText(WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().get(0).getTmp() + "°");
-//        } else {
-//            itemFuture.setVisibility(View.GONE);
-//        }
-//
-//    }
-//
-//    /**
-//     * 没有数据时 刷新
-//     */
-//
-//    private void doRefreshInNoData() {
-//        mSwipeLayout.setVisibility(View.GONE);
-//        refresh.setVisibility(View.VISIBLE);
-//        Animation animation = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-//        animation.setDuration(1000);
-//        animation.setRepeatCount(-1);
-//        animation.setInterpolator(new LinearInterpolator());
-//        refresh.startAnimation(animation);
-//        showToast("从网络获取天气信息失败");
-//        new MyAsyncTask().execute(HandleDaoData.getShowCity());
-//    }
-//
-//    @Override
-//    public void onRefresh() {
-//        final List<LoveCityEntity> cityList = HandleDaoData.getLoveCity();
-//        Thread[] threads = new Thread[cityList.size()];
-//        for (int i = 0; i < cityList.size(); i++) {
-//            final int index = i;
-//            threads[i] = new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    try {
-//                        NetTool.doNetWeather(cityList.get(index).getCitynName());
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                        handler.sendEmptyMessage(FAILURE_REFRESH);
-//                    }
-//
-//                }
-//            });
-//            threads[i].start();
-//            try {
-//                threads[i].join();
-//            } catch (InterruptedException e) {
-//
-//                LogUtils.e("线程异常!!!", getClass().getSimpleName());
-//            }
-//        }
-//        handler.sendEmptyMessage(COMPLETE_REFRESH);
-//
-//    }
-//
-//
-//    class MyAsyncTask extends AsyncTask<String, Void, String> {
-//
-//        @Override
-//        protected void onPostExecute(String city) {
-//            if (HandleDaoData.isExistInCityWeather(city)) {
-//                try {
-//                    updateView(HandleDaoData.getWeatherBean(HandleDaoData.getShowCity()));
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            } else {
-//                setNetWork();
-//            }
-//
-//        }
-//
-//        @Override
-//        protected String doInBackground(String[] params) {
-//            try {
-//                NetTool.doNetWeather(HandleDaoData.getShowCity());
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            return HandleDaoData.getShowCity();
-//        }
-//    }
-//
-//    class NetworkChangeReceiver extends BroadcastReceiver {
-//
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-//            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-//            if (networkInfo != null && networkInfo.isAvailable()) {
-//                new MyAsyncTask().execute(HandleDaoData.getShowCity());
-//            }
-//        }
-//    }
-//
-//    @SuppressLint("HandlerLeak")
-//    public class MyHandler extends Handler {
-//        @Override
-//        public void handleMessage(Message msg) {
-//            super.handleMessage(msg);
-//            switch (msg.what) {
-//                case COMPLETE_REFRESH:
-//                    mSwipeLayout.setRefreshing(false);
-//                    scrollView.setVisibility(View.VISIBLE);
-//                    refresh.clearAnimation();
-//                    refresh.setVisibility(View.GONE);
-//                    try {
-//                        getHoursData();
-//                        updateView(HandleDaoData.getWeatherBean(HandleDaoData.getShowCity()));
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                    startService(new Intent(MainActivity.this, NotificationService.class));
-//                    break;
-//
-//                case FAILURE_REFRESH:
-//                    mSwipeLayout.setRefreshing(false);
-//                    setNetWork();
-//                    break;
-//
-//            }
-//
-//        }
-//    }
-//
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        unregisterReceiver(networkChangeReceiver);
-//        localBroadcastManager.unregisterReceiver(localReceiver);
-//    }
-//
-//    private void setNetWork() {
-//        Snackbar.make(mainLayout, "还是没有网络 QAQ", Snackbar.LENGTH_LONG).
-//                setAction("点我设置网络", new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Intent intent = new Intent(android.provider.Settings.ACTION_SETTINGS);
-//                        startActivity(intent);
-//                    }
-//                }).show();
-//    }
-//
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
+
+
 //    public void generateTextView() {
 //        TextView textView = new TextView(this);
 //        textView.setText("天气易变，注意天气变化");
@@ -658,16 +283,7 @@ public class MainActivity extends BaseActivity implements ActivityCompat.OnReque
     @Override
     protected void onResume() {
         super.onResume();
-//        if (scrollView != null) {
-//            scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-//                @Override
-//                public void onScrollChanged() {
-//                    if (mSwipeLayout != null) {
-//                        mSwipeLayout.setEnabled(scrollView.getScrollY() == 0);
-//                    }
-//                }
-//            });
-//        }
+
         if (MyApplication.nightMode2()) {
             initNightView(R.layout.night_mode_overlay);
         } else {
@@ -692,57 +308,9 @@ public class MainActivity extends BaseActivity implements ActivityCompat.OnReque
         MyApplication.getmLocationClient().setLocOption(option);
     }
 
-//    private void showPopupWindow() {
-//        View contentView = LayoutInflater.from(this).inflate(R.layout.item_popupwindow, null);
-//        LinearLayout del = (LinearLayout) contentView.findViewById(R.id.del);
-//        ListView listView = (ListView) contentView.findViewById(R.id.popup_listview);
-//        PopupWindowAdapter adapter = new PopupWindowAdapter(hoursWeathers, this);
-//        listView.setAdapter(adapter);
-//        adapter.notifyDataSetChanged();
-//        final PopupWindow popupWindow = new PopupWindow(contentView,
-//                LinearLayout.LayoutParams.MATCH_PARENT,
-//                LinearLayout.LayoutParams.MATCH_PARENT,
-//                true);
-//        popupWindow.setTouchable(true);
-//        popupWindow.setTouchInterceptor(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                return false;
-//            }
-//        });
-//        popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(this, R.color.transparent));
-//        popupWindow.showAsDropDown(toolbar, 0, 0);
-//        del.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                popupWindow.dismiss();
-//
-//            }
-//        });
-//    }
 
-//    private void getHoursData() {
-//        hoursWeathers.clear();
-//        if(weatherBean == null) return;
-//        try {
-//            weatherBean = HandleDaoData.getWeatherBean(HandleDaoData.getShowCity());
-//            for (int i = 0; i < WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().size(); i++) {
-//                HoursWeather hw = new HoursWeather();
-//                hw.setTmp(WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().get(i).getTmp() + "°");
-//                hw.setHum(WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().get(i).getHum() + "%");
-//                hw.setWind_class(WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getSc());
-//                hw.setWind_deg(WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getDeg());
-//                hw.setWind_speed(WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getSpd());
-//                hw.setWind_dir(WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().get(i).getWind().getDir());
-//                hw.setPop(WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().get(i).getPop() + "%");
-//                hw.setUpdate(WeatherJsonConverter.getWeather(weatherBean).getHourly_forecast().get(i).getDate());
-//                hoursWeathers.add(hw);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
+
+
 
 
     @Override
@@ -768,21 +336,9 @@ public class MainActivity extends BaseActivity implements ActivityCompat.OnReque
         }
     }
 
-
-//    class LocalReceiver extends BroadcastReceiver {
-//
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            getHoursData();
-//            try {
-//                updateView(HandleDaoData.getWeatherBean(HandleDaoData.getShowCity()));
-//                startService(new Intent(MainActivity.this, NotificationService.class));
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-
-
-
+    @Override
+    public void updateToolBar(String cityName) {
+        toolbar.setTitle(cityName);
+    }
+    
 }

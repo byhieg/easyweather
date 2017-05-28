@@ -40,24 +40,15 @@ public class HomePresenter implements HomeContract.Presenter {
         mView = view;
         mCityRepository = CityRepository.getInstance();
         mWeatherRepository = WeatherRepository.getInstance();
-//        myListener = new MyLocationListener(MyApplication.getAppContext());
+        mView.setPresenter(this);
     }
 
     @Override
     public void start() {
-//        mLocalBroadcastManager = LocalBroadcastManager.getInstance(MyApplication.getAppContext());
-//        IntentFilter intentFilter = new IntentFilter();
-//        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-//        intentFilter.addAction("com.weather.byhieg.easyweather.Activity.LOCAL_BROADCAST");
-//        localReceiver = new LocalReceiver();
-//        networkChangeReceiver = new NetworkChangeReceiver();
-//        registerReceiver(networkChangeReceiver, intentFilter);
-//        localBroadcastManager.registerReceiver(localReceiver, intentFilter);
-//        getHoursData();
-//        MyApplication.getmLocationClient().registerLocationListener(myListener);
         loadWeather();
         initLocation();
     }
+
 
     @Override
     public void doBaiduLocation() {
@@ -86,7 +77,7 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void doRefreshInNoData() {
-        loadWeather();
+        refreshData();
     }
 
     @Override
@@ -102,6 +93,7 @@ public class HomePresenter implements HomeContract.Presenter {
                         public void run() {
                             try {
                                 mWeatherRepository.updateCityWeather(loveCities.get(index).getCityName());
+                                loadWeather();
                             } catch (Exception e) {
                                 mView.setNetWork();
                             }
@@ -117,6 +109,13 @@ public class HomePresenter implements HomeContract.Presenter {
                 refreshData();
             }
         });
+    }
+
+    @Override
+    public void generateDataInPopView() {
+        String showCity = getShowCity();
+        HWeather weather = mWeatherRepository.getLocalWeather(showCity);
+        mView.showPopupWindow();
     }
 
 

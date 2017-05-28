@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Logger;
 
 /**
  * Created by byhieg on 16-9-10.
@@ -22,12 +23,17 @@ public class DateUtil {
      * @return 新旧时间差
      * @throws ParseException
      */
-    public static long getDifferenceofDate(Date newDate,Date oldDate) throws ParseException {
+    public static long getDifferenceofDate(Date newDate,Date oldDate) {
         @SuppressLint("SimpleDateFormat")
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        Date tempNew = df.parse(df.format(newDate));
-        Date tempOld = df.parse(df.format(oldDate));
-        return tempNew.getTime() - tempOld.getTime();
+        try {
+            Date tempNew = df.parse(df.format(newDate));
+            Date tempOld = df.parse(df.format(oldDate));
+            return tempNew.getTime() - tempOld.getTime();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
 

@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.orhanobut.logger.Logger;
 import com.weather.byhieg.easyweather.Bean.UrlCity;
-import com.weather.byhieg.easyweather.Bean.WeatherBean;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.data.HWeather;
 import com.weather.byhieg.easyweather.data.source.CityDataSource;
@@ -17,16 +16,10 @@ import com.weather.byhieg.easyweather.data.source.local.entity.CityEntity;
 import com.weather.byhieg.easyweather.data.source.local.entity.LoveCityEntity;
 import com.weather.byhieg.easyweather.data.source.local.entity.ProvinceEntity;
 import com.weather.byhieg.easyweather.data.source.local.entity.WeatherEntity;
-import com.weather.byhieg.easyweather.tools.WeatherJsonConverter;
 
-import java.io.ByteArrayInputStream;
-import java.io.ObjectInputStream;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-import static com.weather.byhieg.easyweather.tools.Knife.checkNotNull;
-import static com.weather.byhieg.easyweather.tools.Knife.convertData;
+import static com.weather.byhieg.easyweather.tools.Knife.convertDate;
 import static com.weather.byhieg.easyweather.tools.Knife.convertHWeather;
 import static com.weather.byhieg.easyweather.tools.Knife.convertObject;
 import static com.weather.byhieg.easyweather.tools.Knife.isListEmpty;

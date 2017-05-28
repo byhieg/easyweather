@@ -17,13 +17,9 @@ public interface HomeContract {
 
         void showNoData();
 
-        void showErrdata();
+        void showDetail();
 
-        void showLoading();
-
-        void showDetail(HWeather weather);
-
-        void showPopupWindow(HWeather weather);
+        void showPopupWindow();
 
         void setNetWork();
 
@@ -42,6 +38,8 @@ public interface HomeContract {
         void doRefreshInNoData();
 
         void refreshData();
+
+        void generateDataInPopView();
 
     }
 }

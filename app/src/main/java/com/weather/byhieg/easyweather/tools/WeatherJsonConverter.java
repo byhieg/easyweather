@@ -10,9 +10,6 @@ import com.weather.byhieg.easyweather.data.Weather;
 public class WeatherJsonConverter {
 
     public static Weather getWeather(HWeather hWeather){
-        if (hWeather.getHeWeather5().get(0) == null) {
-            return null;
-        }
         return hWeather.getHeWeather5().get(0);
     }
 }

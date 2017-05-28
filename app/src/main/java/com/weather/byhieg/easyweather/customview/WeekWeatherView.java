@@ -17,6 +17,7 @@ import com.example.byhieglibrary.Utils.IntegerUtils;
 import com.weather.byhieg.easyweather.Bean.WeatherBean;
 import com.weather.byhieg.easyweather.Bean.WeekWeather;
 import com.weather.byhieg.easyweather.R;
+import com.weather.byhieg.easyweather.data.HWeather;
 import com.weather.byhieg.easyweather.tools.HandleDaoData;
 import com.weather.byhieg.easyweather.tools.WeatherJsonConverter;
 
@@ -42,7 +43,7 @@ public class WeekWeatherView extends View {
     private Paint highTempPaint;
     private Path mPath;
     private Path dPath;
-    private WeatherBean weatherBean;
+    private HWeather weather;
     private List<Integer> lists = new ArrayList<>();
     private List<WeekWeather> weekWeathers = new ArrayList<>();
     private float[] lowTempX = new float[7];
@@ -258,15 +259,14 @@ public class WeekWeatherView extends View {
     @SuppressLint("SimpleDateFormat")
     private void getData() throws Exception {
         weekWeathers.clear();
-        weatherBean = HandleDaoData.getWeatherBean(HandleDaoData.getShowCity());
-        if(weatherBean == null) return;
-        for (int i = 0; i < WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().size(); i++) {
+        if(weather == null) return;
+        for (int i = 0; i < WeatherJsonConverter.getWeather(weather).getDaily_forecast().size(); i++) {
             WeekWeather weekWeather = new WeekWeather();
-            String weatherCond = WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(i).getCond().getTxt_d();
-            weekWeather.setLowTemp(Integer.parseInt(WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(i).getTmp().getMin()));
-            lists.add(Integer.parseInt(WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(i).getTmp().getMin()));
-            weekWeather.setHighTemp(Integer.parseInt(WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(i).getTmp().getMax()));
-            weekWeather.setDate(WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(i).getDate());
+            String weatherCond = WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(i).getCond().getTxt_d();
+            weekWeather.setLowTemp(Integer.parseInt(WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(i).getTmp().getMin()));
+            lists.add(Integer.parseInt(WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(i).getTmp().getMin()));
+            weekWeather.setHighTemp(Integer.parseInt(WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(i).getTmp().getMax()));
+            weekWeather.setDate(WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(i).getDate());
             if (weatherCond.contains("/")) {
                 weekWeather.setCond(weatherCond.split("/")[1]);
             }else{
@@ -276,9 +276,13 @@ public class WeekWeatherView extends View {
         }
         weeks = DateUtil.
                 getNextWeek(new SimpleDateFormat("yyyy-MM-dd").
-                        parse(WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(0).getDate()));
+                        parse(WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(0).getDate()));
 
 
+    }
+
+    public void setData(HWeather weather){
+        this.weather = weather;
     }
 
     public void notifyDateChanged(){

@@ -46,12 +46,22 @@ public class Knife {
         return false;
     }
 
-    public static Date convertData(Date date){
+    public static Date convertDate(Date date){
         try {
             return simpleDateFormat.parse(simpleDateFormat.format(date));
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        return null;
+    }
+
+    public static Date convertDate(String date){
+        try {
+            return simpleDateFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 
