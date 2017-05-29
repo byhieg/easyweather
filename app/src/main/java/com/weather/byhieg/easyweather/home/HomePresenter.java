@@ -1,28 +1,16 @@
 package com.weather.byhieg.easyweather.home;
 
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.LocalBroadcastManager;
-
-import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClientOption;
 import com.weather.byhieg.easyweather.MyApplication;
-import com.weather.byhieg.easyweather.customview.MyToast;
-import com.weather.byhieg.easyweather.data.HWeather;
+import com.weather.byhieg.easyweather.data.bean.HWeather;
 import com.weather.byhieg.easyweather.data.source.CityDataSource;
 import com.weather.byhieg.easyweather.data.source.CityRepository;
 import com.weather.byhieg.easyweather.data.source.WeatherRepository;
 import com.weather.byhieg.easyweather.data.source.local.entity.LoveCityEntity;
-import com.weather.byhieg.easyweather.startweather.BackGroundService;
-import com.weather.byhieg.easyweather.tools.Constants;
-import com.weather.byhieg.easyweather.tools.MainThreadAction;
-import com.weather.byhieg.easyweather.tools.MyLocationListener;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**

@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.weather.byhieg.easyweather.Bean.FutureContext;
+import com.weather.byhieg.easyweather.data.bean.FutureContext;
 import com.weather.byhieg.easyweather.R;
 
 import java.util.ArrayList;

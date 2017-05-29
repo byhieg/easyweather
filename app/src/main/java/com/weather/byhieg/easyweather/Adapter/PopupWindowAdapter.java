@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.weather.byhieg.easyweather.Bean.HoursWeather;
+import com.weather.byhieg.easyweather.data.bean.HoursWeather;
 import com.weather.byhieg.easyweather.R;
 
 import java.util.List;

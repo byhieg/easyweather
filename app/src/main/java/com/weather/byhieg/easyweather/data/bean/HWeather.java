@@ -1,4 +1,4 @@
-package com.weather.byhieg.easyweather.data;
+package com.weather.byhieg.easyweather.data.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;

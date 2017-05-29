@@ -1,4 +1,4 @@
-package com.weather.byhieg.easyweather.tools;
+package com.weather.byhieg.easyweather.home;
 
 import android.content.Context;
 import android.content.DialogInterface;

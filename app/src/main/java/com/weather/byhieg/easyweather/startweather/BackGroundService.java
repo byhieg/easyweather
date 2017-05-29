@@ -5,13 +5,12 @@ import android.content.Intent;
 
 import com.example.byhieglibrary.Utils.LogUtils;
 import com.google.gson.Gson;
-import com.weather.byhieg.easyweather.Bean.UrlCity;
+import com.weather.byhieg.easyweather.data.bean.UrlCity;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.data.source.CityDataSource;
 import com.weather.byhieg.easyweather.data.source.CityRepository;
 import com.weather.byhieg.easyweather.data.source.WeatherRepository;
-import com.weather.byhieg.easyweather.data.source.local.WeatherLocalDataSource;
 import com.weather.byhieg.easyweather.data.source.local.entity.LoveCityEntity;
 import com.weather.byhieg.easyweather.tools.MainThreadAction;
 import com.weather.byhieg.easyweather.customview.MyToast;

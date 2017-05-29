@@ -68,7 +68,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.CityManageActivity"
+            android:name=".citymanage.CityManageActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.CityActivity"

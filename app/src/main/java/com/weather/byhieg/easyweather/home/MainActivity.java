@@ -2,91 +2,33 @@ package com.weather.byhieg.easyweather.home;
 
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClientOption;
 import com.example.byhieglibrary.Activity.BaseActivity;
-import com.example.byhieglibrary.Utils.DateUtil;
-import com.example.byhieglibrary.Utils.DisplayUtil;
 import com.example.byhieglibrary.Utils.LogUtils;
-import com.weather.byhieg.easyweather.Activity.CityManageActivity;
+import com.weather.byhieg.easyweather.citymanage.CityManageActivity;
 import com.weather.byhieg.easyweather.Activity.LoveAppActivity;
 import com.weather.byhieg.easyweather.Activity.SlideMenuActivity;
-import com.weather.byhieg.easyweather.Adapter.DrawerListAdapter;
-import com.weather.byhieg.easyweather.Adapter.PopupWindowAdapter;
-import com.weather.byhieg.easyweather.Bean.DrawerContext;
-import com.weather.byhieg.easyweather.Bean.HoursWeather;
-import com.weather.byhieg.easyweather.Bean.WeatherBean;
-import com.weather.byhieg.easyweather.Interface.MyItemClickListener;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
-import com.weather.byhieg.easyweather.startweather.NotificationService;
-import com.weather.byhieg.easyweather.data.source.local.entity.LoveCityEntity;
 import com.weather.byhieg.easyweather.tools.Constants;
-import com.weather.byhieg.easyweather.tools.HandleDaoData;
-import com.weather.byhieg.easyweather.tools.WeatherJsonConverter;
-import com.weather.byhieg.easyweather.tools.MyLocationListener;
-import com.weather.byhieg.easyweather.tools.NetTool;
-import com.weather.byhieg.easyweather.tools.WeatherIcon;
-import com.weather.byhieg.easyweather.customview.WeekWeatherView;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
-
-import static com.example.byhieglibrary.Utils.DisplayUtil.getViewHeight;
-import static com.weather.byhieg.easyweather.R.id.swipe_refresh;
 
 public class MainActivity extends BaseActivity implements ActivityCompat
         .OnRequestPermissionsResultCallback,HomeFragment.Callback {
@@ -100,9 +42,7 @@ public class MainActivity extends BaseActivity implements ActivityCompat
     public NavigationView mNavigationView;
 
 
-    private BDLocationListener myListener;
     private HomePresenter mHomePresenter;
-    private FragmentManager fm;
 
     @Override
     public int getLayoutId() {
@@ -111,7 +51,7 @@ public class MainActivity extends BaseActivity implements ActivityCompat
 
     @Override
     public void initData() {
-        fm = getSupportFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
         HomeFragment homeFragment = (HomeFragment) fm.findFragmentById(R.id.fragment_container);
         if (homeFragment == null) {
             homeFragment = HomeFragment.newInstance();
@@ -119,18 +59,14 @@ public class MainActivity extends BaseActivity implements ActivityCompat
         }
 
         mHomePresenter = new HomePresenter(homeFragment);
-        myListener = new MyLocationListener(this);
+        BDLocationListener myListener = new MyLocationListener(this);
         MyApplication.getmLocationClient().registerLocationListener(myListener);
 
 //
-
-
     }
 
     @Override
     public void initView() {
-//        generateTextView();
-//        lineChart.invalidate();
         toolbar.setTitle("成都");
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -289,28 +225,8 @@ public class MainActivity extends BaseActivity implements ActivityCompat
         } else {
             removeNightView();
         }
+        mHomePresenter.start();
     }
-
-
-    private void initLocation() {
-        LocationClientOption option = new LocationClientOption();
-        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
-        option.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系
-        option.setScanSpan(1000);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
-        option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
-        option.setOpenGps(true);//可选，默认false,设置是否使用gps
-        option.setLocationNotify(true);//可选，默认false，设置是否当GPS有效时按照1S/1次频率输出GPS结果
-        option.setIsNeedLocationDescribe(true);//可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，结果类似于“在北京天安门附近”
-        option.setIsNeedLocationPoiList(true);//可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
-        option.setIgnoreKillProcess(false);//可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
-        option.SetIgnoreCacheException(false);//可选，默认false，设置是否收集CRASH信息，默认收集
-        option.setEnableSimulateGps(false);//可选，默认false，设置是否需要过滤GPS仿真结果，默认需要
-        MyApplication.getmLocationClient().setLocOption(option);
-    }
-
-
-
-
 
 
     @Override
@@ -340,5 +256,5 @@ public class MainActivity extends BaseActivity implements ActivityCompat
     public void updateToolBar(String cityName) {
         toolbar.setTitle(cityName);
     }
-    
+
 }

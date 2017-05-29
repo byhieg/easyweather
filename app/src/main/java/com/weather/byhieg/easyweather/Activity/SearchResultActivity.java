@@ -17,11 +17,11 @@ import android.widget.RelativeLayout;
 import com.example.byhieglibrary.Activity.BaseActivity;
 import com.example.byhieglibrary.Utils.LogUtils;
 import com.weather.byhieg.easyweather.Adapter.CityListAdapter;
-import com.weather.byhieg.easyweather.Bean.CityContext;
+import com.weather.byhieg.easyweather.data.bean.CityContext;
 import com.weather.byhieg.easyweather.Fragment.CityFragment;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
-import com.weather.byhieg.easyweather.tools.HandleDaoData;
+import com.weather.byhieg.easyweather.citymanage.CityManageActivity;
 import com.weather.byhieg.easyweather.tools.NetTool;
 
 import java.util.ArrayList;

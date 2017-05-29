@@ -12,11 +12,10 @@ import android.view.ViewGroup;
 import com.example.byhieglibrary.Activity.BaseFragment;
 import com.example.byhieglibrary.Utils.DateUtil;
 import com.weather.byhieg.easyweather.Adapter.FutureListAdapter;
-import com.weather.byhieg.easyweather.Bean.FutureContext;
+import com.weather.byhieg.easyweather.data.bean.FutureContext;
 import com.weather.byhieg.easyweather.Bean.WeatherBean;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
-import com.weather.byhieg.easyweather.tools.HandleDaoData;
 import com.weather.byhieg.easyweather.tools.WeatherJsonConverter;
 
 import java.text.SimpleDateFormat;

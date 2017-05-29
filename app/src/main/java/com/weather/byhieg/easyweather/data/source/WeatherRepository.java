@@ -2,7 +2,7 @@ package com.weather.byhieg.easyweather.data.source;
 
 import android.util.Log;
 
-import com.weather.byhieg.easyweather.data.HWeather;
+import com.weather.byhieg.easyweather.data.bean.HWeather;
 import com.weather.byhieg.easyweather.data.source.local.WeatherLocalDataSource;
 import com.weather.byhieg.easyweather.data.source.local.entity.WeatherEntity;
 import com.weather.byhieg.easyweather.data.source.remote.WeatherRemoteDataSource;

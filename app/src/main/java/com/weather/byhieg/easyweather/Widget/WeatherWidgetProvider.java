@@ -6,10 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 
-import com.weather.byhieg.easyweather.Bean.WeatherBean;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
-import com.weather.byhieg.easyweather.tools.HandleDaoData;
+import com.weather.byhieg.easyweather.data.bean.HWeather;
+import com.weather.byhieg.easyweather.data.source.WeatherRepository;
 import com.weather.byhieg.easyweather.tools.WeatherJsonConverter;
 import com.weather.byhieg.easyweather.tools.WeatherIcon;
 
@@ -23,9 +23,10 @@ import java.util.Set;
 
 public class WeatherWidgetProvider extends AppWidgetProvider {
 
+
     // 保存 widget 的id的HashSet，每新建一个 widget 都会为该 widget 分配一个 id。
     private static Set idsSet = new HashSet();
-
+    private WeatherRepository mRepository = WeatherRepository.getInstance();
 
     // onUpdate() 在更新 widget 时，被执行，
     @Override
@@ -101,10 +102,10 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
             }
         }
     }
-    private WeatherBean getCityData(){
-        String cityName = HandleDaoData.getShowCity();
+    private HWeather getCityData(){
+        String cityName = mRepository.getShowCity();
         try {
-            return HandleDaoData.getWeatherBean(cityName);
+            return mRepository.getLocalWeather(cityName);
         } catch (Exception e) {
             e.printStackTrace();
         }

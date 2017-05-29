@@ -1,4 +1,4 @@
-package com.weather.byhieg.easyweather.Bean;
+package com.weather.byhieg.easyweather.data.bean;
 
 import java.io.Serializable;
 

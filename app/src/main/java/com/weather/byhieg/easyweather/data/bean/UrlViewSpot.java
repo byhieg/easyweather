@@ -1,21 +1,23 @@
-package com.weather.byhieg.easyweather.Bean;
+package com.weather.byhieg.easyweather.data.bean;
 
 import java.util.List;
 
 /**
- * Created by shiqifeng on 2016/6/30.
- * Mail:byhieg@gmail.com
+ * Created by byhieg on 16-10-7.
+ * Mail byhieg@gmail.com
  */
-public class UrlCity {
+
+public class UrlViewSpot {
+
+
 
     private String status;
     /**
-     * city : 南子岛
+     * city : 青铜峡旅游区
      * cnty : 中国
-     * id : CN101310230
-     * lat : 11.26
-     * lon : 114.20
-     * prov : 海南
+     * id : CN10117030601A
+     * lat : 105.99
+     * lon : 37.88
      */
 
     private List<CityInfoBean> city_info;
@@ -42,7 +44,6 @@ public class UrlCity {
         private String id;
         private String lat;
         private String lon;
-        private String prov;
 
         public String getCity() {
             return city;
@@ -82,14 +83,6 @@ public class UrlCity {
 
         public void setLon(String lon) {
             this.lon = lon;
-        }
-
-        public String getProv() {
-            return prov;
-        }
-
-        public void setProv(String prov) {
-            this.prov = prov;
         }
     }
 }

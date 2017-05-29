@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.weather.byhieg.easyweather.Bean.ProvinceContext;
+import com.weather.byhieg.easyweather.data.bean.ProvinceContext;
 import com.weather.byhieg.easyweather.R;
 
 import java.util.List;

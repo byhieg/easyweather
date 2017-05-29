@@ -11,7 +11,7 @@ import android.widget.RemoteViews;
 import com.example.byhieglibrary.Utils.LogUtils;
 import com.weather.byhieg.easyweather.home.MainActivity;
 import com.weather.byhieg.easyweather.R;
-import com.weather.byhieg.easyweather.data.HWeather;
+import com.weather.byhieg.easyweather.data.bean.HWeather;
 import com.weather.byhieg.easyweather.data.source.WeatherRepository;
 import com.weather.byhieg.easyweather.tools.WeatherJsonConverter;
 import com.weather.byhieg.easyweather.tools.WeatherIcon;

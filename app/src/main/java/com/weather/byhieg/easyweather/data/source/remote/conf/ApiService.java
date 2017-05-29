@@ -1,6 +1,6 @@
 package com.weather.byhieg.easyweather.data.source.remote.conf;
 
-import com.weather.byhieg.easyweather.data.HWeather;
+import com.weather.byhieg.easyweather.data.bean.HWeather;
 
 import java.util.Map;
 

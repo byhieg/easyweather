@@ -10,9 +10,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.weather.byhieg.easyweather.Adapter.ProvinceListAdapter;
-import com.weather.byhieg.easyweather.Bean.ProvinceContext;
+import com.weather.byhieg.easyweather.data.bean.ProvinceContext;
 import com.weather.byhieg.easyweather.R;
-import com.weather.byhieg.easyweather.tools.HandleDaoData;
 
 import java.util.ArrayList;
 import java.util.List;

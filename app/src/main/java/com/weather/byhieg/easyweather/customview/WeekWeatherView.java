@@ -14,11 +14,9 @@ import android.view.View;
 
 import com.example.byhieglibrary.Utils.DateUtil;
 import com.example.byhieglibrary.Utils.IntegerUtils;
-import com.weather.byhieg.easyweather.Bean.WeatherBean;
-import com.weather.byhieg.easyweather.Bean.WeekWeather;
+import com.weather.byhieg.easyweather.data.bean.WeekWeather;
 import com.weather.byhieg.easyweather.R;
-import com.weather.byhieg.easyweather.data.HWeather;
-import com.weather.byhieg.easyweather.tools.HandleDaoData;
+import com.weather.byhieg.easyweather.data.bean.HWeather;
 import com.weather.byhieg.easyweather.tools.WeatherJsonConverter;
 
 import java.text.SimpleDateFormat;

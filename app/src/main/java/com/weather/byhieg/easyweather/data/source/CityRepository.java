@@ -1,6 +1,6 @@
 package com.weather.byhieg.easyweather.data.source;
 
-import com.weather.byhieg.easyweather.Bean.UrlCity;
+import com.weather.byhieg.easyweather.data.bean.UrlCity;
 import com.weather.byhieg.easyweather.data.source.local.WeatherLocalDataSource;
 import com.weather.byhieg.easyweather.data.source.local.entity.CityEntity;
 import com.weather.byhieg.easyweather.data.source.local.entity.LoveCityEntity;

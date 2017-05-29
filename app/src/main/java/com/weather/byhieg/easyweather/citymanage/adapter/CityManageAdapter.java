@@ -1,4 +1,4 @@
-package com.weather.byhieg.easyweather.Adapter;
+package com.weather.byhieg.easyweather.citymanage.adapter;
 
 import android.content.Context;
 import android.graphics.Paint;
@@ -12,7 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.weather.byhieg.easyweather.Bean.CityManageContext;
+import com.weather.byhieg.easyweather.data.bean.CityManageContext;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.tools.WeatherColor;

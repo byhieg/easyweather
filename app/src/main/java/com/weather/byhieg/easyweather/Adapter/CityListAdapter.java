@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.weather.byhieg.easyweather.Bean.CityContext;
+import com.weather.byhieg.easyweather.data.bean.CityContext;
 import com.weather.byhieg.easyweather.R;
 
 import java.util.List;

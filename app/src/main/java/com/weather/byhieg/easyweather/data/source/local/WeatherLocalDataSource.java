@@ -3,9 +3,9 @@ package com.weather.byhieg.easyweather.data.source.local;
 import android.util.Log;
 
 import com.orhanobut.logger.Logger;
-import com.weather.byhieg.easyweather.Bean.UrlCity;
+import com.weather.byhieg.easyweather.data.bean.UrlCity;
 import com.weather.byhieg.easyweather.MyApplication;
-import com.weather.byhieg.easyweather.data.HWeather;
+import com.weather.byhieg.easyweather.data.bean.HWeather;
 import com.weather.byhieg.easyweather.data.source.CityDataSource;
 import com.weather.byhieg.easyweather.data.source.WeatherDataSource;
 import com.weather.byhieg.easyweather.data.source.local.dao.CityEntityDao;

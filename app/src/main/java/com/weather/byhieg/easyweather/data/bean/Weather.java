@@ -1,4 +1,4 @@
-package com.weather.byhieg.easyweather.data;
+package com.weather.byhieg.easyweather.data.bean;
 
 import java.util.List;
 

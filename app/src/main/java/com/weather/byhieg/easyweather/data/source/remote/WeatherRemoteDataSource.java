@@ -1,9 +1,8 @@
 package com.weather.byhieg.easyweather.data.source.remote;
 
 import com.weather.byhieg.easyweather.MyApplication;
-import com.weather.byhieg.easyweather.data.HWeather;
+import com.weather.byhieg.easyweather.data.bean.HWeather;
 import com.weather.byhieg.easyweather.data.source.WeatherDataSource;
-import com.weather.byhieg.easyweather.data.source.local.entity.CityEntity;
 import com.weather.byhieg.easyweather.data.source.local.entity.WeatherEntity;
 import com.weather.byhieg.easyweather.data.source.remote.conf.ApiService;
 

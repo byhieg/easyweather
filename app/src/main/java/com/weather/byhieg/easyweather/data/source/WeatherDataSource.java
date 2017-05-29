@@ -1,12 +1,7 @@
 package com.weather.byhieg.easyweather.data.source;
 
-import com.weather.byhieg.easyweather.data.HWeather;
-import com.weather.byhieg.easyweather.data.source.local.entity.CityEntity;
-import com.weather.byhieg.easyweather.data.source.local.entity.ProvinceEntity;
+import com.weather.byhieg.easyweather.data.bean.HWeather;
 import com.weather.byhieg.easyweather.data.source.local.entity.WeatherEntity;
-
-import java.util.List;
-
 
 
 /**

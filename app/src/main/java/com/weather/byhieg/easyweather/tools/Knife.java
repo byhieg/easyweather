@@ -1,8 +1,6 @@
 package com.weather.byhieg.easyweather.tools;
 
-import android.provider.ContactsContract;
-
-import com.weather.byhieg.easyweather.data.HWeather;
+import com.weather.byhieg.easyweather.data.bean.HWeather;
 import com.weather.byhieg.easyweather.data.source.local.entity.WeatherEntity;
 
 import java.io.ByteArrayInputStream;

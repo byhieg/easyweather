@@ -1,8 +1,8 @@
 package com.weather.byhieg.easyweather.tools;
 
 
-import com.weather.byhieg.easyweather.data.HWeather;
-import com.weather.byhieg.easyweather.data.Weather;
+import com.weather.byhieg.easyweather.data.bean.HWeather;
+import com.weather.byhieg.easyweather.data.bean.Weather;
 
 /**
  * Created by byhieg on 16-8-9.
