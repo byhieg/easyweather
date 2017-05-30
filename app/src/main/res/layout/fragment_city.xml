@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:id="@+id/fragment_city"
     android:background="?attr/backgroundColor"
-    tools:context="com.weather.byhieg.easyweather.Fragment.CityFragment">
+    tools:context="com.weather.byhieg.easyweather.city.CityFragment">
 
     <!-- TODO: Update blank fragment layout -->
    <ListView

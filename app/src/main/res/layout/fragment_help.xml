@@ -13,7 +13,7 @@
         android:orientation="vertical"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        tools:context="com.weather.byhieg.easyweather.Fragment.HelpFragment">
+        tools:context="com.weather.byhieg.easyweather.slidemenu.help.HelpFragment">
 
         <!-- TODO: Update blank fragment layout -->
         <TextView

@@ -7,7 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.byhieglibrary.Activity.BaseActivity;
-import com.weather.byhieg.easyweather.Activity.CityActivity;
+import com.weather.byhieg.easyweather.city.CityActivity;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 

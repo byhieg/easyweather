@@ -14,8 +14,9 @@ import android.support.v4.content.ContextCompat;
 import com.example.byhieglibrary.Utils.DateUtil;
 import com.example.byhieglibrary.Utils.DisplayUtil;
 import com.example.byhieglibrary.Utils.ScreenUtil;
-import com.weather.byhieg.easyweather.Bean.WeatherBean;
 import com.weather.byhieg.easyweather.R;
+import com.weather.byhieg.easyweather.data.bean.HWeather;
+import com.weather.byhieg.easyweather.data.source.WeatherRepository;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -36,10 +37,11 @@ public class ImageUtils {
     public static final int BRIEF = 1;
     public static final int DETAIL = 2;
     public static final int FUTURE = 3;
+    private static WeatherRepository mWeatherRepository = WeatherRepository.getInstance();
 
 
     public static File drawImage(Context context, int flag) {
-        WeatherBean weatherBean = getData();
+        HWeather weather = getData();
         int width = ScreenUtil.getScreenW(context);
         int height = DisplayUtil.dip2px(context, 150);
         int padding = DisplayUtil.dip2px(context, 20);
@@ -75,23 +77,23 @@ public class ImageUtils {
         verticalLinePaint.setPathEffect(effect);
         verticalLinePaint.setStrokeJoin(Paint.Join.ROUND);
 
-        Date sqlDate = HandleDaoData.getCityWeather(HandleDaoData.getShowCity()).getUpdateTime();
+        Date sqlDate = mWeatherRepository.getWeatherEntity(mWeatherRepository.getShowCity()).getUpdateTime();
         @SuppressLint("SimpleDateFormat")
         String updateTime = new SimpleDateFormat("MM-dd HH:mm").format(sqlDate);
-        String city = WeatherJsonConverter.getWeather(weatherBean).getBasic().getCity();
-        String tmp = WeatherJsonConverter.getWeather(weatherBean).getNow().getTmp() + "°";
-        String cond = WeatherJsonConverter.getWeather(weatherBean).getNow().getCond().getTxt();
+        String city = WeatherJsonConverter.getWeather(weather).getBasic().getCity();
+        String tmp = WeatherJsonConverter.getWeather(weather).getNow().getTmp() + "°";
+        String cond = WeatherJsonConverter.getWeather(weather).getNow().getCond().getTxt();
 
-        String tmpRange = WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(0).getTmp().getMin() + "°" + "/" +
-                WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(0).getTmp().getMax() + "°";
-        String hum = "湿度：" + WeatherJsonConverter.getWeather(weatherBean).getNow().getHum() + "%";
-        String speed = "风速：" + WeatherJsonConverter.getWeather(weatherBean).getNow().getWind().getSpd() + "km/h";
-        String uv = "紫外线：" + WeatherJsonConverter.getWeather(weatherBean).getSuggestion().getUv().getBrf();
+        String tmpRange = WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(0).getTmp().getMin() + "°" + "/" +
+                WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(0).getTmp().getMax() + "°";
+        String hum = "湿度：" + WeatherJsonConverter.getWeather(weather).getNow().getHum() + "%";
+        String speed = "风速：" + WeatherJsonConverter.getWeather(weather).getNow().getWind().getSpd() + "km/h";
+        String uv = "紫外线：" + WeatherJsonConverter.getWeather(weather).getSuggestion().getUv().getBrf();
         String[] weeks = new String[7];
         try {
             weeks = DateUtil.
                     getNextWeek(new SimpleDateFormat("yyyy-MM-dd").
-                            parse(WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(0).getDate()));
+                            parse(WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(0).getDate()));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -187,25 +189,25 @@ public class ImageUtils {
             case FUTURE:
                 canvas.save();
                 canvas.drawColor(ContextCompat.getColor(context, R.color.white));
-                for(int i = 0; i < WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().size(); i++) {
-                    weekTmp[i] = WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(i).getCond().getTxt_d();
-                    if(weekTmp[i].contains("/")){
+                for (int i = 0; i < WeatherJsonConverter.getWeather(weather).getDaily_forecast().size(); i++) {
+                    weekTmp[i] = WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(i).getCond().getTxt_d();
+                    if (weekTmp[i].contains("/")) {
                         weekTmp[i] = weekTmp[i].split("/")[1];
                     }
-                    highTmp[i] = "高" + WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(i).getTmp().getMax() + "°";
-                    lowTmp[i] = "低" + WeatherJsonConverter.getWeather(weatherBean).getDaily_forecast().get(i).getTmp().getMin() + "°";
+                    highTmp[i] = "高" + WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(i).getTmp().getMax() + "°";
+                    lowTmp[i] = "低" + WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(i).getTmp().getMin() + "°";
                 }
                 textPaint.setColor(Color.BLACK);
-                for(int i = 1 ; i < 7 ;i++){
+                for (int i = 1; i < 7; i++) {
                     canvas.save();
-                    canvas.translate(width  * i / 7,0);
-                    canvas.drawLine(0,0,0,height,verticalLinePaint);
+                    canvas.translate(width * i / 7, 0);
+                    canvas.drawLine(0, 0, 0, height, verticalLinePaint);
                     canvas.restore();
                 }
 
-                for(int i = 0 ; i < 7;i++) {
+                for (int i = 0; i < 7; i++) {
                     canvas.save();
-                    canvas.translate(width * i / 7,0);
+                    canvas.translate(width * i / 7, 0);
                     canvas.drawText(weeks[i],
                             width / 14,
                             2 * padding,
@@ -242,13 +244,8 @@ public class ImageUtils {
     }
 
 
-    private static WeatherBean getData() {
-        try {
-            return HandleDaoData.getWeatherBean(HandleDaoData.getShowCity());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private static HWeather getData() {
+        return mWeatherRepository.getLocalWeather(mWeatherRepository.getShowCity());
 
-        return null;
     }
 }

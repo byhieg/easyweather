@@ -219,6 +219,20 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
     }
 
     @Override
+    public List<CityEntity> getCities(String name) {
+        return  mCityDao.queryBuilder().
+                where(CityEntityDao.Properties.CityName.like("%" + name + "%")).
+                list();
+    }
+
+    @Override
+    public List<ProvinceEntity> getProvinces(String name) {
+        return  mProvinceDao.queryBuilder().
+                where(ProvinceEntityDao.Properties.ProvinceName.like("%" + name + "%")).
+                list();
+    }
+
+    @Override
     public void addProvince() {
         final String[] provinces = {"北京", "天津", "河北", "山西", "山东", "辽宁", "吉林", "黑龙江",
                 "上海", "江苏", "浙江", "安徽", "福建", "江西", "河南", "湖北", "湖南", "广东", "广西",

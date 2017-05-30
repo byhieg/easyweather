@@ -4,7 +4,7 @@
     android:id="@+id/activity_wiki_result"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.weather.byhieg.easyweather.Activity.WikiResultActivity">
+    tools:context="com.weather.byhieg.easyweather.slidemenu.wiki.WikiResultActivity">
 
 
     <include layout="@layout/toolbar"

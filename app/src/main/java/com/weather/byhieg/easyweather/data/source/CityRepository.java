@@ -77,6 +77,16 @@ public class CityRepository implements CityDataSource{
     }
 
     @Override
+    public List<CityEntity> getCities(String name) {
+        return mWeatherLocalDataSource.getCities(name);
+    }
+
+    @Override
+    public List<ProvinceEntity> getProvinces(String name) {
+        return mWeatherLocalDataSource.getProvinces(name);
+    }
+
+    @Override
     public void getAllProvince(GetProvinceCallBack callBack) {
         mWeatherLocalDataSource.getAllProvince(callBack);
     }

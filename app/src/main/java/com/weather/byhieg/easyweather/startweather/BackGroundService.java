@@ -26,8 +26,8 @@ import java.util.concurrent.Executors;
 
 public class BackGroundService extends IntentService {
 
-    private CityRepository mCityRepository;
-    private WeatherRepository mWeatherRepository;
+    private CityRepository mCityRepository = CityRepository.getInstance();
+    private WeatherRepository mWeatherRepository = WeatherRepository.getInstance();
 
     public BackGroundService() {
         super("BackGroundService");

@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.byhieglibrary.Utils.LogUtils;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
+import com.weather.byhieg.easyweather.city.event.MessageEvent;
 import com.weather.byhieg.easyweather.citymanage.adapter.CityManageAdapter;
 import com.weather.byhieg.easyweather.customview.SlideCutListView;
 import com.weather.byhieg.easyweather.data.bean.CityManageContext;
@@ -25,6 +26,9 @@ import com.weather.byhieg.easyweather.data.source.local.entity.LoveCityEntity;
 import com.weather.byhieg.easyweather.data.source.local.entity.WeatherEntity;
 import com.weather.byhieg.easyweather.tools.Knife;
 import com.weather.byhieg.easyweather.tools.WeatherJsonConverter;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -168,6 +172,13 @@ public class CityManageFragment extends Fragment implements CityManageContract.V
             mList.add(context);
         }
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(MessageEvent messageEvent){
+        if ("UPDATE_CITY".equals(messageEvent.getMessage())) {
+            mPresenter.loadCities();
+        }
     }
 
 }

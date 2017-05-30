@@ -23,21 +23,24 @@ public interface CityDataSource {
 
     boolean isExistInCity();
 
-    void getCityFromProvince(String provinceName,GetCityCallBack callBack);
+    void getCityFromProvince(String provinceName, GetCityCallBack callBack);
 
     void getAllCity(GetCityCallBack callBack);
 
-    void getCities(String name,GetCityCallBack callBack);
+    void getCities(String name, GetCityCallBack callBack);
 
     boolean isExistInCity(String name);
 
     List<CityEntity> getAllCities();
+
+    List<CityEntity> getCities(String name);
 
 
     /******************************************************************************************
      * 对ProvinceDao进行的操作
      *******************************************************************************************/
 
+    List<ProvinceEntity> getProvinces(String name);
 
     void getAllProvince(GetProvinceCallBack callBack);
 
@@ -47,7 +50,7 @@ public interface CityDataSource {
 
     boolean isExistInProvince();
 
-    void getProvince(String name,GetProvinceCallBack callBack);
+    void getProvince(String name, GetProvinceCallBack callBack);
 
     List<ProvinceEntity> getAllProvince();
 
@@ -59,9 +62,9 @@ public interface CityDataSource {
 
     List<LoveCityEntity> getAllLoveCities();
 
-    void getLoveCity(String cityName,GetLoveCityCallBack callBack);
+    void getLoveCity(String cityName, GetLoveCityCallBack callBack);
 
-    void getLoveCity(int order,GetLoveCityCallBack callBack);
+    void getLoveCity(int order, GetLoveCityCallBack callBack);
 
     void getLoveCity(GetLoveCityCallBack callBack);
 
@@ -69,29 +72,29 @@ public interface CityDataSource {
 
     boolean isExistInLoveCity(String cityName);
 
-    void updateCityOrder(String cityName,int order);
+    void updateCityOrder(String cityName, int order);
 
     void deleteCity(String cityName);
 
-    interface GetLoveCityCallBack{
+    interface GetLoveCityCallBack {
         void onSuccess(List<LoveCityEntity> loveCities);
+
         void onFailure(String failureMessage);
 
     }
 
-    interface GetProvinceCallBack{
+    interface GetProvinceCallBack {
         void onSuccess(List<ProvinceEntity> provinces);
+
         void onFailure(String failureMessage);
     }
 
 
-    interface GetCityCallBack{
+    interface GetCityCallBack {
         void onSuccess(List<CityEntity> cities);
 
         void onFailure(String failureMessage);
     }
-
-
 
 
 }

@@ -18,12 +18,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClientOption;
 import com.example.byhieglibrary.Activity.BaseActivity;
 import com.example.byhieglibrary.Utils.LogUtils;
 import com.weather.byhieg.easyweather.citymanage.CityManageActivity;
-import com.weather.byhieg.easyweather.Activity.LoveAppActivity;
-import com.weather.byhieg.easyweather.Activity.SlideMenuActivity;
+import com.weather.byhieg.easyweather.loveapp.LoveAppActivity;
+import com.weather.byhieg.easyweather.slidemenu.SlideMenuActivity;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.tools.Constants;

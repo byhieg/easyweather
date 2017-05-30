@@ -31,7 +31,7 @@ import android.widget.TextView;
 
 import com.example.byhieglibrary.Utils.DateUtil;
 import com.example.byhieglibrary.Utils.LogUtils;
-import com.weather.byhieg.easyweather.Adapter.PopupWindowAdapter;
+import com.weather.byhieg.easyweather.home.adapter.PopupWindowAdapter;
 import com.weather.byhieg.easyweather.data.bean.HoursWeather;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.customview.WeekWeatherView;

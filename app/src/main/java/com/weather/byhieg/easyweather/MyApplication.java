@@ -5,9 +5,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.baidu.location.LocationClient;
+import com.weather.byhieg.easyweather.data.source.local.dao.DaoMaster;
+import com.weather.byhieg.easyweather.data.source.local.dao.DaoSession;
 import com.weather.byhieg.easyweather.tools.CrashHandler;
-import com.weather.byhieg.easyweather.data.source.local.DaoMaster;
-import com.weather.byhieg.easyweather.data.source.local.DaoSession;
 
 import cn.byhieg.betterload.network.NetService;
 
