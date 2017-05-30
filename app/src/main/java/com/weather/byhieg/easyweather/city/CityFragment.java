@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-import com.example.byhieglibrary.Utils.LogUtils;
+import com.weather.byhieg.easyweather.tools.LogUtils;
 import com.weather.byhieg.easyweather.city.adapter.CityListAdapter;
 import com.weather.byhieg.easyweather.city.event.MessageEvent;
 import com.weather.byhieg.easyweather.data.bean.CityContext;

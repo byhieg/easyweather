@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.example.byhieglibrary.Activity.BaseFragment;
-import com.example.byhieglibrary.Utils.ShareContent;
+import com.weather.byhieg.easyweather.base.BaseFragment;
+import com.weather.byhieg.easyweather.tools.ShareContent;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.tools.ImageUtils;

@@ -12,8 +12,9 @@ import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.example.byhieglibrary.Utils.DateUtil;
-import com.example.byhieglibrary.Utils.IntegerUtils;
+import com.orhanobut.logger.Logger;
+import com.weather.byhieg.easyweather.tools.DateUtil;
+import com.weather.byhieg.easyweather.tools.IntegerUtils;
 import com.weather.byhieg.easyweather.data.bean.WeekWeather;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.data.bean.HWeather;
@@ -21,6 +22,7 @@ import com.weather.byhieg.easyweather.tools.WeatherJsonConverter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -276,7 +278,7 @@ public class WeekWeatherView extends View {
                 getNextWeek(new SimpleDateFormat("yyyy-MM-dd").
                         parse(WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(0).getDate()));
 
-
+        Logger.d(weeks);
     }
 
     public void setData(HWeather weather){

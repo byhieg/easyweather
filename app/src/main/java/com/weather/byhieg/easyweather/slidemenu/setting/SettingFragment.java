@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
-import com.example.byhieglibrary.Activity.BaseFragment;
+import com.weather.byhieg.easyweather.base.BaseFragment;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.startweather.NotificationService;

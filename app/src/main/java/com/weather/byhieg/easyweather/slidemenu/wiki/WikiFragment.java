@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.byhieglibrary.Activity.BaseFragment;
+import com.weather.byhieg.easyweather.base.BaseFragment;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 import com.zhy.view.flowlayout.FlowLayout;

@@ -89,25 +89,5 @@ public class Knife {
         return null;
     }
 
-    public static WeatherEntity convertHWeather(HWeather weather) {
 
-        try {
-            WeatherEntity entity = new WeatherEntity();
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
-            Date date = simpleDateFormat.parse(WeatherJsonConverter.getWeather(weather).getBasic().getUpdate().getLoc());
-            entity.setUpdateTime(date);
-            entity.setCityName(WeatherJsonConverter.getWeather(weather).getBasic().getCity());
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
-            objectOutputStream.writeObject(weather);
-            objectOutputStream.flush();
-            byte[] bytes = byteArrayOutputStream.toByteArray();
-            entity.setWeather(bytes);
-            return entity;
-        } catch (Exception e) {
-
-        }
-
-        return null;
-    }
 }

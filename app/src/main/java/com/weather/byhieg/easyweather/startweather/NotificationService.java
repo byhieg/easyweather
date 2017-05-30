@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.widget.RemoteViews;
 
-import com.example.byhieglibrary.Utils.LogUtils;
+import com.weather.byhieg.easyweather.tools.LogUtils;
 import com.weather.byhieg.easyweather.home.MainActivity;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.data.bean.HWeather;
@@ -69,17 +69,19 @@ public class NotificationService extends Service{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        contentViews.setTextViewText(R.id.city_text, WeatherJsonConverter.getWeather(notificationWeather).getBasic().getCity());
-        contentViews.setTextViewText(R.id.weather_text, WeatherJsonConverter.getWeather(notificationWeather).getNow().getCond().getTxt());
-        contentViews.setImageViewResource(R.id.weather_image,
+        if (notificationWeather != null) {
+            contentViews.setTextViewText(R.id.city_text, WeatherJsonConverter.getWeather
+                    (notificationWeather).getBasic().getCity());
+            contentViews.setTextViewText(R.id.weather_text, WeatherJsonConverter.getWeather(notificationWeather).getNow().getCond().getTxt());
+            contentViews.setImageViewResource(R.id.weather_image,
                     WeatherIcon.getWeatherImage(WeatherJsonConverter.getWeather(notificationWeather).getNow().getCond().getCode()));
-        contentViews.setTextViewText(R.id.temperature_text, WeatherJsonConverter.getWeather(notificationWeather).getNow().getTmp()+"℃");
-        String exerciseStr = "运动情况:" + WeatherJsonConverter.getWeather(notificationWeather).getSuggestion().getSport().getBrf();
-        contentViews.setTextViewText(R.id.exercise_text,exerciseStr);
-        notification.contentView = contentViews;
-        notificationManager.notify(NOTIFICATION_ID, notification);
-        startForeground(NOTIFICATION_ID, notification);
-        LogUtils.e("notificaiton","真没有");
+            contentViews.setTextViewText(R.id.temperature_text, WeatherJsonConverter.getWeather(notificationWeather).getNow().getTmp()+"℃");
+            String exerciseStr = "运动情况:" + WeatherJsonConverter.getWeather(notificationWeather).getSuggestion().getSport().getBrf();
+            contentViews.setTextViewText(R.id.exercise_text,exerciseStr);
+            notification.contentView = contentViews;
+            notificationManager.notify(NOTIFICATION_ID, notification);
+            startForeground(NOTIFICATION_ID, notification);
+        }
         return super.onStartCommand(intent, flags, startId);
     }
 

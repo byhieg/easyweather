@@ -1,4 +1,4 @@
-package com.example.byhieglibrary.Activity;
+package com.weather.byhieg.easyweather.base;
 
 
 import android.content.Context;

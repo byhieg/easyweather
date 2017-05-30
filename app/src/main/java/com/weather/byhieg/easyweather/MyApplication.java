@@ -5,9 +5,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.baidu.location.LocationClient;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 import com.weather.byhieg.easyweather.data.source.local.dao.DaoMaster;
 import com.weather.byhieg.easyweather.data.source.local.dao.DaoSession;
 import com.weather.byhieg.easyweather.tools.CrashHandler;
+
+import org.greenrobot.greendao.database.Database;
 
 import cn.byhieg.betterload.network.NetService;
 
@@ -15,6 +19,7 @@ public class MyApplication extends Application{
 
     private static MyApplication mcontext;
     public static DaoMaster daoMaster;
+    public static DaoSession daoSession;
     public static LocationClient mLocationClient;
 
 
@@ -29,6 +34,7 @@ public class MyApplication extends Application{
     public static final String cachename = "cache";
 
     public static boolean isNewDay = false;
+    public static final boolean ENCRYPTED = false;
 
 
     public static DaoMaster getDaoMaster() {
@@ -43,12 +49,22 @@ public class MyApplication extends Application{
         super.onCreate();
         mcontext = this;
         NetService.getInstance().init(cityUrl);
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(getAppContext(),
-                "weather-db", null);
-        daoMaster = new DaoMaster(helper.getWritableDatabase());
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(this);
-        crashHandler.sendPreviousReportsToServer();
+
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, ENCRYPTED ?
+                "weather-db-encrypted" : "weather-db");
+        Database db = ENCRYPTED ? helper.getEncryptedWritableDb("super-secret") : helper.getWritableDb();
+        daoMaster = new DaoMaster(db);
+        daoSession = new DaoMaster(db).newSession();
+        Logger.addLogAdapter(new AndroidLogAdapter());
+
+//        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(getAppContext(),
+//                "weather-db", null);
+//        daoMaster = new DaoMaster(helper.getWritableDatabase());
+
+
+//        CrashHandler crashHandler = CrashHandler.getInstance();
+//        crashHandler.init(this);
+//        crashHandler.sendPreviousReportsToServer();
     }
 
     public static Context getAppContext() {

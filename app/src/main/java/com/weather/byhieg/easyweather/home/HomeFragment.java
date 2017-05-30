@@ -29,8 +29,8 @@ import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.example.byhieglibrary.Utils.DateUtil;
-import com.example.byhieglibrary.Utils.LogUtils;
+import com.weather.byhieg.easyweather.tools.DateUtil;
+import com.weather.byhieg.easyweather.tools.LogUtils;
 import com.weather.byhieg.easyweather.home.adapter.PopupWindowAdapter;
 import com.weather.byhieg.easyweather.data.bean.HoursWeather;
 import com.weather.byhieg.easyweather.R;
@@ -56,8 +56,8 @@ import butterknife.ButterKnife;
 public class HomeFragment extends Fragment implements HomeContract.View, SwipeRefreshLayout.OnRefreshListener {
 
 
-    @BindView(R.id.arrow)
-    public ImageView arrow;
+//    @BindView(R.id.arrow)
+//    public ImageView arrow;
     @BindView(R.id.arrow_detail)
     public ImageView arrowDetail;
     @BindView(R.id.expand_view)

@@ -16,11 +16,18 @@ import com.weather.byhieg.easyweather.data.source.local.entity.CityEntity;
 import com.weather.byhieg.easyweather.data.source.local.entity.LoveCityEntity;
 import com.weather.byhieg.easyweather.data.source.local.entity.ProvinceEntity;
 import com.weather.byhieg.easyweather.data.source.local.entity.WeatherEntity;
+import com.weather.byhieg.easyweather.tools.WeatherJsonConverter;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static com.weather.byhieg.easyweather.tools.Knife.convertDate;
-import static com.weather.byhieg.easyweather.tools.Knife.convertHWeather;
 import static com.weather.byhieg.easyweather.tools.Knife.convertObject;
 import static com.weather.byhieg.easyweather.tools.Knife.isListEmpty;
 
@@ -58,7 +65,9 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
 
     @Override
     public void addWeather(WeatherEntity entity) {
+        Logger.e("插入前");
         mWeatherDao.insert(entity);
+        Logger.d(entity.getCityName() + "天气插入成功");
     }
 
     @Override
@@ -101,7 +110,7 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
     public WeatherEntity getWeatherEntity(String cityName) {
         List<WeatherEntity> res = mWeatherDao.queryBuilder().
                 where(WeatherEntityDao.Properties.CityName.eq(cityName)).list();
-        if (isListEmpty(res)) {
+        if (!isListEmpty(res)) {
             return res.get(res.size() - 1);
         }else{
             return null;
@@ -131,7 +140,25 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
 
     @Override
     public void saveWeather(HWeather weather) {
-        addWeather(convertHWeather(weather));
+        Logger.e("执行到了");
+        WeatherEntity entity = new WeatherEntity();
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+            Date date = simpleDateFormat.parse(WeatherJsonConverter.getWeather(weather).getBasic().getUpdate().getLoc());
+            entity.setCityName(WeatherJsonConverter.getWeather(weather).getBasic().getCity());
+            entity.setUpdateTime(date);
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+            objectOutputStream.writeObject(weather);
+            objectOutputStream.flush();
+            byte[] bytes = byteArrayOutputStream.toByteArray();
+            entity.setWeather(bytes);
+            addWeather(entity);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

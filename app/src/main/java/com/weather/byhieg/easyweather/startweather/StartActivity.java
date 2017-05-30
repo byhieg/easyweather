@@ -3,9 +3,11 @@ package com.weather.byhieg.easyweather.startweather;
 import android.content.Intent;
 import android.os.Handler;
 
-import com.example.byhieglibrary.Activity.BaseActivity;
+import com.weather.byhieg.easyweather.base.BaseActivity;
 import com.weather.byhieg.easyweather.home.MainActivity;
 import com.weather.byhieg.easyweather.R;
+
+import butterknife.ButterKnife;
 
 public class StartActivity extends BaseActivity implements StartWeatherContract.View {
 
@@ -28,8 +30,9 @@ public class StartActivity extends BaseActivity implements StartWeatherContract.
 
     @Override
     public void initData() {
-       mPresenter = new StartWeatherPresenter(this);
-       mPresenter.start();
+        ButterKnife.bind(this);
+        mPresenter = new StartWeatherPresenter(this);
+        mPresenter.start();
     }
 
     @Override
@@ -37,10 +40,10 @@ public class StartActivity extends BaseActivity implements StartWeatherContract.
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(MainActivity.class);
-                finish();
+//                startActivity(MainActivity.class);
+//                finish();
             }
-        },3500);
+        }, 5000);
     }
 
     @Override
@@ -59,7 +62,6 @@ public class StartActivity extends BaseActivity implements StartWeatherContract.
     }
 
 
-
     @Override
     public void setPresenter(StartWeatherContract.Presenter presenter) {
 
@@ -67,29 +69,32 @@ public class StartActivity extends BaseActivity implements StartWeatherContract.
 
     @Override
     public void startService() {
-
+        startAddCityService();
+        startGetWeatherService();
+        startNotificationService();
+        startFileProcessService();
     }
 
-    private void startAddCityService(){
+    private void startAddCityService() {
         Intent intent = new Intent(this, BackGroundService.class);
         intent.setAction(ACTION_ADD_CITY);
         startService(intent);
     }
 
-    private void startGetWeatherService(){
+    private void startGetWeatherService() {
         Intent intent = new Intent(this, BackGroundService.class);
         intent.setAction(ACTION_GET_WEATHER);
         startService(intent);
     }
 
-    private void startNotificationService(){
+    private void startNotificationService() {
         Intent intent = new Intent(this, BackGroundService.class);
         intent.setAction(ACTION_START_NOTIFICATION);
         startService(intent);
     }
 
 
-    private void startFileProcessService(){
+    private void startFileProcessService() {
         Intent intent = new Intent(this, BackGroundService.class);
         intent.setAction(ACTION_FILE_PROCESS);
         startService(intent);
@@ -112,7 +117,7 @@ public class StartActivity extends BaseActivity implements StartWeatherContract.
     }
 
 
-    public static String getActionFileProcess(){
+    public static String getActionFileProcess() {
         return ACTION_FILE_PROCESS;
     }
 

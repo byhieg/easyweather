@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.example.byhieglibrary.Activity.BaseActivity;
+import com.weather.byhieg.easyweather.base.BaseActivity;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 

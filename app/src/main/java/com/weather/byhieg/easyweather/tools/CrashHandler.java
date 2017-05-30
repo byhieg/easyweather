@@ -8,9 +8,7 @@ import android.os.Looper;
 import android.view.Gravity;
 import android.widget.Toast;
 
-import com.example.byhieglibrary.Net.HttpUtils;
-import com.example.byhieglibrary.Net.ResultCallback;
-import com.example.byhieglibrary.Utils.LogUtils;
+
 import com.weather.byhieg.easyweather.MyApplication;
 
 import java.io.File;
@@ -164,18 +162,18 @@ public class CrashHandler implements UncaughtExceptionHandler {
         // TODO 发送错误报告到服务器
         String url = "http://115.159.145.201:8777/collectbug";
         final File tmp = file;
-        HttpUtils.postFile(url, new ResultCallback<String>() {
-            @Override
-            public void onResponse(String response) {
-                LogUtils.e("success",response);
-                tmp.delete();
-            }
-
-            @Override
-            public void onError(Request request, IOException e) {
-                e.printStackTrace();
-            }
-        },file,"file");
+//        HttpUtils.postFile(url, new ResultCallback<String>() {
+//            @Override
+//            public void onResponse(String response) {
+//                LogUtils.e("success",response);
+//                tmp.delete();
+//            }
+//
+//            @Override
+//            public void onError(Request request, IOException e) {
+//                e.printStackTrace();
+//            }
+//        },file,"file");
     }
 
     /**

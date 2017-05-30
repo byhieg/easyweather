@@ -3,7 +3,10 @@ package com.weather.byhieg.easyweather.startweather;
 import android.app.IntentService;
 import android.content.Intent;
 
-import com.example.byhieglibrary.Utils.LogUtils;
+import com.orhanobut.logger.Logger;
+import com.weather.byhieg.easyweather.data.bean.HWeather;
+import com.weather.byhieg.easyweather.tools.Knife;
+import com.weather.byhieg.easyweather.tools.LogUtils;
 import com.google.gson.Gson;
 import com.weather.byhieg.easyweather.data.bean.UrlCity;
 import com.weather.byhieg.easyweather.MyApplication;
@@ -61,10 +64,10 @@ public class BackGroundService extends IntentService {
      * 将所有城市放入数据库
      */
     private void addCityData() throws Exception {
-
         mCityRepository.addProvince();
-
         if (!mCityRepository.isExistInCity()) {
+            LoveCityEntity entity = new LoveCityEntity(null, "成都", 1);
+            mCityRepository.addLoveCity(entity);
             Gson gson = new Gson();
             InputStream inputStream = getResources().openRawResource(R.raw.city);
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -86,38 +89,32 @@ public class BackGroundService extends IntentService {
      * 查询天气数据库，必要时进行网络请求
      */
     private void getWeatherData() {
-        mCityRepository.getLoveCity(new CityDataSource.GetLoveCityCallBack() {
-            @Override
-            public void onSuccess(final List<LoveCityEntity> loveCities) {
-                ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
-                for (int i = 0; i < loveCities.size(); i++) {
-                    final int index = i;
-                    singleThreadExecutor.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                mWeatherRepository.updateCityWeather(loveCities.get(index).getCityName());
-                            } catch (Exception e) {
-                                MainThreadAction.getInstance().post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        MyToast myToast = MyToast.createMyToast();
-                                        myToast.ToastShow(BackGroundService.this, "网络异常,请检查网络");
-                                    }
-                                });
+        final List<LoveCityEntity> loveCities = mCityRepository.getAllLoveCities();
+        Logger.e("喜欢城市是" + loveCities.get(0).getCityName());
+        ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
+        for (int i = 0; i < loveCities.size(); i++) {
+            final int index = i;
+            singleThreadExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        mWeatherRepository.updateCityWeather(loveCities.get(index).getCityName());
+                        Logger.e("更新天气成功");
+                        HWeather tmp = mWeatherRepository.getLocalWeather("成都");
+                        Logger.e(tmp.getHeWeather5().get(0).getStatus());
+                    } catch (Exception e) {
+                        Logger.e(e,"问题");
+                        MainThreadAction.getInstance().post(new Runnable() {
+                            @Override
+                            public void run() {
+                                MyToast myToast = MyToast.createMyToast();
+                                myToast.ToastShow(BackGroundService.this, "网络异常,请检查网络");
                             }
-                        }
-                    });
+                        });
+                    }
                 }
-            }
-
-            @Override
-            public void onFailure(String failureMessage) {
-                LoveCityEntity entity = new LoveCityEntity(null,"成都",1);
-                mCityRepository.addLoveCity(entity);
-                getWeatherData();
-            }
-        });
+            });
+        }
     }
 
     private void deleteCacheFile() {
@@ -132,8 +129,8 @@ public class BackGroundService extends IntentService {
                 if (children[i].delete()) {
                     LogUtils.e("delete", "删除成功");
                 }
-            }else{
-                LogUtils.e("no exist","文件不存在");
+            } else {
+                LogUtils.e("no exist", "文件不存在");
             }
 
 

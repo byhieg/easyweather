@@ -1,6 +1,6 @@
 package com.weather.byhieg.easyweather.slidemenu.future;
 
-import com.example.byhieglibrary.Utils.DateUtil;
+import com.weather.byhieg.easyweather.tools.DateUtil;
 import com.weather.byhieg.easyweather.data.bean.FutureContext;
 import com.weather.byhieg.easyweather.data.bean.HWeather;
 import com.weather.byhieg.easyweather.data.source.WeatherRepository;

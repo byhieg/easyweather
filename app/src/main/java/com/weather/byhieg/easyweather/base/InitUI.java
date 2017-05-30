@@ -1,4 +1,4 @@
-package com.example.byhieglibrary.Activity;
+package com.weather.byhieg.easyweather.base;
 
 /**
  * Created by shiqifeng on 16-3-22.

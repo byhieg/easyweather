@@ -18,8 +18,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.baidu.location.BDLocationListener;
-import com.example.byhieglibrary.Activity.BaseActivity;
-import com.example.byhieglibrary.Utils.LogUtils;
+import com.weather.byhieg.easyweather.base.BaseActivity;
+import com.weather.byhieg.easyweather.tools.LogUtils;
 import com.weather.byhieg.easyweather.citymanage.CityManageActivity;
 import com.weather.byhieg.easyweather.loveapp.LoveAppActivity;
 import com.weather.byhieg.easyweather.slidemenu.SlideMenuActivity;
@@ -28,6 +28,7 @@ import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.tools.Constants;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity implements ActivityCompat
         .OnRequestPermissionsResultCallback,HomeFragment.Callback {
@@ -40,6 +41,7 @@ public class MainActivity extends BaseActivity implements ActivityCompat
     @BindView(R.id.nav_view)
     public NavigationView mNavigationView;
 
+//    public Toolbar toolbar;
 
     private HomePresenter mHomePresenter;
 
@@ -50,6 +52,7 @@ public class MainActivity extends BaseActivity implements ActivityCompat
 
     @Override
     public void initData() {
+        ButterKnife.bind(this);
         FragmentManager fm = getSupportFragmentManager();
         HomeFragment homeFragment = (HomeFragment) fm.findFragmentById(R.id.fragment_container);
         if (homeFragment == null) {
@@ -66,6 +69,7 @@ public class MainActivity extends BaseActivity implements ActivityCompat
 
     @Override
     public void initView() {
+//        toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("成都");
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {

@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 
-import com.example.byhieglibrary.Activity.BaseActivity;
+import com.weather.byhieg.easyweather.base.BaseActivity;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 

@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.example.byhieglibrary.Utils.ScreenUtil;
+import com.weather.byhieg.easyweather.tools.ScreenUtil;
 
 /**
  * Created by shiqifeng on 2016/9/12.

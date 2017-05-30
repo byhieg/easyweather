@@ -1,4 +1,4 @@
-package com.example.byhieglibrary.Activity;
+package com.weather.byhieg.easyweather.base;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,9 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
-
-import com.example.byhieglibrary.Activity.InitUI;
-import com.example.byhieglibrary.R;
 
 import butterknife.ButterKnife;
 
@@ -60,14 +57,12 @@ public abstract class BaseActivity extends AppCompatActivity implements InitUI, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initTheme();
-
         setContentView(getLayoutId());
         DisplayMetrics metric = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metric);
         setmScreenWidth(metric.widthPixels);
         setmScreenHeight(metric.heightPixels);
         mDensity = metric.density;
-        ButterKnife.bind(this);
         initData();
         initView();
         initEvent();

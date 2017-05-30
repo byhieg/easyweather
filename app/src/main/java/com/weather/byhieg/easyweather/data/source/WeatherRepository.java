@@ -2,10 +2,12 @@ package com.weather.byhieg.easyweather.data.source;
 
 import android.util.Log;
 
+import com.orhanobut.logger.Logger;
 import com.weather.byhieg.easyweather.data.bean.HWeather;
 import com.weather.byhieg.easyweather.data.source.local.WeatherLocalDataSource;
 import com.weather.byhieg.easyweather.data.source.local.entity.WeatherEntity;
 import com.weather.byhieg.easyweather.data.source.remote.WeatherRemoteDataSource;
+import com.weather.byhieg.easyweather.tools.LogUtils;
 
 import static com.weather.byhieg.easyweather.tools.Knife.*;
 
@@ -78,22 +80,6 @@ public class WeatherRepository implements WeatherDataSource {
     @Override
     public void updateCityWeather(final String cityName) throws Exception {
         if (isExistInCityWeather(cityName)) {
-//            getWeatherEntity(cityName, new GetWeatherEntityCallBack() {
-//                @Override
-//                public void onSuccess(WeatherEntity entity) {
-//                    Date oldTime = entity.getUpdateTime();
-//                    Date nowDate = convertDate(new Date());
-//                    if (isNeedUpdate(oldTime, nowDate)) {
-//                        isCachedDirty = true;
-//                        HWeather weather = getWeatherDataFromCity(cityName);
-//                        saveWeather(weather);
-//                    }
-//                }
-//                @Override
-//                public void onFailure(String failureMessage) {
-//                    Logger.e(failureMessage);
-//                }
-//            });
             WeatherEntity entity = getWeatherEntity(cityName);
             Date oldTime = entity.getUpdateTime();
             Date nowDate = convertDate(new Date());
@@ -101,10 +87,12 @@ public class WeatherRepository implements WeatherDataSource {
                 isCachedDirty = true;
                 HWeather weather = getWeatherDataFromCity(cityName);
                 saveWeather(weather);
+                LogUtils.e(TAG,"save了");
             }
         } else {
             HWeather weather = getWeatherDataFromCity(cityName);
             saveWeather(weather);
+            Logger.d("save成功");
         }
 
     }

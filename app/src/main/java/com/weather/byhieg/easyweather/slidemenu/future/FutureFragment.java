@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.byhieglibrary.Activity.BaseFragment;
+import com.weather.byhieg.easyweather.base.BaseFragment;
 import com.weather.byhieg.easyweather.slidemenu.future.adapter.FutureListAdapter;
 import com.weather.byhieg.easyweather.data.bean.FutureContext;
 import com.weather.byhieg.easyweather.MyApplication;

@@ -12,8 +12,8 @@ import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.example.byhieglibrary.Utils.DisplayUtil;
-import com.example.byhieglibrary.Utils.ScreenUtil;
+import com.weather.byhieg.easyweather.tools.DisplayUtil;
+import com.weather.byhieg.easyweather.tools.ScreenUtil;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 

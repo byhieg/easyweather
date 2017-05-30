@@ -11,9 +11,6 @@ import android.graphics.PathEffect;
 import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
 
-import com.example.byhieglibrary.Utils.DateUtil;
-import com.example.byhieglibrary.Utils.DisplayUtil;
-import com.example.byhieglibrary.Utils.ScreenUtil;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.data.bean.HWeather;
 import com.weather.byhieg.easyweather.data.source.WeatherRepository;

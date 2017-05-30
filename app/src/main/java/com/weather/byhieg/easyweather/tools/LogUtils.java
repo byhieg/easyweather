@@ -1,4 +1,4 @@
-package com.example.byhieglibrary.Utils;
+package com.weather.byhieg.easyweather.tools;
 
 /**
  * Created by byhieg on 16-4-16.

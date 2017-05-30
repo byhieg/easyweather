@@ -1,7 +1,5 @@
 package com.weather.byhieg.easyweather.startweather;
 
-import com.example.byhieglibrary.Activity.BaseActivity;
-
 /**
  * Created by byhieg on 17/5/22.
  * Contact with byhieg@gmail.com
