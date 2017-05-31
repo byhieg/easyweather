@@ -19,6 +19,7 @@ import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class CityActivity extends BaseActivity{
@@ -37,6 +38,7 @@ public class CityActivity extends BaseActivity{
 
     @Override
     public void initData() {
+        ButterKnife.bind(this);
 
     }
 

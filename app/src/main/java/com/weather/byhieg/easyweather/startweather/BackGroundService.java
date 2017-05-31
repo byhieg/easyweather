@@ -99,9 +99,6 @@ public class BackGroundService extends IntentService {
                 public void run() {
                     try {
                         mWeatherRepository.updateCityWeather(loveCities.get(index).getCityName());
-                        Logger.e("更新天气成功");
-                        HWeather tmp = mWeatherRepository.getLocalWeather("成都");
-                        Logger.e(tmp.getHeWeather5().get(0).getStatus());
                     } catch (Exception e) {
                         Logger.e(e,"问题");
                         MainThreadAction.getInstance().post(new Runnable() {

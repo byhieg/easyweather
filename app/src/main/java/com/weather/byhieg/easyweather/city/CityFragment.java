@@ -70,7 +70,6 @@ public class CityFragment extends Fragment implements CityContract.CityView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -113,6 +112,7 @@ public class CityFragment extends Fragment implements CityContract.CityView {
                     animation.setInterpolator(new LinearInterpolator());
                     refresh.startAnimation(animation);
                     mPresenter.getCityWeather(cityName);
+
                     EventBus.getDefault().post(new MessageEvent("UPDATE_CITY"));
                 } else {
                     Snackbar.make(mainLayout, "该城市已经添加，你忘记了？", Snackbar.LENGTH_SHORT).show();
@@ -162,6 +162,5 @@ public class CityFragment extends Fragment implements CityContract.CityView {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 }

@@ -12,6 +12,7 @@ import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class SearchResultActivity extends BaseActivity {
 
@@ -29,6 +30,8 @@ public class SearchResultActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        ButterKnife.bind(this);
+
         Intent intent = getIntent();
         String query = intent.getStringExtra(SearchManager.QUERY);
         fm = getSupportFragmentManager();

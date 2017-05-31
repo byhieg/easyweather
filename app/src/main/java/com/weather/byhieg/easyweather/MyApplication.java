@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.baidu.location.LocationClient;
+import com.facebook.stetho.Stetho;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 import com.weather.byhieg.easyweather.data.source.local.dao.DaoMaster;
@@ -56,6 +57,8 @@ public class MyApplication extends Application{
         daoMaster = new DaoMaster(db);
         daoSession = new DaoMaster(db).newSession();
         Logger.addLogAdapter(new AndroidLogAdapter());
+
+        Stetho.initializeWithDefaults(this);
 
 //        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(getAppContext(),
 //                "weather-db", null);

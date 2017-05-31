@@ -17,6 +17,7 @@ import com.weather.byhieg.easyweather.slidemenu.share.ShareFragment;
 import com.weather.byhieg.easyweather.slidemenu.wiki.WikiFragment;
 import com.weather.byhieg.easyweather.tools.Constants;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class SlideMenuActivity extends BaseActivity {
 
@@ -34,6 +35,8 @@ public class SlideMenuActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        ButterKnife.bind(this);
+
         fm = getSupportFragmentManager();
     }
     @Override

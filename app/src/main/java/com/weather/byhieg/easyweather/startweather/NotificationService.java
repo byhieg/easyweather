@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.widget.RemoteViews;
 
+import com.orhanobut.logger.Logger;
 import com.weather.byhieg.easyweather.tools.LogUtils;
 import com.weather.byhieg.easyweather.home.MainActivity;
 import com.weather.byhieg.easyweather.R;
@@ -70,6 +71,7 @@ public class NotificationService extends Service{
             e.printStackTrace();
         }
         if (notificationWeather != null) {
+            Logger.d(notificationWeather.getHeWeather5().get(0).getStatus());
             contentViews.setTextViewText(R.id.city_text, WeatherJsonConverter.getWeather
                     (notificationWeather).getBasic().getCity());
             contentViews.setTextViewText(R.id.weather_text, WeatherJsonConverter.getWeather(notificationWeather).getNow().getCond().getTxt());

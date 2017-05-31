@@ -12,6 +12,7 @@ import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class CityManageActivity extends BaseActivity {
 
@@ -29,6 +30,8 @@ public class CityManageActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        ButterKnife.bind(this);
+
         FragmentManager fm = getSupportFragmentManager();
         CityManageFragment fragment = (CityManageFragment) fm.findFragmentById(R.id.fragment_container);
         if (fragment == null) {

@@ -40,10 +40,10 @@ public class StartActivity extends BaseActivity implements StartWeatherContract.
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-//                startActivity(MainActivity.class);
-//                finish();
+                startActivity(MainActivity.class);
+                finish();
             }
-        }, 5000);
+        }, 3500);
     }
 
     @Override
