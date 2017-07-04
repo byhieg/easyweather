@@ -1,0 +1,23 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+              android:orientation="vertical"
+             tools:context="com.weather.byhieg.easyweather.citymanage.CityManageFragment">
+
+    <com.weather.byhieg.easyweather.customview.SlideCutListView
+        android:id="@+id/card_view_group"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/common_horizontal_margin"
+        android:paddingLeft="@dimen/common_horizontal_margin"
+        android:paddingRight="@dimen/common_horizontal_margin"
+        android:paddingBottom="@dimen/common_horizontal_margin"
+        android:dividerHeight="@dimen/common_horizontal_margin"
+        android:scrollbars="none"
+        android:clickable="true"
+        android:divider="@color/white"
+        android:listSelector="@android:color/transparent"
+        android:background="@color/white"/>
+
+</LinearLayout>

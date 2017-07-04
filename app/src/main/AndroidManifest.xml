@@ -44,22 +44,22 @@
             android:value=".Activity.SearchResultActivity" />
 
         <activity
-            android:name=".Activity.MainActivity"
+            android:name=".home.MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Activity.StartActivity"
+            android:name=".startweather.StartActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service
-            android:name=".Service.BackGroundService"
+            android:name=".startweather.BackGroundService"
             android:exported="false" />
         <service
-            android:name=".Service.NotificationService"
+            android:name=".startweather.NotificationService"
             android:exported="false" />
 
         <activity
-            android:name=".Activity.SplashActivity"
+            android:name=".startweather.SplashActivity"
             android:theme="@style/AppTheme.TranslucentNoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -68,13 +68,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.CityManageActivity"
+            android:name=".citymanage.CityManageActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Activity.CityActivity"
+            android:name=".city.CityActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Activity.SearchResultActivity"
+            android:name=".searchresult.SearchResultActivity"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -89,13 +89,13 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".Activity.SlideMenuActivity"
+            android:name=".slidemenu.SlideMenuActivity"
             android:launchMode="singleTask"
-            android:parentActivityName=".Activity.MainActivity"
+            android:parentActivityName=".home.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- 声明widget对应的AppWidgetProvider -->
-        <receiver android:name=".Widget.WeatherWidgetProvider">
+        <receiver android:name=".desktopwidget.WeatherWidgetProvider">
             <intent-filter>
                 <action android:name="com.widget.UPDATE_ALL" />
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -107,7 +107,7 @@
         </receiver>
 
         <service
-            android:name=".Widget.WeatherWidgetService"
+            android:name=".desktopwidget.WeatherWidgetService"
             android:enabled="true"
             android:exported="true" />
         <service
@@ -116,7 +116,7 @@
             android:process=":remote" />
 
         <activity
-            android:name=".Activity.LoveAppActivity"
+            android:name=".loveapp.LoveAppActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
@@ -127,9 +127,8 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".Activity.WikiResultActivity"
+            android:name=".slidemenu.wiki.WikiResultActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activity.SearchViewSpotActivity"></activity>
     </application>
 
 </manifest>

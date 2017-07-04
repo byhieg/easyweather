@@ -6,10 +6,7 @@
 [![Github: follow](https://img.shields.io/badge/GITHUB-Follow-red.svg)](https://github.com/byhieg)
 
 
-
-
-简易天气是一个基于和风天气数据采用MD设计的Android天气App。目前的版本采用传统的MVC模式构建。通过丰富多彩的页面为用户提供日常所需的天气资讯。
-这是master的README
+这是分支feature2.0的README
 
 ## 功能
 

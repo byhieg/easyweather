@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="?attr/backgroundColor"
     android:orientation="vertical"
-    tools:context="com.weather.byhieg.easyweather.Activity.CityActivity">
+    tools:context="com.weather.byhieg.easyweather.city.CityActivity">
 
     <include layout="@layout/toolbar"
         android:id ="@+id/city_list_toolbar"/>

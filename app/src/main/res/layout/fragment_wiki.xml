@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:zhy="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    tools:context="com.weather.byhieg.easyweather.Fragment.WikiFragment">
+    tools:context="com.weather.byhieg.easyweather.slidemenu.wiki.WikiFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <com.zhy.view.flowlayout.TagFlowLayout
