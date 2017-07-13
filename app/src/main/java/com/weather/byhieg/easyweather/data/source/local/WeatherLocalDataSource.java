@@ -24,8 +24,10 @@ import java.io.ObjectOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import static com.weather.byhieg.easyweather.tools.Knife.convertDate;
 import static com.weather.byhieg.easyweather.tools.Knife.convertObject;
@@ -154,9 +156,7 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
             byte[] bytes = byteArrayOutputStream.toByteArray();
             entity.setWeather(bytes);
             addWeather(entity);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (ParseException | IOException e) {
             e.printStackTrace();
         }
     }
@@ -174,12 +174,15 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
 
     @Override
     public void addCities(UrlCity city) {
+        Set<CityEntity> sets = new HashSet<>();
         for (int i = 0; i < city.getCity_info().size(); i++) {
             CityEntity entity = new CityEntity();
             entity.setProvinceName(city.getCity_info().get(i).getProv());
             entity.setCityName(city.getCity_info().get(i).getCity());
-            addCity(entity);
+            sets.add(entity);
+//            addCity(entity);
         }
+        mCityDao.insertInTx(sets);
     }
 
     @Override
@@ -345,6 +348,13 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
         }else{
             callBack.onSuccess(res);
         }
+    }
+
+    @Override
+    public LoveCityEntity getLoveCity(int order) {
+        return mLoveCityDao.queryBuilder().
+                where(LoveCityEntityDao.Properties.Order.eq(order)).list().get(0);
+
     }
 
     @Override

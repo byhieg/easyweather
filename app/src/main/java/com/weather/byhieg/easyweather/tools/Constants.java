@@ -26,6 +26,9 @@ public class Constants implements Serializable{
     public static final int NOTIFICATION_ID = 0X301;
 
 
+    public static final int UPDATE_WEATHER = 0X401;
+
+
 
 
 }

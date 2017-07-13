@@ -66,6 +66,8 @@ public interface CityDataSource {
 
     void getLoveCity(int order, GetLoveCityCallBack callBack);
 
+    LoveCityEntity getLoveCity(int order);
+
     void getLoveCity(GetLoveCityCallBack callBack);
 
     void addLoveCity(LoveCityEntity loveCity);

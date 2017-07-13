@@ -12,6 +12,7 @@ import android.os.Looper;
 interface IMainThread{
 
     void post(Runnable runnable);
+
 }
 
 public class MainThreadAction implements IMainThread{

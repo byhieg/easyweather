@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.orhanobut.logger.Logger;
 import com.weather.byhieg.easyweather.tools.LogUtils;
 import com.weather.byhieg.easyweather.city.adapter.CityListAdapter;
 import com.weather.byhieg.easyweather.city.event.MessageEvent;
@@ -76,7 +79,7 @@ public class CityFragment extends Fragment implements CityContract.CityView {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        handler = new Handler();
+        handler = new Handler(Looper.getMainLooper());
 //        myHandler = new CityManageActivity.MyHandler(new CityManageActivity());
         View view = inflater.inflate(R.layout.fragment_city, container, false);
         ButterKnife.bind(this, view);
@@ -95,8 +98,10 @@ public class CityFragment extends Fragment implements CityContract.CityView {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final String cityName = ((CityContext) parent.getItemAtPosition(position)).getCityName();
+                Logger.d(cityName);
                 if (!mPresenter.isExist(cityName)) {
                     mPresenter.insertLoveCity(cityName);
+                    Logger.d(cityName + "插入成功");
                     Snackbar.make(mainLayout, "添加城市成功", Snackbar.LENGTH_LONG).
                             setAction("点我撤销", new View.OnClickListener() {
                                 @Override
@@ -113,7 +118,9 @@ public class CityFragment extends Fragment implements CityContract.CityView {
                     refresh.startAnimation(animation);
                     mPresenter.getCityWeather(cityName);
 
-                    EventBus.getDefault().post(new MessageEvent("UPDATE_CITY"));
+                    Message message = Message.obtain();
+                    message.what = UPDATE_CITY;
+                    handler.sendMessage(message) ;
                 } else {
                     Snackbar.make(mainLayout, "该城市已经添加，你忘记了？", Snackbar.LENGTH_SHORT).show();
                 }

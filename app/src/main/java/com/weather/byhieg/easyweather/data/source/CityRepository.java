@@ -132,6 +132,11 @@ public class CityRepository implements CityDataSource{
     }
 
     @Override
+    public LoveCityEntity getLoveCity(int order) {
+        return mWeatherLocalDataSource.getLoveCity(order);
+    }
+
+    @Override
     public void getLoveCity(GetLoveCityCallBack callBack) {
         mWeatherLocalDataSource.getLoveCity(callBack);
     }

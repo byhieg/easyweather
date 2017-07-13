@@ -154,33 +154,33 @@ public class MainActivity extends BaseActivity implements ActivityCompat
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                int postion = 0;
+                int position = 0;
                 switch (menuItem.getItemId()) {
                     case R.id.trending:
                         break;
                     case R.id.setting:
-                        postion = 1;
+                        position = 1;
                         break;
                     case R.id.share:
-                        postion = 2;
+                        position = 2;
                         break;
                     case R.id.help:
-                        postion = 3;
+                        position = 3;
                         break;
                     case R.id.lab:
-                        postion = 4;
+                        position = 4;
                         break;
                     case R.id.wiki:
-                        postion = 5;
+                        position = 5;
                         break;
                     case R.id.more:
-                        postion = 6;
+                        position = 6;
                         break;
                 }
                 menuItem.setChecked(true);
                 drawerLayout.closeDrawers();
                 Intent intent = new Intent(getApplicationContext(), SlideMenuActivity.class);
-                intent.putExtra("itemId", postion);
+                intent.putExtra("itemId", position);
                 startActivity(intent);
                 overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
                 return true;

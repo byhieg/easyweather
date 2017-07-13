@@ -26,6 +26,7 @@ public class CityPresenter implements CityContract.CityPresenter {
         mView = view;
         mView.setPresenter(this);
         mCityRepository = CityRepository.getInstance();
+        mWeatherRepository = WeatherRepository.getInstance();
     }
 
     @Override
