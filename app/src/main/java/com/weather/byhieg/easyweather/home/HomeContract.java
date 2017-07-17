@@ -41,6 +41,8 @@ public interface HomeContract {
 
         void generateDataInPopView();
 
+        void getNewShowWeather();
+
     }
 }
 

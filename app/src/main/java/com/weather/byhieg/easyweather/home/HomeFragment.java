@@ -225,6 +225,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, SwipeRe
     @Override
     public void updateView(HWeather weather) {
         mSwipeLayout.setVisibility(View.VISIBLE);
+        mSwipeLayout.setRefreshing(false);
         refresh.clearAnimation();
         refresh.setVisibility(View.GONE);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -404,13 +405,14 @@ public class HomeFragment extends Fragment implements HomeContract.View, SwipeRe
     @Override
     public void onRefresh() {
         mPresenter.refreshData();
+
     }
 
     class LocalReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            mPresenter.refreshData();
+            mPresenter.getNewShowWeather();
         }
     }
 

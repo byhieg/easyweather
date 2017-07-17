@@ -57,12 +57,13 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
 
     @Override
     public String getShowCity() {
-        LoveCityEntity entity =  mLoveCityDao.queryBuilder().
+        List<LoveCityEntity> entity =  mLoveCityDao.queryBuilder().
                 where(LoveCityEntityDao.Properties.Order.eq(1)).
-                list().
-                get(0);
-
-        return entity.getCityName();
+                list();
+        for (int i = 0 ; i < entity.size();i++) {
+            Logger.d(entity.get(i).getCityName());
+        }
+        return entity.get(0).getCityName();
     }
 
     @Override
@@ -140,7 +141,6 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
 
     @Override
     public void saveWeather(HWeather weather) {
-        Logger.e("执行到了");
         WeatherEntity entity = new WeatherEntity();
         try {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
@@ -391,9 +391,13 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
         getLoveCity(cityName, new GetLoveCityCallBack() {
             @Override
             public void onSuccess(List<LoveCityEntity> loveCities) {
+                LoveCityEntity old = getLoveCity(order);
                 LoveCityEntity tmp = loveCities.get(0);
+                int tmpOrder = tmp.getOrder();
                 tmp.setOrder(order);
+                old.setOrder(tmpOrder);
                 mLoveCityDao.update(tmp);
+                mLoveCityDao.update(old);
             }
 
             @Override

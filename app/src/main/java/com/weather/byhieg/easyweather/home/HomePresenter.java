@@ -78,7 +78,6 @@ public class HomePresenter implements HomeContract.Presenter {
         mCityRepository.getLoveCity(new CityDataSource.GetLoveCityCallBack() {
             @Override
             public void onSuccess(final List<LoveCityEntity> loveCities) {
-                Logger.d(loveCities);
                 ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
                 for (int i = 0; i < loveCities.size(); i++) {
                     final int index = i;
@@ -86,7 +85,6 @@ public class HomePresenter implements HomeContract.Presenter {
                         @Override
                         public void run() {
                             try {
-                                Logger.d(loveCities.get(index));
                                 mWeatherRepository.updateCityWeather(loveCities.get(index).getCityName());
                                 loadWeather();
                             } catch (Exception e) {
@@ -112,6 +110,14 @@ public class HomePresenter implements HomeContract.Presenter {
         String showCity = getShowCity();
         HWeather weather = mWeatherRepository.getLocalWeather(showCity);
         mView.showPopupWindow();
+    }
+
+    @Override
+    public void getNewShowWeather() {
+        String showCity = getShowCity();
+        Logger.d(showCity);
+        HWeather weather = mWeatherRepository.getLocalWeather(showCity);
+        mView.updateView(weather);
     }
 
 
