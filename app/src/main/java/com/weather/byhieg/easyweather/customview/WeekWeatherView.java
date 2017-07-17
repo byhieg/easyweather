@@ -278,7 +278,6 @@ public class WeekWeatherView extends View {
                 getNextWeek(new SimpleDateFormat("yyyy-MM-dd").
                         parse(WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(0).getDate()));
 
-        Logger.d(weeks);
     }
 
     public void setData(HWeather weather){

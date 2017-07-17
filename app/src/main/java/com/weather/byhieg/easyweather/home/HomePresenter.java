@@ -1,16 +1,19 @@
 package com.weather.byhieg.easyweather.home;
 
 import com.baidu.location.LocationClientOption;
+import com.orhanobut.logger.Logger;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.data.bean.HWeather;
 import com.weather.byhieg.easyweather.data.source.CityDataSource;
 import com.weather.byhieg.easyweather.data.source.CityRepository;
 import com.weather.byhieg.easyweather.data.source.WeatherRepository;
 import com.weather.byhieg.easyweather.data.source.local.entity.LoveCityEntity;
+import com.weather.byhieg.easyweather.tools.MainThreadAction;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -46,14 +49,16 @@ public class HomePresenter implements HomeContract.Presenter {
     @Override
     public void loadWeather() {
         String showCity = getShowCity();
-        HWeather weather = mWeatherRepository.getLocalWeather(showCity);
+        final HWeather weather = mWeatherRepository.getLocalWeather(showCity);
         if (weather == null) {
-            if(3 == mCount.getAndIncrement()){
-                return;
-            }
             doRefreshInNoData();
         } else {
-            mView.updateView(weather);
+            MainThreadAction.getInstance().post(new Runnable() {
+                @Override
+                public void run() {
+                    mView.updateView(weather);
+                }
+            });
         }
     }
 
@@ -73,6 +78,7 @@ public class HomePresenter implements HomeContract.Presenter {
         mCityRepository.getLoveCity(new CityDataSource.GetLoveCityCallBack() {
             @Override
             public void onSuccess(final List<LoveCityEntity> loveCities) {
+                Logger.d(loveCities);
                 ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
                 for (int i = 0; i < loveCities.size(); i++) {
                     final int index = i;
@@ -80,9 +86,11 @@ public class HomePresenter implements HomeContract.Presenter {
                         @Override
                         public void run() {
                             try {
+                                Logger.d(loveCities.get(index));
                                 mWeatherRepository.updateCityWeather(loveCities.get(index).getCityName());
                                 loadWeather();
                             } catch (Exception e) {
+                                Logger.e(e.getMessage());
                                 mView.setNetWork();
                             }
                         }

@@ -95,7 +95,6 @@ public class BackGroundService extends IntentService {
      */
     private void getWeatherData() {
         final List<LoveCityEntity> loveCities = mCityRepository.getAllLoveCities();
-        Logger.e("喜欢城市是" + loveCities.get(0).getCityName());
         ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
         for (int i = 0; i < loveCities.size(); i++) {
             final int index = i;

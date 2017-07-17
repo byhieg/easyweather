@@ -13,6 +13,7 @@ interface IMainThread{
 
     void post(Runnable runnable);
 
+
 }
 
 public class MainThreadAction implements IMainThread{
@@ -43,4 +44,6 @@ public class MainThreadAction implements IMainThread{
     public void post(Runnable runnable) {
         mHandler.post(runnable);
     }
+
+
 }

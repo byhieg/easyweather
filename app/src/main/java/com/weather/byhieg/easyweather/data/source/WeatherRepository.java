@@ -92,7 +92,6 @@ public class WeatherRepository implements WeatherDataSource {
         } else {
             HWeather weather = getWeatherDataFromCity(cityName);
             saveWeather(weather);
-            Logger.d("save成功");
         }
 
     }

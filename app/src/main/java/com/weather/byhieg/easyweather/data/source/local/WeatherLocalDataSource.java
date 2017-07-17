@@ -67,9 +67,7 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
 
     @Override
     public void addWeather(WeatherEntity entity) {
-        Logger.e("插入前");
         mWeatherDao.insert(entity);
-        Logger.d(entity.getCityName() + "天气插入成功");
     }
 
     @Override

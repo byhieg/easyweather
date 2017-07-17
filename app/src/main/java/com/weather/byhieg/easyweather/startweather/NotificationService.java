@@ -71,7 +71,6 @@ public class NotificationService extends Service{
             e.printStackTrace();
         }
         if (notificationWeather != null) {
-            Logger.d(notificationWeather.getHeWeather5().get(0).getStatus());
             contentViews.setTextViewText(R.id.city_text, WeatherJsonConverter.getWeather
                     (notificationWeather).getBasic().getCity());
             contentViews.setTextViewText(R.id.weather_text, WeatherJsonConverter.getWeather(notificationWeather).getNow().getCond().getTxt());
