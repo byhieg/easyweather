@@ -60,9 +60,6 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
         List<LoveCityEntity> entity =  mLoveCityDao.queryBuilder().
                 where(LoveCityEntityDao.Properties.Order.eq(1)).
                 list();
-        for (int i = 0 ; i < entity.size();i++) {
-            Logger.d(entity.get(i).getCityName());
-        }
         return entity.get(0).getCityName();
     }
 

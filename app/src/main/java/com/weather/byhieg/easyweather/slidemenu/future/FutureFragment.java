@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.orhanobut.logger.Logger;
 import com.weather.byhieg.easyweather.base.BaseFragment;
 import com.weather.byhieg.easyweather.slidemenu.future.adapter.FutureListAdapter;
 import com.weather.byhieg.easyweather.data.bean.FutureContext;
@@ -49,7 +50,13 @@ public class FutureFragment extends BaseFragment implements FutureContract.View 
         }
         View view = inflater.inflate(R.layout.fragment_future, container, false);
         ButterKnife.bind(this, view);
+        mPresenter.start();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -59,10 +66,12 @@ public class FutureFragment extends BaseFragment implements FutureContract.View 
 
     @Override
     public void showListView(List<FutureContext> list) {
-        adapter = new FutureListAdapter(lists);
+        adapter = new FutureListAdapter(list);
+        Logger.d(list.get(0).getCond());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
 }

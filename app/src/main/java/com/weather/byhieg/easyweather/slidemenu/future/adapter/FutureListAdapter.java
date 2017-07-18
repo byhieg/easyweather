@@ -7,10 +7,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
 import com.weather.byhieg.easyweather.data.bean.FutureContext;
 import com.weather.byhieg.easyweather.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by byhieg on 16-10-2.
@@ -19,11 +21,12 @@ import java.util.ArrayList;
 
 public class FutureListAdapter extends RecyclerView.Adapter {
 
-    private ArrayList<FutureContext> futureList;
+    private List<FutureContext> futureList;
 
 
-    public FutureListAdapter(ArrayList<FutureContext> futureList) {
+    public FutureListAdapter(List<FutureContext> futureList) {
         this.futureList = futureList;
+        Logger.d(futureList.size());
     }
 
     @Override

@@ -50,7 +50,6 @@ public class SlideMenuActivity extends BaseActivity {
                 fm.beginTransaction()
                         .add(R.id.fragment, futureFragment,FutureFragment.TAG).commit();
                 mPresenter = new FuturePresenter(futureFragment);
-                mPresenter.start();
                 break;
             case Constants.SETTING:
                 toolbar.setTitle(R.string.setting);
