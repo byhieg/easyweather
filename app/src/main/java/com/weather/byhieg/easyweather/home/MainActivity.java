@@ -94,6 +94,8 @@ public class MainActivity extends BaseActivity implements ActivityCompat
             getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        mNavigationView.setItemIconTintList(null);
+        mNavigationView.setItemTextColor(null);
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
                 toolbar, 0, 0);
         mDrawerToggle.syncState();

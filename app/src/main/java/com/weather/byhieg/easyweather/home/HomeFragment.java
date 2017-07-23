@@ -261,7 +261,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Swi
         } else {
             updateTime.setText("最近更新：" + time + "分钟之前");
         }
-        Logger.d(WeatherJsonConverter.getWeather(weather).getNow().getCond().getCode());
         tempImage.setImageResource(WeatherIcon.getWeatherImage(WeatherJsonConverter.getWeather(weather).getNow().getCond().getCode()));
         mCallback.updateToolBar(WeatherJsonConverter.getWeather(weather).getBasic().getCity());
         //主卡片
