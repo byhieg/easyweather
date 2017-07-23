@@ -28,6 +28,8 @@ public class Constants implements Serializable{
 
     public static final int UPDATE_WEATHER = 0X401;
 
+    public static final int UPDATE_SHOW_CITY = 0x402;
+
 
 
 

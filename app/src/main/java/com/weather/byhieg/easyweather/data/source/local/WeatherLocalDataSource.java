@@ -73,11 +73,7 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
         List<WeatherEntity> res = mWeatherDao.queryBuilder().
                 where(WeatherEntityDao.Properties.CityName.eq(cityName)).
                 limit(1).list();
-        if (isListEmpty(res)) {
-            return false;
-        }else{
-            return true;
-        }
+        return !isListEmpty(res);
     }
 
     @Override

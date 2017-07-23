@@ -9,11 +9,13 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,16 +31,27 @@ import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
+import com.weather.byhieg.easyweather.base.BaseFragment;
 import com.weather.byhieg.easyweather.tools.DateUtil;
+import com.weather.byhieg.easyweather.tools.DisplayUtil;
 import com.weather.byhieg.easyweather.tools.LogUtils;
 import com.weather.byhieg.easyweather.home.adapter.PopupWindowAdapter;
 import com.weather.byhieg.easyweather.data.bean.HoursWeather;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.customview.WeekWeatherView;
 import com.weather.byhieg.easyweather.data.bean.HWeather;
+import com.weather.byhieg.easyweather.tools.MessageEvent;
+import com.weather.byhieg.easyweather.tools.ScreenUtil;
 import com.weather.byhieg.easyweather.tools.WeatherIcon;
 import com.weather.byhieg.easyweather.tools.WeatherJsonConverter;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import static com.weather.byhieg.easyweather.tools.Constants.UPDATE_SHOW_CITY;
+import static com.weather.byhieg.easyweather.tools.DisplayUtil.getViewHeight;
 import static com.weather.byhieg.easyweather.tools.Knife.*;
 
 import java.text.SimpleDateFormat;
@@ -53,7 +66,8 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment implements HomeContract.View, SwipeRefreshLayout.OnRefreshListener {
+public class HomeFragment extends BaseFragment implements HomeContract.View, SwipeRefreshLayout
+        .OnRefreshListener {
 
 
 //    @BindView(R.id.arrow)
@@ -143,8 +157,6 @@ public class HomeFragment extends Fragment implements HomeContract.View, SwipeRe
 
     private NetworkChangeReceiver networkChangeReceiver;
     private HomeContract.Presenter mPresenter;
-    private LocalReceiver localReceiver;
-    private LocalBroadcastManager localBroadcastManager;
     private Callback mCallback;
     private int[] rotateCount = {0, 0};
     private List<HoursWeather> hoursWeathers = new ArrayList<>();
@@ -156,6 +168,12 @@ public class HomeFragment extends Fragment implements HomeContract.View, SwipeRe
         setCallBack((MainActivity) context);
     }
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     void setCallBack(Callback callBack) {
         mCallback = callBack;
@@ -177,6 +195,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, SwipeRe
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
+        generateTextView(view);
         initView();
         return view;
     }
@@ -187,6 +206,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, SwipeRe
                 android.R.color.holo_red_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_green_light);
+
         registerBroadCast();
         initEvent();
     }
@@ -210,6 +230,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, SwipeRe
         more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Logger.d("被点击");
                 mPresenter.generateDataInPopView();
             }
         });
@@ -240,7 +261,6 @@ public class HomeFragment extends Fragment implements HomeContract.View, SwipeRe
         } else {
             updateTime.setText("最近更新：" + time + "分钟之前");
         }
-        LogUtils.e("code", WeatherJsonConverter.getWeather(weather).getNow().getCond().getCode());
         tempImage.setImageResource(WeatherIcon.getWeatherImage(WeatherJsonConverter.getWeather(weather).getNow().getCond().getCode()));
         mCallback.updateToolBar(WeatherJsonConverter.getWeather(weather).getBasic().getCity());
         //主卡片
@@ -353,7 +373,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, SwipeRe
             }
         });
         popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.color.transparent));
-//        popupWindow.showAsDropDown(toolbar, 0, 0);
+        popupWindow.showAtLocation(rootLayout,Gravity.CENTER ,0, 0);
         del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -392,14 +412,38 @@ public class HomeFragment extends Fragment implements HomeContract.View, SwipeRe
 
     @Override
     public void registerBroadCast() {
-        localBroadcastManager = LocalBroadcastManager.getInstance(getActivity().getApplicationContext());
+//        localBroadcastManager = LocalBroadcastManager.getInstance(getActivity().getApplicationContext());
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-        intentFilter.addAction("com.weather.byhieg.easyweather.Activity.LOCAL_BROADCAST");
-        localReceiver = new LocalReceiver();
+//        intentFilter.addAction("com.weather.byhieg.easyweather.Activity.LOCAL_BROADCAST");
+//        localReceiver = new LocalReceiver();
         networkChangeReceiver = new NetworkChangeReceiver();
         getActivity().registerReceiver(networkChangeReceiver, intentFilter);
-        localBroadcastManager.registerReceiver(localReceiver, intentFilter);
+//        localBroadcastManager.registerReceiver(localReceiver, intentFilter);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+        getActivity().unregisterReceiver(networkChangeReceiver);
+    }
+
+    public void generateTextView(View v) {
+        TextView textView = new TextView(getActivity());
+        textView.setText("天气易变，注意天气变化");
+        View[] view = {v.findViewById(R.id.toolbar), v.findViewById(R.id.view), v.findViewById(R.id
+                .item_cloths), v.findViewById(R.id.item_sports)};
+        int totalHeight = 0;
+        for (View aView : view) {
+            totalHeight += getViewHeight(aView, true) + DisplayUtil.dip2px(getActivity(), 10);
+        }
+        int pxHeight = ScreenUtil.getScreenHW2(getActivity())[1] - totalHeight;
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, pxHeight / 2);
+        textView.setGravity(Gravity.CENTER);
+        textView.setTextColor(ContextCompat.getColor(getActivity(), R.color.white));
+        textView.setLayoutParams(lp);
+        action_bar.addView(textView);
     }
 
     @Override
@@ -408,10 +452,9 @@ public class HomeFragment extends Fragment implements HomeContract.View, SwipeRe
 
     }
 
-    class LocalReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onHandleMessageEvent(MessageEvent event){
+        if (event.getMessage() == UPDATE_SHOW_CITY){
             mPresenter.getNewShowWeather();
         }
     }

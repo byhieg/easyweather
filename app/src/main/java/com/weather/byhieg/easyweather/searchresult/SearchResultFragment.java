@@ -19,10 +19,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.weather.byhieg.easyweather.R;
+import com.weather.byhieg.easyweather.base.BaseFragment;
 import com.weather.byhieg.easyweather.city.adapter.CityListAdapter;
-import com.weather.byhieg.easyweather.city.event.MessageEvent;
+import com.weather.byhieg.easyweather.tools.MessageEvent;
 import com.weather.byhieg.easyweather.data.bean.CityContext;
-import com.weather.byhieg.easyweather.data.source.local.entity.CityEntity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -31,10 +31,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.weather.byhieg.easyweather.city.CityFragment.UPDATE_CITY;
+
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SearchResultFragment extends Fragment implements SearchResultContract.View {
+public class SearchResultFragment extends BaseFragment implements SearchResultContract.View {
 
 
     @BindView(R.id.result_list)
@@ -64,7 +66,6 @@ public class SearchResultFragment extends Fragment implements SearchResultContra
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -100,7 +101,7 @@ public class SearchResultFragment extends Fragment implements SearchResultContra
                     animation.setInterpolator(new LinearInterpolator());
                     refresh.startAnimation(animation);
                     mPresenter.getCityWeather(cityName);
-                    EventBus.getDefault().post(new MessageEvent("UPDATE_CITY"));
+                    EventBus.getDefault().post(new MessageEvent(UPDATE_CITY));
                 } else {
                     Snackbar.make(mainLayout, "该城市已经添加，你忘记了？", Snackbar.LENGTH_SHORT).show();
                 }
@@ -123,7 +124,7 @@ public class SearchResultFragment extends Fragment implements SearchResultContra
 
     @Override
     public void showQueryData(List<CityContext> data) {
-        adapter = new CityListAdapter(data,getContext().getApplicationContext());
+        adapter = new CityListAdapter(data,getActivity());
         listView.setAdapter(adapter);
         listView.setEmptyView(mTextView);
     }
@@ -149,6 +150,5 @@ public class SearchResultFragment extends Fragment implements SearchResultContra
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 }

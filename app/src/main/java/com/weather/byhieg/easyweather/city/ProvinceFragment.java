@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.weather.byhieg.easyweather.base.BaseFragment;
 import com.weather.byhieg.easyweather.city.adapter.ProvinceListAdapter;
 import com.weather.byhieg.easyweather.data.bean.ProvinceContext;
 import com.weather.byhieg.easyweather.R;
@@ -22,7 +23,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProvinceFragment extends Fragment implements CityContract.ProvinceView{
+public class ProvinceFragment extends BaseFragment implements CityContract.ProvinceView{
 
     public static final String TAG = "com.weather.byhieg.easyweather.city.ProvinceFragment";
 

@@ -1,5 +1,7 @@
 package com.weather.byhieg.easyweather.home;
 
+import android.view.View;
+
 import com.weather.byhieg.easyweather.BasePresenter;
 import com.weather.byhieg.easyweather.BaseView;
 import com.weather.byhieg.easyweather.data.bean.HWeather;
@@ -24,6 +26,8 @@ public interface HomeContract {
         void setNetWork();
 
         void registerBroadCast();
+
+        void generateTextView(android.view.View v);
     }
 
 

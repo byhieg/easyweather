@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends AppCompatActivity implements InitUI, View.OnClickListener{
@@ -90,22 +92,6 @@ public abstract class BaseActivity extends AppCompatActivity implements InitUI, 
     }
 
 
-//    protected void startActivityForResult(Class<?> cls,int requestCode) {
-//        Intent intent=new Intent();
-//        intent.setClass(this, cls);
-//        super.startActivityForResult(intent, requestCode);
-//
-//
-//    }
-//
-//    protected void startActivityForResult(Class<?> cls,Bundle bundle,int requestCode) {
-//
-//        Intent intent=new Intent();
-//        intent.putExtras(bundle);
-//        intent.setClass(this, cls);
-//        super.startActivityForResult(intent, requestCode);
-//    }
-
     public void showToast(String text) {
         if (mToast != null) {
             mToast.cancel();
@@ -134,5 +120,10 @@ public abstract class BaseActivity extends AppCompatActivity implements InitUI, 
             mWindowManager.removeViewImmediate(mNightView);
             mNightView = null;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

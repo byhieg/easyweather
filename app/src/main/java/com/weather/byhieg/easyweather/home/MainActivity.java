@@ -6,19 +6,30 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocationListener;
+import com.orhanobut.logger.Logger;
 import com.weather.byhieg.easyweather.base.BaseActivity;
+import com.weather.byhieg.easyweather.tools.DisplayUtil;
 import com.weather.byhieg.easyweather.tools.LogUtils;
 import com.weather.byhieg.easyweather.citymanage.CityManageActivity;
 import com.weather.byhieg.easyweather.loveapp.LoveAppActivity;
@@ -26,9 +37,16 @@ import com.weather.byhieg.easyweather.slidemenu.SlideMenuActivity;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.tools.Constants;
+import com.weather.byhieg.easyweather.tools.MessageEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.weather.byhieg.easyweather.tools.Constants.UPDATE_SHOW_CITY;
 
 public class MainActivity extends BaseActivity implements ActivityCompat
         .OnRequestPermissionsResultCallback,HomeFragment.Callback {
@@ -44,6 +62,7 @@ public class MainActivity extends BaseActivity implements ActivityCompat
 //    public Toolbar toolbar;
 
     private HomePresenter mHomePresenter;
+    private final boolean []isQuit = new boolean[1];
 
     @Override
     public int getLayoutId() {
@@ -69,7 +88,6 @@ public class MainActivity extends BaseActivity implements ActivityCompat
 
     @Override
     public void initView() {
-//        toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("成都");
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -89,6 +107,27 @@ public class MainActivity extends BaseActivity implements ActivityCompat
         }else {
             setTheme(R.style.DayTheme);
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            if(isQuit[0]){
+                finish();
+            }else{
+                showToast("是否要退出");
+                isQuit[0] = true;
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        isQuit[0] = false;
+                    }
+                },2000);
+                return true;
+            }
+
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
@@ -186,6 +225,8 @@ public class MainActivity extends BaseActivity implements ActivityCompat
                 return true;
             }
         });
+
+        EventBus.getDefault().register(this);
     }
 
 
@@ -198,26 +239,17 @@ public class MainActivity extends BaseActivity implements ActivityCompat
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        EventBus.getDefault().unregister(this);
     }
 
 
-//    public void generateTextView() {
-//        TextView textView = new TextView(this);
-//        textView.setText("天气易变，注意天气变化");
-//        View[] view = {findViewById(R.id.toolbar), findViewById(R.id.view), findViewById(R.id.item_cloths), findViewById(R.id.item_sports)};
-//        int totalHeight = 0;
-//        for (View aView : view) {
-//            totalHeight += getViewHeight(aView, true) + DisplayUtil.dip2px(this, 10);
-//        }
-//        int pxHeight = getmScreenHeight() - totalHeight;
-//        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, pxHeight / 2);
-//        textView.setGravity(Gravity.CENTER);
-//        textView.setTextColor(ContextCompat.getColor(this, R.color.white));
-//        textView.setLayoutParams(lp);
-//        action_bar.addView(textView);
-//
-//    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onHandleMessageEvent(MessageEvent event){
+        if (event.getMessage() == UPDATE_SHOW_CITY){
+            toolbar.setTitle(mHomePresenter.getShowCity());
+        }
+    }
+
 
     @Override
     protected void onResume() {
@@ -230,6 +262,8 @@ public class MainActivity extends BaseActivity implements ActivityCompat
         }
         mHomePresenter.start();
     }
+
+
 
 
     @Override

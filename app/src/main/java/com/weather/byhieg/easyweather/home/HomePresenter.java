@@ -107,8 +107,8 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void generateDataInPopView() {
-        String showCity = getShowCity();
-        HWeather weather = mWeatherRepository.getLocalWeather(showCity);
+//        String showCity = getShowCity();
+//        HWeather weather = mWeatherRepository.getLocalWeather(showCity);
         mView.showPopupWindow();
     }
 

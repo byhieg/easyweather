@@ -35,7 +35,6 @@ public class SearchResultPresenter implements SearchResultContract.Presenter {
 
     @Override
     public void start() {
-
     }
 
     @Override

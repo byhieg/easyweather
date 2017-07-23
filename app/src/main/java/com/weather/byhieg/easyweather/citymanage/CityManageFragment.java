@@ -5,8 +5,6 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
@@ -18,10 +16,11 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
+import com.weather.byhieg.easyweather.base.BaseFragment;
 import com.weather.byhieg.easyweather.tools.LogUtils;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
-import com.weather.byhieg.easyweather.city.event.MessageEvent;
+import com.weather.byhieg.easyweather.tools.MessageEvent;
 import com.weather.byhieg.easyweather.citymanage.adapter.CityManageAdapter;
 import com.weather.byhieg.easyweather.customview.SlideCutListView;
 import com.weather.byhieg.easyweather.data.bean.CityManageContext;
@@ -33,7 +32,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,12 +40,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.weather.byhieg.easyweather.city.CityFragment.UPDATE_CITY;
+import static com.weather.byhieg.easyweather.tools.Constants.UPDATE_SHOW_CITY;
 import static com.weather.byhieg.easyweather.tools.Knife.convertObject;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CityManageFragment extends Fragment implements CityManageContract.View {
+public class CityManageFragment extends BaseFragment implements CityManageContract.View {
 
     @BindView(R.id.card_view_group)
     public SlideCutListView cardViewGroup;
@@ -57,16 +56,17 @@ public class CityManageFragment extends Fragment implements CityManageContract.V
     private CityManageAdapter mAdapter;
     private List<CityManageContext> mList = new ArrayList<>();
     private LocalBroadcastManager localBroadcastManager;
-    private CityManageHandler mHandler;
+//    private CityManageHandler mHandler;
 
     public CityManageFragment() {
         // Required empty public constructor
-        mHandler = new CityManageHandler(this);
+//        mHandler = new CityManageHandler(this);
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
     }
 
     public static CityManageFragment newInstance() {
@@ -140,8 +140,8 @@ public class CityManageFragment extends Fragment implements CityManageContract.V
                                             "该城市已经是首页城市",Toast.LENGTH_SHORT).show();
                                 }else{
                                     mPresenter.updateShowCity(name);
-                                    Intent intent = new Intent("com.weather.byhieg.easyweather.Activity.LOCAL_BROADCAST");
-                                    localBroadcastManager.sendBroadcast(intent);
+//
+                                    EventBus.getDefault().post(new MessageEvent(UPDATE_SHOW_CITY));
                                 }
                             }
                         }).setNegativeButton("否", new DialogInterface.OnClickListener() {
@@ -191,28 +191,38 @@ public class CityManageFragment extends Fragment implements CityManageContract.V
     @Override
     public void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onHandleMessageEvent(MessageEvent messageEvent){
+        if (messageEvent.getMessage() == UPDATE_CITY){
+            Logger.d(messageEvent.getMessage());
+            mPresenter.loadCities();
 
-    static class CityManageHandler extends Handler{
-        WeakReference<CityManageFragment> mWeakReference;
 
-        public CityManageHandler(CityManageFragment fragment){
-            mWeakReference = new WeakReference<>(fragment);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what){
-                case UPDATE_CITY:
-                    Logger.d(msg.what);
-                    mPresenter.loadCities();
-                    break;
-
-                default:
-                    break;
-            }
         }
     }
+
+//    static class CityManageHandler extends Handler{
+//        WeakReference<CityManageFragment> mWeakReference;
+//
+//        public CityManageHandler(CityManageFragment fragment){
+//            mWeakReference = new WeakReference<>(fragment);
+//        }
+//
+//        @Override
+//        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+//            switch (msg.what){
+//                case UPDATE_CITY:
+//                    Logger.d(msg.what);
+//                    mPresenter.loadCities();
+//                    break;
+//
+//                default:
+//                    break;
+//            }
+//        }
+//    }
 }

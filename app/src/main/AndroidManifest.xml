@@ -41,11 +41,11 @@
             android:value="VFMa5kEGFMHWLWV4aGsmG8jQSxbBekKw" />
         <meta-data
             android:name="android.app.default_searchable"
-            android:value=".Activity.SearchResultActivity" />
+            android:value=".searchresult.SearchResultActivity" />
 
         <activity
             android:name=".home.MainActivity"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".startweather.StartActivity"

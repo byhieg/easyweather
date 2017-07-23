@@ -6,6 +6,8 @@ import com.weather.byhieg.easyweather.data.source.local.entity.LoveCityEntity;
 import com.weather.byhieg.easyweather.data.source.local.entity.WeatherEntity;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -36,6 +38,12 @@ public class CityManagePresenter implements CityManageContract.Presenter {
     public void loadCities() {
         List<LoveCityEntity> cities = mCityRepository.getAllLoveCities();
         List<WeatherEntity> weathers = new ArrayList<>();
+        Collections.sort(cities, new Comparator<LoveCityEntity>() {
+            @Override
+            public int compare(LoveCityEntity o1, LoveCityEntity o2) {
+                return o1.getOrder() - o2.getOrder();
+            }
+        });
         for (LoveCityEntity entity : cities) {
             weathers.add(mWeatherRepository.getWeatherEntity(entity.getCityName()));
         }
@@ -56,5 +64,6 @@ public class CityManagePresenter implements CityManageContract.Presenter {
     @Override
     public void updateShowCity(String cityName) {
         mCityRepository.updateCityOrder(cityName,1);
+        loadCities();
     }
 }

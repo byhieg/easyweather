@@ -103,6 +103,8 @@ public class CityActivity extends BaseActivity{
         final MenuItem searchItem = menu.findItem(R.id.search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         if(searchView == null) return false;
+//        searchView.setIconified(false);
+        searchView.setQueryHint("搜索城市，暂不支持拼音");
         searchView.setSearchableInfo( searchManager.getSearchableInfo(CityActivity.this.getComponentName()) );
         AutoCompleteTextView textView = (AutoCompleteTextView)searchView.findViewById(R.id.search_src_text);
         if (textView != null){

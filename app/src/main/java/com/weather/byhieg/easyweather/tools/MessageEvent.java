@@ -1,4 +1,4 @@
-package com.weather.byhieg.easyweather.city.event;
+package com.weather.byhieg.easyweather.tools;
 
 /**
  * Created by byhieg on 17/2/5.
@@ -7,17 +7,17 @@ package com.weather.byhieg.easyweather.city.event;
 
 public class MessageEvent {
 
-    private String message;
+    private int message;
 
-    public MessageEvent(String message) {
+    public MessageEvent(int message) {
         this.message = message;
     }
 
-    public String getMessage() {
+    public int getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(int message) {
         this.message = message;
     }
 }

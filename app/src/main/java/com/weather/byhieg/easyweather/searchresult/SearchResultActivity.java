@@ -22,6 +22,7 @@ public class SearchResultActivity extends BaseActivity {
 
     private SearchResultPresenter mPresenter;
     private FragmentManager fm;
+    String  query;
 
     @Override
     public int getLayoutId() {
@@ -33,7 +34,7 @@ public class SearchResultActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        String query = intent.getStringExtra(SearchManager.QUERY);
+        query = intent.getStringExtra(SearchManager.QUERY);
         fm = getSupportFragmentManager();
         SearchResultFragment fragment = (SearchResultFragment) fm.findFragmentById(R.id.fragment_container);
         if (fragment == null) {
@@ -44,7 +45,6 @@ public class SearchResultActivity extends BaseActivity {
             fm.beginTransaction().add(R.id.fragment_container,fragment).commit();
         }
         mPresenter = new SearchResultPresenter(fragment);
-        mPresenter.loadCities(query);
     }
 
     @Override
@@ -87,6 +87,6 @@ public class SearchResultActivity extends BaseActivity {
         }else {
             removeNightView();
         }
-        mPresenter.start();
+        mPresenter.loadCities(query);
     }
 }

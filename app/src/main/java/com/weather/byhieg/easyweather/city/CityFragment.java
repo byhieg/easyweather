@@ -4,9 +4,6 @@ package com.weather.byhieg.easyweather.city;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -21,9 +18,9 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.orhanobut.logger.Logger;
-import com.weather.byhieg.easyweather.tools.LogUtils;
+import com.weather.byhieg.easyweather.base.BaseFragment;
 import com.weather.byhieg.easyweather.city.adapter.CityListAdapter;
-import com.weather.byhieg.easyweather.city.event.MessageEvent;
+import com.weather.byhieg.easyweather.tools.MessageEvent;
 import com.weather.byhieg.easyweather.data.bean.CityContext;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.data.source.local.entity.CityEntity;
@@ -39,7 +36,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CityFragment extends Fragment implements CityContract.CityView {
+public class CityFragment extends BaseFragment implements CityContract.CityView {
 
 
     public static final String TAG = "com.weather.byhieg.easyweather.city.CityFragment";
@@ -56,8 +53,6 @@ public class CityFragment extends Fragment implements CityContract.CityView {
     @BindView(R.id.city_list)
     public ListView listView;
 
-
-    private Handler handler;
     //    private CityManageActivity.MyHandler myHandler;
     private CityContract.CityPresenter mPresenter;
 
@@ -79,7 +74,6 @@ public class CityFragment extends Fragment implements CityContract.CityView {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        handler = new Handler(Looper.getMainLooper());
 //        myHandler = new CityManageActivity.MyHandler(new CityManageActivity());
         View view = inflater.inflate(R.layout.fragment_city, container, false);
         ButterKnife.bind(this, view);
@@ -118,9 +112,11 @@ public class CityFragment extends Fragment implements CityContract.CityView {
                     refresh.startAnimation(animation);
                     mPresenter.getCityWeather(cityName);
 
-                    Message message = Message.obtain();
-                    message.what = UPDATE_CITY;
-                    handler.sendMessage(message) ;
+//                    Message message = Message.obtain();
+//                    message.what = UPDATE_CITY;
+//                    handler.sendMessage(message) ;
+                    EventBus.getDefault().post(new MessageEvent(UPDATE_CITY));
+
                 } else {
                     Snackbar.make(mainLayout, "该城市已经添加，你忘记了？", Snackbar.LENGTH_SHORT).show();
                 }
@@ -141,7 +137,6 @@ public class CityFragment extends Fragment implements CityContract.CityView {
             cityContext.setCityName(item.getCityName());
             cities.add(cityContext);
         }
-        LogUtils.e("city", cities + "");
     }
 
     @Override
