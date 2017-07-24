@@ -14,6 +14,8 @@ import android.widget.Toast;
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.ButterKnife;
+import cn.byhieg.monitor.TimeMonitorConfig;
+import cn.byhieg.monitor.TimeMonitorManager;
 
 public abstract class BaseActivity extends AppCompatActivity implements InitUI, View.OnClickListener{
 

@@ -15,6 +15,8 @@ import com.weather.byhieg.easyweather.tools.CrashHandler;
 import org.greenrobot.greendao.database.Database;
 
 import cn.byhieg.betterload.network.NetService;
+import cn.byhieg.monitor.TimeMonitorConfig;
+import cn.byhieg.monitor.TimeMonitorManager;
 
 public class MyApplication extends Application{
 
@@ -45,6 +47,13 @@ public class MyApplication extends Application{
         return daoMaster.newSession();
     }
 
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        TimeMonitorManager.getInstance().resetTimeMonitor(TimeMonitorConfig.TIME_MONITOR_ID_APPLICATION_START);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -58,7 +67,10 @@ public class MyApplication extends Application{
         daoSession = new DaoMaster(db).newSession();
         Logger.addLogAdapter(new AndroidLogAdapter());
 
-        Stetho.initializeWithDefaults(this);
+//        Stetho.initializeWithDefaults(this);
+
+        TimeMonitorManager.getInstance().getTimeMonitor(TimeMonitorConfig
+                .TIME_MONITOR_ID_APPLICATION_START).recordingTimeTag("ApplicationCreated");
 
 //        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(getAppContext(),
 //                "weather-db", null);

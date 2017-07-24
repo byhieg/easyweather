@@ -15,7 +15,6 @@ public class WeatherIcon {
     public static int getWeatherImage(String weatherCode) {
         Calendar cal = Calendar.getInstance();
         int hour = cal.get(Calendar.HOUR_OF_DAY);
-        Logger.d(hour);
         int code = Integer.parseInt(weatherCode);
         if (hour > 18 || hour < 6) {
             if (code == 100) {

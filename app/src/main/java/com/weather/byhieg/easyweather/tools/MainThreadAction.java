@@ -13,6 +13,8 @@ interface IMainThread{
 
     void post(Runnable runnable);
 
+    void post(Runnable runnable, long time);
+
 
 }
 
@@ -43,6 +45,11 @@ public class MainThreadAction implements IMainThread{
     @Override
     public void post(Runnable runnable) {
         mHandler.post(runnable);
+    }
+
+    @Override
+    public void post(Runnable runnable, long time) {
+        mHandler.postDelayed(runnable, time);
     }
 
 

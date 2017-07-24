@@ -1,1 +1,1 @@
-include ':app', ':betterloadNet'
+include ':app', ':betterloadNet', ':monitor'

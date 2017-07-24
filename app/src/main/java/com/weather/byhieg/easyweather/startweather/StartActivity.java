@@ -1,15 +1,24 @@
 package com.weather.byhieg.easyweather.startweather;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
+import android.os.PersistableBundle;
+import android.support.annotation.MainThread;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.weather.byhieg.easyweather.base.BaseActivity;
 import com.weather.byhieg.easyweather.home.MainActivity;
 import com.weather.byhieg.easyweather.R;
+import com.weather.byhieg.easyweather.tools.MainThreadAction;
 
 import butterknife.ButterKnife;
+import cn.byhieg.monitor.TimeMonitorConfig;
+import cn.byhieg.monitor.TimeMonitorManager;
 
-public class StartActivity extends BaseActivity implements StartWeatherContract.View {
+public class StartActivity extends AppCompatActivity implements StartWeatherContract.View {
 
     private static final String ACTION_ADD_CITY = "com.weather.byhieg.easyweather.startweather" +
             ".Activity.action.addCity";
@@ -29,34 +38,54 @@ public class StartActivity extends BaseActivity implements StartWeatherContract.
     private StartWeatherContract.Presenter mPresenter;
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        TimeMonitorManager.getInstance().getTimeMonitor(TimeMonitorConfig
+                .TIME_MONITOR_ID_APPLICATION_START).recordingTimeTag("StartActivity_create");
+        super.onCreate(savedInstanceState);
+        initTheme();
+        setContentView(getLayoutId());
+        initData();
+        initView();
+        initEvent();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        TimeMonitorManager.getInstance().getTimeMonitor(TimeMonitorConfig
+                .TIME_MONITOR_ID_APPLICATION_START).end("StartActivity_start");
+    }
+
     public void initData() {
         ButterKnife.bind(this);
         mPresenter = new StartWeatherPresenter(this);
         mPresenter.start();
     }
 
-    @Override
     public void initEvent() {
-        new Handler().postDelayed(new Runnable() {
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                startActivity(MainActivity.class);
+//                finish();
+//            }
+//        }, 3500);
+        MainThreadAction.getInstance().post(new Runnable() {
             @Override
             public void run() {
-                startActivity(MainActivity.class);
-                finish();
+                startActivity(new Intent(StartActivity.this, MainActivity.class));
             }
-        }, 3500);
+        },3500);
     }
 
-    @Override
     public void initView() {
 
     }
 
-    @Override
     public void initTheme() {
 
     }
 
-    @Override
     public int getLayoutId() {
         return R.layout.activity_start;
     }
