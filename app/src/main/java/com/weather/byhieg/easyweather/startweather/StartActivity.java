@@ -2,16 +2,11 @@ package com.weather.byhieg.easyweather.startweather;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.PersistableBundle;
-import android.support.annotation.MainThread;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.KeyEvent;
 
-import com.weather.byhieg.easyweather.base.BaseActivity;
-import com.weather.byhieg.easyweather.home.MainActivity;
 import com.weather.byhieg.easyweather.R;
+import com.weather.byhieg.easyweather.home.MainActivity;
 import com.weather.byhieg.easyweather.tools.MainThreadAction;
 
 import butterknife.ButterKnife;
@@ -121,4 +116,12 @@ public class StartActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+
+    }
 }

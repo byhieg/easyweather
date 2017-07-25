@@ -20,7 +20,11 @@ public class SplashActivity extends AppCompatActivity {
         startActivity(new Intent(this, StartActivity.class));
         TimeMonitorManager.getInstance().getTimeMonitor(TimeMonitorConfig
                 .TIME_MONITOR_ID_APPLICATION_START).recordingTimeTag("SplashActivity_create_over");
-        finish();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
+    }
 }
