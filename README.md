@@ -215,7 +215,8 @@ D/TimeMonitor: StartActivity_create:60
 StartActivity_start:131
 ```
 可以看到节省了很多时间，但StartActivity的create执行时间还是太多。
-通过优化布局，利用FrameLayout代替RelativeLayout，可以缩短时间
+通过优化布局，利用FrameLayout代替RelativeLayout，可以缩短时间,
+修改StartActivity的主题，因为启动的动画是绿色的背景，所以直接修改该Activity的主题是绿色。
 
 ```
 StartActivity_create_setContentView_start:58
