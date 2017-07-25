@@ -11,7 +11,7 @@
         android:background="@color/white"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        tools:context="com.weather.byhieg.easyweather.Fragment.AboutFragment">
+        tools:context="com.weather.byhieg.easyweather.slidemenu.about.AboutFragment">
 
         <!-- TODO: Update blank fragment layout -->
         <TextView

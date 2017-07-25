@@ -1,0 +1,59 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+                android:id="@+id/search_result"
+             tools:context="com.weather.byhieg.easyweather.searchresult.SearchResultFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:divider="@color/maincolor"
+        android:layout_below="@id/result_toolbar"
+        android:dividerHeight="1dp"
+        android:id="@+id/result_list">
+    </ListView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/citynameTextSize"
+        android:textColor="@color/black"
+        android:id="@+id/empty_view"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_centerInParent="true"
+        android:gravity="center_horizontal"
+        android:text="暂无搜索的城市"/>
+
+    <RelativeLayout
+        android:id="@+id/refresh_bar"
+        android:layout_width="200dp"
+        android:layout_height="80dp"
+        android:background="@color/loadColor"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/refresh"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_refresh_green_800_48dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:text="加载天气"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"/>
+    </RelativeLayout>
+
+
+</RelativeLayout>

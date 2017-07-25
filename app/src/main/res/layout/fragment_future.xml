@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context="com.weather.byhieg.easyweather.Fragment.FutureFragment">
+    tools:context="com.weather.byhieg.easyweather.slidemenu.future.FutureFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <android.support.v7.widget.RecyclerView

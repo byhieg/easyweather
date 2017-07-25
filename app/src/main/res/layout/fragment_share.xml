@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/lightgray"
-    tools:context="com.weather.byhieg.easyweather.Fragment.ShareFragment">
+    tools:context="com.weather.byhieg.easyweather.slidemenu.share.ShareFragment">
 
     <android.support.v7.widget.CardView
         android:id="@+id/share_today_brief"

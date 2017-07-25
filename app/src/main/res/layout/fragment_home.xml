@@ -1,0 +1,94 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/root_layout"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/lightgray"
+              android:orientation="vertical"
+              tools:context="com.weather.byhieg.easyweather.home.HomeFragment">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <include
+                        android:id="@+id/view"
+                        layout="@layout/layout_expand_view"/>
+
+                    <LinearLayout
+                        android:id="@+id/item_future"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_horizontal_margin">
+
+                        <include
+                            layout="@layout/item_hours_future"/>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/common_vertical_margin"/>
+
+                    <include
+                        android:id="@+id/item_sports"
+                        layout="@layout/item_sports"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/common_vertical_margin"/>
+
+                    <include
+                        android:id="@+id/item_cloths"
+                        layout="@layout/item_cloths"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/common_vertical_margin"/>
+
+                    <LinearLayout
+                        android:id="@+id/action_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginBottom="@dimen/common_vertical_margin"
+                        android:background="@color/blueviolet"
+                        android:orientation="vertical"/>
+
+                    <include layout="@layout/item_flux"/>
+
+                    <com.weather.byhieg.easyweather.customview.WeekWeatherView
+                        android:id="@+id/week_Weather_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:layout_marginTop="@dimen/common_vertical_margin"
+                        android:background="@color/white"/>
+                </LinearLayout>
+            </ScrollView>
+        </RelativeLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <ImageView
+        android:id="@+id/refresh"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="300dp"
+        android:src="@mipmap/ic_refresh_green_800_48dp"
+        android:visibility="gone"/>
+</LinearLayout>

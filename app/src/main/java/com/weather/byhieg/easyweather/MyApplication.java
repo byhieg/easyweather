@@ -5,19 +5,28 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.baidu.location.LocationClient;
-import com.weather.byhieg.easyweather.Db.DaoMaster;
-import com.weather.byhieg.easyweather.Db.DaoSession;
-import com.weather.byhieg.easyweather.Tools.CrashHandler;
+import com.facebook.stetho.Stetho;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
+import com.weather.byhieg.easyweather.data.source.local.dao.DaoMaster;
+import com.weather.byhieg.easyweather.data.source.local.dao.DaoSession;
+import com.weather.byhieg.easyweather.tools.CrashHandler;
+
+import org.greenrobot.greendao.database.Database;
+
+import cn.byhieg.betterload.network.NetService;
+import cn.byhieg.monitor.TimeMonitorConfig;
+import cn.byhieg.monitor.TimeMonitorManager;
 
 public class MyApplication extends Application{
 
     private static MyApplication mcontext;
-    public static DaoSession daoSession;
     public static DaoMaster daoMaster;
+    public static DaoSession daoSession;
     public static LocationClient mLocationClient;
 
 
-    private static final String cityUrl = "https://api.heweather.com/x3/weather";
+    private static final String cityUrl = "https://free-api.heweather.com/";
     private static final String heweatherKey = "93d476b872724a9681a642dce28c6523";
 
     public static final String shareFilename1 ="nightMode";
@@ -28,31 +37,63 @@ public class MyApplication extends Application{
     public static final String cachename = "cache";
 
     public static boolean isNewDay = false;
+    public static final boolean ENCRYPTED = false;
 
 
     public static DaoMaster getDaoMaster() {
-
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(getAppContext(), "Weather-db", null);
-        daoMaster = new DaoMaster(helper.getWritableDatabase());
+        if (daoMaster == null) {
+            DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(getAppContext(), ENCRYPTED ?
+                    "weather-db-encrypted" : "weather-db");
+            Database db = ENCRYPTED ? helper.getEncryptedWritableDb("super-secret") : helper.getWritableDb();
+            daoMaster = new DaoMaster(db);
+        }
         return daoMaster;
     }
     public static DaoSession getDaoSession() {
-        if (daoSession == null) {
-            if (daoMaster == null) {
-                daoMaster = getDaoMaster();
-            }
-            daoSession = daoMaster.newSession();
+        if (daoMaster == null) {
+            DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(getAppContext(), ENCRYPTED ?
+                    "weather-db-encrypted" : "weather-db");
+            Database db = ENCRYPTED ? helper.getEncryptedWritableDb("super-secret") : helper.getWritableDb();
+            daoMaster = new DaoMaster(db);
+            daoSession = new DaoMaster(db).newSession();
         }
-        return daoSession;
+        return daoMaster.newSession();
+    }
+
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        TimeMonitorManager.getInstance().resetTimeMonitor(TimeMonitorConfig.TIME_MONITOR_ID_APPLICATION_START);
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
         mcontext = this;
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(this);
-        crashHandler.sendPreviousReportsToServer();
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                NetService.getInstance().init(cityUrl);
+                Logger.addLogAdapter(new AndroidLogAdapter());
+            }
+        }).start();
+
+//        Stetho.initializeWithDefaults(this);
+
+        TimeMonitorManager.getInstance().getTimeMonitor(TimeMonitorConfig
+                .TIME_MONITOR_ID_APPLICATION_START).recordingTimeTag("ApplicationCreated");
+
+//        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(getAppContext(),
+//                "weather-db", null);
+//        daoMaster = new DaoMaster(helper.getWritableDatabase());
+
+
+//        CrashHandler crashHandler = CrashHandler.getInstance();
+//        crashHandler.init(this);
+//        crashHandler.sendPreviousReportsToServer();
     }
 
     public static Context getAppContext() {

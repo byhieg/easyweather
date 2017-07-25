@@ -4,7 +4,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical"
               android:background="?attr/layoutBackground"
-              tools:context="com.weather.byhieg.easyweather.Fragment.LaboratoryFragment">
+              tools:context="com.weather.byhieg.easyweather.slidemenu.lab.LaboratoryFragment">
 
     <include layout="@layout/night_mode" android:id="@+id/item1">
     </include>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/trending"
+        android:icon="@mipmap/ic_trending_up_black_24dp"
+        android:title="@string/future"/>
+
+    <item
+        android:id="@+id/setting"
+        android:icon="@mipmap/ic_settings_black_24dp"
+        android:title="@string/setting"/>
+
+    <item
+        android:id="@+id/share"
+        android:icon="@mipmap/ic_share_black_24dp"
+        android:title="@string/share"/>
+
+    <item
+        android:id="@+id/help"
+        android:icon="@mipmap/ic_help_black_24dp"
+        android:title="@string/help"/>
+
+    <item
+        android:id="@+id/lab"
+        android:icon="@mipmap/ic_hourglass_empty_black_24dp"
+        android:title="@string/laboratory"/>
+
+    <item
+        android:id="@+id/wiki"
+        android:icon="@mipmap/ic_wikipedia"
+        android:title="@string/wiki"/>
+
+    <item
+        android:id="@+id/more"
+        android:icon="@mipmap/ic_more_black_24dp"
+        android:title="@string/about"/>
+
+</menu>
