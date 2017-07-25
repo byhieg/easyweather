@@ -73,6 +73,175 @@ MVP中M和V还是与MVC中一样，而P层则全面处理View事件的转发。A
 
 ## 对简易天气的性能优化
 
+### gradle 编译优化
+
+通过
+ 
+```
+gralde build -profile 
+```
+记录gradle 性能
+
+![](/Users/byhieg/Desktop/性能优化截图/gradle性能.jpg)
+
+可以看出gradle大头的执行时间全部在Task Execution。我这边有三个模块，一个是app模块，一个是网络请求的模块，一个是监控模块。
+
+看一下每个模块，占大头的任务是哪个
+
+```
+:monitor	0.562s	(total)
+:monitor:processReleaseResources	0.485s	
+
+```
+```
+:app	22.244s	(total)
+:app:transformClassesWithDexForDebug	17.429s
+:app:compileDebugJavaWithJavac	1.408s	
+:app:mergeDebugResources	0.851s	
+:app:processDebugResources	0.631s	
+:app:clean	0.214s	
+:app:greendao	0.190s	
+```
+
+```
+:betterload	0.569s	(total)
+:betterload:processReleaseResources	0.478
+:betterload:mergeReleaseResources	0.046s	UP-TO-DATE
+```
+
+可以看到对于直接导入的module betterloadNet 与monitor都非常占用gradle时间，这里对于betterloadNet采用导出arr包，在引用的形式，在此测试gradle性能。
+
+```
+betterloadNet	0s	(total)
+```
+这边是不会再对betterloadNet执行任务了
+对于监控模块也同样处理，就不多说了。
+
+而对于app模块，主要的时间还是在aapt上面，As支持对debug版本采用aapt采用一定优化，但对于realse版本却不能用，应为资源没有经过aapt优化 会有问题。
+
+所以为了提高aapt 则采用并行任务执行的方式
+
+```
+:app	3.361s	(total)
+:app:compileDebugJavaWithJavac	1.027s	
+:app:mergeDebugResources	0.896s	
+:app:processDebugResources	0.738s	
+```
+
+可以增加一点速度。
+
+此外，上面monitor模块中一个task 执行时间很长，可以在build.gradle中，关闭该task的执行
+
+```
+tasks.whenTaskAdded{ task->
+    if (task.name.contains("mockableAndroidJar")){
+        task.enabled = false
+    }
+}
+```
+使用上面的代码 在monitor的build.gradle。针对app中有些任务可以这么执行
+
+因为该项目功能比较简单，涉及到的模块比较少，因此gradle编译的时间不会很长。但对于gradle编译的速度的优化，基本都大同小异，能做的有限。
+
+
+如果在编译之后，在编译一次，时间会大大缩短。缩短的原因，是因为已经生成了一些build，app这个模块省略了transformClassesWithDexForDebug的时间。
+
+在这里，针对transformClassesWithDexForDebug过程是最耗费时间，但还必须要执行class转换成dex的过程。所以针对第一个build，是比较无能为力的。但一旦我们修改一些java代码,在此gradle build又会执行transformClassesWithDexForDebug。
+
+下面的只是我的一些想法，采用类似腾讯热补丁的技术，第一个生成的dex不做优化，但对于再次改动还会执行transformClassesWithDexForDebug的操作，则采用仅针对改动的部分转换成dex，其他的部分不变，这样在一定程度上会解决问题。
+
+但要解决的问题很多：
+
+1. 首先要对比文件的变化
+2. 缓存生成的dex
+3. 按照dex的规律去放在transformClassesWithDexForDebug生成后的目录
+
+但目前对于我这个项目，这个优化，就先放下了。
+
+### 启动优化 
+
+首先通过adb命令查看启动到第一个过度透明Activity的时间
+
+`
+adb shell am start -W "com.weather.byhieg.easyweather/com.weather.byhieg.easyweather.startweather.SplashActivity" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER
+`
+没优化前 启动时间
+
+```
+Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.weather.byhieg.easyweather/.startweather.SplashActivity }
+
+Status: ok
+Activity: com.weather.byhieg.easyweather/.startweather.StartActivity
+ThisTime: 496
+TotalTime: 676
+WaitTime: 709
+Complete
+```
+WaitTime是系统启动App的Activity的总时间
+TotalTime是系统启动Activity所耗时间，比WaitTime小，因为WaitTime还包括之前Activity的onPause,调用AMS的时间。
+ThisTime是最后一个Activity启动的耗时。
+
+这边，简易天气是有一个透明的过渡页。SplashActivity是没有执行setContentView，直接调转到StartActivity，这个StartActivity是展示一个简易天气动画的页面。
+
+这边主要优化的是Application启动时间过长，首先编写时间监视器，来检测每个关键的时间点执行的时间。
+
+```
+D/TimeMonitor: ApplicationCreated:80
+D/TimeMonitor: SplashActivity_create:90
+D/TimeMonitor: SplashActivity_create_over:118
+D/TimeMonitor: StartActivity_create:129
+D/TimeMonitor: StartActivity_start:204
+```
+
+可以看出，Appliction初始化时间占据了大头，对Applicaition初始化优化主要工作:
+
+对于数据库或者网络等组件，采用异步初始化，或者懒加载，尽快结束Application初始化
+D/TimeMonitor: ApplicationCreated:47
+
+上面是针对数据库采用懒加载的用的，只用真正存库的时候，才会初始化数据库。
+针对网络请求框架，采用异步加载的形式，
+
+```
+/TimeMonitor: ApplicationCreated:10
+```
+最后Application onCreate方法执行完，时间是10ms
+
+然后针对startActiity的create时间优化，这一切都是为了尽快看到StartActivity的
+
+在这边，移除掉SplashActivity，之前用SplashActivity是因为避免启动白屏，而启动该Activity,然后在从该Activity中，启动StartActivity。这边，直接设置StartActity的主题为透明，让StartActivity充当过度的页面。
+
+```
+D/TimeMonitor: StartActivity_create:60
+StartActivity_start:131
+```
+可以看到节省了很多时间，但StartActivity的create执行时间还是太多。
+通过优化布局，利用FrameLayout代替RelativeLayout，可以缩短时间
+
+```
+StartActivity_create_setContentView_start:58
+StartActivity_create_setContentView_stop:78
+```
+可以看出，setContentView在78ms时执行完毕。
+在优化下不合理的代码，最后执行到onStart生命周期的时间大概在
+
+```
+D/TimeMonitor: StartActivity_start:112
+```
+再来看adb shell
+
+```
+Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.weather.byhieg.easyweather/.startweather.StartActivity }
+
+Status: ok
+Activity: com.weather.byhieg.easyweather/.startweather.StartActivity
+ThisTime: 315
+TotalTime: 315
+WaitTime: 332
+Complete
+```
+比起之前的，totalTime优化了近50%
+
+### 内存泄漏
 
 ## 讨论
 邮箱：byhieg@gmail.com
