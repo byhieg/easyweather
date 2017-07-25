@@ -29,8 +29,6 @@ public class StartActivity extends AppCompatActivity implements StartWeatherCont
     private static final String ACTION_START_NOTIFICATION = "com.weather.byhieg.easyweather" +
             ".startweather.Activity.action.notification";
 
-    private static final String ACTION_ADD_VIEWSPOT = "com.weather.byhieg.easyweather" +
-            ".startweather.Activity.action.viewspot";
 
     private static final String ACTION_FILE_PROCESS = "com.weather.byhieg.easyweather.startweather" +
             ".Activity.action.fileprocess";
@@ -141,9 +139,6 @@ public class StartActivity extends AppCompatActivity implements StartWeatherCont
         return ACTION_GET_WEATHER;
     }
 
-    public static String getActionAddViewspot() {
-        return ACTION_ADD_VIEWSPOT;
-    }
 
 
     public static String getActionFileProcess() {
