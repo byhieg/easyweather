@@ -52,7 +52,6 @@ public abstract class BaseActivity extends AppCompatActivity implements InitUI, 
         this.mDensity = mDensity;
     }
 
-
     private WindowManager mWindowManager = null;
     private View mNightView = null;
     private WindowManager.LayoutParams mNightViewParam;

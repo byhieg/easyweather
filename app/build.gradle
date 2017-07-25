@@ -18,7 +18,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    dexOptions{
+        javaMaxHeapSize "4g"
+    }
 }
+
+
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -39,8 +49,10 @@ dependencies {
     compile 'com.zhy:flowlayout-lib:1.0.3'
     compile 'com.orhanobut:logger:2.1.0'
     compile 'com.google.android.gms:play-services-appindexing:9.8.0'
-    compile project(':betterloadNet')
+//    compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile project(':monitor')
+//    compile 'com.google.code.gson:gson:2.8.1'
+    compile project(':betterload')
 }
 
 greendao {

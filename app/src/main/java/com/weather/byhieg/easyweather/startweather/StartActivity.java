@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
 import cn.byhieg.monitor.TimeMonitorConfig;
 import cn.byhieg.monitor.TimeMonitorManager;
 
-public class StartActivity extends AppCompatActivity implements StartWeatherContract.View {
+public class StartActivity extends AppCompatActivity {
 
     private static final String ACTION_ADD_CITY = "com.weather.byhieg.easyweather.startweather" +
             ".Activity.action.addCity";
@@ -33,17 +33,19 @@ public class StartActivity extends AppCompatActivity implements StartWeatherCont
     private static final String ACTION_FILE_PROCESS = "com.weather.byhieg.easyweather.startweather" +
             ".Activity.action.fileprocess";
 
-    private StartWeatherContract.Presenter mPresenter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         TimeMonitorManager.getInstance().getTimeMonitor(TimeMonitorConfig
                 .TIME_MONITOR_ID_APPLICATION_START).recordingTimeTag("StartActivity_create");
         super.onCreate(savedInstanceState);
-        initTheme();
+        TimeMonitorManager.getInstance().getTimeMonitor(TimeMonitorConfig
+                .TIME_MONITOR_ID_APPLICATION_START).end
+                ("StartActivity_create_setContentView_start");
         setContentView(getLayoutId());
-        initData();
-        initView();
+        TimeMonitorManager.getInstance().getTimeMonitor(TimeMonitorConfig
+                .TIME_MONITOR_ID_APPLICATION_START).end
+                ("StartActivity_create_setContentView_stop");
+        ButterKnife.bind(this);
         initEvent();
     }
 
@@ -54,20 +56,8 @@ public class StartActivity extends AppCompatActivity implements StartWeatherCont
                 .TIME_MONITOR_ID_APPLICATION_START).end("StartActivity_start");
     }
 
-    public void initData() {
-        ButterKnife.bind(this);
-        mPresenter = new StartWeatherPresenter(this);
-        mPresenter.start();
-    }
-
     public void initEvent() {
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                startActivity(MainActivity.class);
-//                finish();
-//            }
-//        }, 3500);
+        startService();
         MainThreadAction.getInstance().post(new Runnable() {
             @Override
             public void run() {
@@ -76,25 +66,10 @@ public class StartActivity extends AppCompatActivity implements StartWeatherCont
         },3500);
     }
 
-    public void initView() {
-
-    }
-
-    public void initTheme() {
-
-    }
-
     public int getLayoutId() {
         return R.layout.activity_start;
     }
 
-
-    @Override
-    public void setPresenter(StartWeatherContract.Presenter presenter) {
-
-    }
-
-    @Override
     public void startService() {
         startAddCityService();
         startGetWeatherService();

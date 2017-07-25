@@ -41,9 +41,22 @@ public class MyApplication extends Application{
 
 
     public static DaoMaster getDaoMaster() {
+        if (daoMaster == null) {
+            DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(getAppContext(), ENCRYPTED ?
+                    "weather-db-encrypted" : "weather-db");
+            Database db = ENCRYPTED ? helper.getEncryptedWritableDb("super-secret") : helper.getWritableDb();
+            daoMaster = new DaoMaster(db);
+        }
         return daoMaster;
     }
     public static DaoSession getDaoSession() {
+        if (daoMaster == null) {
+            DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(getAppContext(), ENCRYPTED ?
+                    "weather-db-encrypted" : "weather-db");
+            Database db = ENCRYPTED ? helper.getEncryptedWritableDb("super-secret") : helper.getWritableDb();
+            daoMaster = new DaoMaster(db);
+            daoSession = new DaoMaster(db).newSession();
+        }
         return daoMaster.newSession();
     }
 
@@ -58,14 +71,15 @@ public class MyApplication extends Application{
     public void onCreate() {
         super.onCreate();
         mcontext = this;
-        NetService.getInstance().init(cityUrl);
 
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, ENCRYPTED ?
-                "weather-db-encrypted" : "weather-db");
-        Database db = ENCRYPTED ? helper.getEncryptedWritableDb("super-secret") : helper.getWritableDb();
-        daoMaster = new DaoMaster(db);
-        daoSession = new DaoMaster(db).newSession();
-        Logger.addLogAdapter(new AndroidLogAdapter());
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                NetService.getInstance().init(cityUrl);
+                Logger.addLogAdapter(new AndroidLogAdapter());
+            }
+        }).start();
 
 //        Stetho.initializeWithDefaults(this);
 

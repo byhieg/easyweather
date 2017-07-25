@@ -1,4 +1,4 @@
-package cn.byhieg.monitor;
+package cn.byhieg.betterload;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("cn.byhieg.monitor.test", appContext.getPackageName());
+        assertEquals("cn.byhieg.betterload.test", appContext.getPackageName());
     }
 }

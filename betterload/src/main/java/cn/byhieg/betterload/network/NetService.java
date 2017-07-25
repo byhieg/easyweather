@@ -211,7 +211,6 @@ public class NetService {
 
     }
 
-
     public <T> T syncRequest(final Call<T> requestCall) {
         Call<T> call;
         if (requestCall.isExecuted()) {
