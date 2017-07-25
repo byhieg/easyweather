@@ -42,6 +42,7 @@ public class StartActivity extends AppCompatActivity {
                 ("StartActivity_create_setContentView_stop");
         ButterKnife.bind(this);
         initEvent();
+
     }
 
     @Override
@@ -57,6 +58,7 @@ public class StartActivity extends AppCompatActivity {
             @Override
             public void run() {
                 startActivity(new Intent(StartActivity.this, MainActivity.class));
+                finish();
             }
         },3500);
     }
