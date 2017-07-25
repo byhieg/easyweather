@@ -82,7 +82,7 @@ gralde build -profile
 ```
 记录gradle 性能
 
-![](/Users/byhieg/Desktop/性能优化截图/gradle性能.jpg)
+![](https://github.com/byhieg/easyweather/blob/5e3c6a793588c70a487438c0e9ef004fbb5055e0/images/gradle%E6%80%A7%E8%83%BD.jpg)
 
 可以看出gradle大头的执行时间全部在Task Execution。我这边有三个模块，一个是app模块，一个是网络请求的模块，一个是监控模块。
 
