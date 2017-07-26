@@ -215,8 +215,18 @@ D/TimeMonitor: StartActivity_create:60
 StartActivity_start:131
 ```
 可以看到节省了很多时间，但StartActivity的create执行时间还是太多。
-通过优化布局，利用FrameLayout代替RelativeLayout，可以缩短时间,
 修改StartActivity的主题，因为启动的动画是绿色的背景，所以直接修改该Activity的主题是绿色。
+通过优化布局，因为之前RelativeLayout中只有一个View，在设置主题之后，不需要父布局，所以删除所有父布局，直接让activity.xml只有一个View
+
+在设置Theme之后，点击桌面icon会极快速度出现app，原因是因为theme中设置的是windows的主题，
+而window的创建是在Activity被反射创建之后，在activity的attach方法中，被创建。
+我们经常setContentView，实际上是由window来调用的。这边，具体说一下setContentView
+
+setContentView, ，执行installDecorView
+在installDecorView中，会用过generateLayout 来生成一个布局，generateLayout中就会解析Theme，根据设置的windowBackGround来设置背景。
+在生成DecorView之后，才会将我们写的布局放入到DecorView的contentView中。
+
+这就是设置的Theme会出现在我们写的布局之前出现的原因。
 
 ```
 StartActivity_create_setContentView_start:58
