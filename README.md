@@ -259,7 +259,7 @@ Complete
 这里 首先尝试利用MAT工具，先利用Android Device Monitor，搜集简易天气的hprof 文件，然后倒入到MAT，进行分析。
 
 可以看到
-![](/Users/byhieg/Desktop/性能优化截图/MAT内存泄露图.jpg)
+![](https://github.com/byhieg/easyweather/blob/99e85f2e89cdcfd5e20cb67988d3b1e04a7ab1ed/images/MAT%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E5%9B%BE.jpg)
 
 MAT功能很强大，但在这里用LeakCanary来真正分析内存泄漏图
 
