@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.base.BaseFragment;
 import com.weather.byhieg.easyweather.city.adapter.CityListAdapter;
@@ -150,5 +151,6 @@ public class SearchResultFragment extends BaseFragment implements SearchResultCo
     @Override
     public void onDestroy() {
         super.onDestroy();
+
     }
 }

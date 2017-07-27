@@ -49,9 +49,10 @@ dependencies {
     compile 'com.zhy:flowlayout-lib:1.0.3'
     compile 'com.orhanobut:logger:2.1.0'
     compile 'com.google.android.gms:play-services-appindexing:9.8.0'
-//    compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile project(':monitor')
-//    compile 'com.google.code.gson:gson:2.8.1'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     compile project(':betterload')
 }
 

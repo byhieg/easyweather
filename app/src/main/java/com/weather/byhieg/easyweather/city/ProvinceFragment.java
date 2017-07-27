@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.base.BaseFragment;
 import com.weather.byhieg.easyweather.city.adapter.ProvinceListAdapter;
 import com.weather.byhieg.easyweather.data.bean.ProvinceContext;
@@ -29,7 +30,6 @@ public class ProvinceFragment extends BaseFragment implements CityContract.Provi
 
     private List<ProvinceContext> provinces = new ArrayList<>();
     private ProvinceListAdapter adapter;
-    public static final int CHANGE_FRAGMENT = 0x102;
     public ListView listView;
     private CityContract.ProvincePresenter mPresenter;
 
@@ -42,7 +42,7 @@ public class ProvinceFragment extends BaseFragment implements CityContract.Provi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        adapter = new ProvinceListAdapter(provinces, getActivity());
+        adapter = new ProvinceListAdapter(provinces, MyApplication.getAppContext());
         View view = inflater.inflate(R.layout.fragment_province, container, false);
         initView(view);
         return view;
@@ -87,5 +87,11 @@ public class ProvinceFragment extends BaseFragment implements CityContract.Provi
     @Override
     public void setPresenter(CityContract.ProvincePresenter presenter) {
         mPresenter = presenter;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
     }
 }

@@ -9,6 +9,7 @@ import android.os.IBinder;
 import android.widget.RemoteViews;
 
 import com.orhanobut.logger.Logger;
+import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.tools.LogUtils;
 import com.weather.byhieg.easyweather.home.MainActivity;
 import com.weather.byhieg.easyweather.R;
@@ -90,5 +91,6 @@ public class NotificationService extends Service{
     public void onDestroy() {
         stopForeground(true);
         super.onDestroy();
+
     }
 }

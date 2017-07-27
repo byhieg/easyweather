@@ -89,4 +89,10 @@ public class LaboratoryFragment extends BaseFragment {
 
         });
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+    }
 }

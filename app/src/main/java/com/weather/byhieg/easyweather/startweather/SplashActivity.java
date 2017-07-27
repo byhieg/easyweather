@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.weather.byhieg.easyweather.MyApplication;
+
 import java.sql.Time;
 
 import cn.byhieg.monitor.TimeMonitor;
@@ -26,5 +28,11 @@ public class SplashActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 }

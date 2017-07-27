@@ -1,5 +1,6 @@
 package com.weather.byhieg.easyweather.home;
 
+import android.content.Context;
 import android.view.View;
 
 import com.weather.byhieg.easyweather.BasePresenter;
@@ -46,6 +47,8 @@ public interface HomeContract {
         void generateDataInPopView();
 
         void getNewShowWeather();
+
+        void showDialog(String name,Context context);
 
     }
 }

@@ -34,4 +34,10 @@ public class HelpFragment extends BaseFragment {
         return inflater.inflate(R.layout.fragment_help, container, false);
     }
 
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+    }
 }

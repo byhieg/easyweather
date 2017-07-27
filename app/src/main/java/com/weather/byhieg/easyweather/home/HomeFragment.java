@@ -4,6 +4,7 @@ package com.weather.byhieg.easyweather.home;
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -15,6 +16,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -30,9 +32,13 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
+import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.base.BaseFragment;
+import com.weather.byhieg.easyweather.data.source.CityDataSource;
+import com.weather.byhieg.easyweather.data.source.local.entity.LoveCityEntity;
 import com.weather.byhieg.easyweather.tools.DateUtil;
 import com.weather.byhieg.easyweather.tools.DisplayUtil;
 import com.weather.byhieg.easyweather.tools.LogUtils;
@@ -269,11 +275,14 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Swi
         tempLow.setText("低 " + WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(0).getTmp().getMin() + "°");
         cloth.setText(WeatherJsonConverter.getWeather(weather).getSuggestion().getDrsg().getBrf());
         condition.setText(WeatherJsonConverter.getWeather(weather).getNow().getCond().getTxt());
-        pm.setText(WeatherJsonConverter.getWeather(weather).getAqi().getCity().getPm25());
+        if (WeatherJsonConverter.getWeather(weather).getAqi() != null){
+            pm.setText(WeatherJsonConverter.getWeather(weather).getAqi().getCity().getPm25());
+            qlty.setText(WeatherJsonConverter.getWeather(weather).getAqi().getCity().getQlty());
+
+        }
         hum.setText(WeatherJsonConverter.getWeather(weather).getNow().getHum() + "%");
         wind.setText(WeatherJsonConverter.getWeather(weather).getNow().getWind().getSpd() + "km/h");
         windDir.setText(WeatherJsonConverter.getWeather(weather).getNow().getWind().getDir());
-        qlty.setText(WeatherJsonConverter.getWeather(weather).getAqi().getCity().getQlty());
         vis.setText(WeatherJsonConverter.getWeather(weather).getNow().getVis() + "km");
         pres.setText(WeatherJsonConverter.getWeather(weather).getNow().getPres() + "帕");
         uv.setText(WeatherJsonConverter.getWeather(weather).getSuggestion().getUv().getBrf());
@@ -427,6 +436,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Swi
         super.onDestroy();
         EventBus.getDefault().unregister(this);
         getActivity().unregisterReceiver(networkChangeReceiver);
+
     }
 
     public void generateTextView(View v) {
@@ -459,11 +469,20 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Swi
         }
     }
 
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onHandleCityName(CityNameMessage message) {
+
+        String cityName = message.getCityName();
+        mPresenter.showDialog(cityName,getActivity());
+    }
+
     class NetworkChangeReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            ConnectivityManager connectivityManager = (ConnectivityManager) getActivity()
+            ConnectivityManager connectivityManager = (ConnectivityManager) MyApplication
+                    .getAppContext()
                     .getSystemService
                             (Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
@@ -478,4 +497,5 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Swi
 
         void updateToolBar(String cityName);
     }
+
 }

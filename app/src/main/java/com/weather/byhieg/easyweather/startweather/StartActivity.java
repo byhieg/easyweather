@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 
+import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.home.MainActivity;
 import com.weather.byhieg.easyweather.tools.MainThreadAction;
@@ -124,6 +125,12 @@ public class StartActivity extends AppCompatActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
     }
 }

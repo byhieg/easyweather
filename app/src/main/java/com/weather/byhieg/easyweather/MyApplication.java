@@ -5,12 +5,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.baidu.location.LocationClient;
-import com.facebook.stetho.Stetho;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 import com.weather.byhieg.easyweather.data.source.local.dao.DaoMaster;
 import com.weather.byhieg.easyweather.data.source.local.dao.DaoSession;
-import com.weather.byhieg.easyweather.tools.CrashHandler;
 
 import org.greenrobot.greendao.database.Database;
 
@@ -35,20 +35,10 @@ public class MyApplication extends Application{
     public static final String notificationname = "notification";
     public static final String widgetname = "widget";
     public static final String cachename = "cache";
-
+//    public static RefWatcher mRefWatcher;
     public static boolean isNewDay = false;
     public static final boolean ENCRYPTED = false;
 
-
-    public static DaoMaster getDaoMaster() {
-        if (daoMaster == null) {
-            DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(getAppContext(), ENCRYPTED ?
-                    "weather-db-encrypted" : "weather-db");
-            Database db = ENCRYPTED ? helper.getEncryptedWritableDb("super-secret") : helper.getWritableDb();
-            daoMaster = new DaoMaster(db);
-        }
-        return daoMaster;
-    }
     public static DaoSession getDaoSession() {
         if (daoMaster == null) {
             DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(getAppContext(), ENCRYPTED ?
@@ -61,6 +51,7 @@ public class MyApplication extends Application{
     }
 
 
+
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
@@ -71,8 +62,6 @@ public class MyApplication extends Application{
     public void onCreate() {
         super.onCreate();
         mcontext = this;
-
-
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -82,7 +71,7 @@ public class MyApplication extends Application{
         }).start();
 
 //        Stetho.initializeWithDefaults(this);
-
+//        mRefWatcher = LeakCanary.install(mcontext);
         TimeMonitorManager.getInstance().getTimeMonitor(TimeMonitorConfig
                 .TIME_MONITOR_ID_APPLICATION_START).recordingTimeTag("ApplicationCreated");
 

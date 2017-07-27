@@ -95,5 +95,12 @@ public class WikiFragment extends BaseFragment {
                 "http://baike.baidu.com/view/423347.htm",
                 "http://baike.baidu.com/view/562306.htm"};
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+    }
 }
+
 

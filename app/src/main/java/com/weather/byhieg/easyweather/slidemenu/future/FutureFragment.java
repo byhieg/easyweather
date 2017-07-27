@@ -74,4 +74,10 @@ public class FutureFragment extends BaseFragment implements FutureContract.View 
         adapter.notifyDataSetChanged();
     }
 
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+    }
 }

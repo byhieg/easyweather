@@ -13,6 +13,9 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.squareup.leakcanary.RefWatcher;
+import com.weather.byhieg.easyweather.MyApplication;
+
 import org.greenrobot.eventbus.EventBus;
 
 /**
@@ -23,6 +26,8 @@ public class BaseFragment extends Fragment {
     private WindowManager mWindowManager = null;
     private View mNightView = null;
     private WindowManager.LayoutParams mNightViewParam;
+
+
 
     public BaseFragment() {
         // Required empty public constructor

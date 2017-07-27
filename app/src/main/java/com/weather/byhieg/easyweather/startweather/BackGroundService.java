@@ -2,6 +2,7 @@ package com.weather.byhieg.easyweather.startweather;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
 import com.weather.byhieg.easyweather.data.bean.HWeather;
@@ -108,8 +109,8 @@ public class BackGroundService extends IntentService {
                         MainThreadAction.getInstance().post(new Runnable() {
                             @Override
                             public void run() {
-                                MyToast myToast = MyToast.createMyToast();
-                                myToast.ToastShow(BackGroundService.this, "网络异常,请检查网络");
+                                MyToast.createMyToast().showToast(getApplicationContext(),"网络出错");
+//                                Toast.makeText(BackGroundService.this,"网络错误",Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -120,23 +121,26 @@ public class BackGroundService extends IntentService {
 
     private void deleteCacheFile() {
         File dir = MyApplication.getAppContext().getExternalFilesDir(null);
-        LogUtils.e("fileDir", dir.getAbsolutePath());
         File[] children = dir.listFiles();
         for (int i = 0; i < children.length; i++) {
 //            LogUtils.e("children", children[i]);
 //            File tmp = new File(children[i]);
             if (children[i].exists() && children[i].isFile()) {
-                LogUtils.e("exist", "文件存在");
+                Logger.d("exist", "文件存在");
                 if (children[i].delete()) {
-                    LogUtils.e("delete", "删除成功");
+                    Logger.d("delete", "删除成功");
                 }
             } else {
-                LogUtils.e("no exist", "文件不存在");
+                Logger.d("no exist", "文件不存在");
             }
 
 
         }
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
 
     }
 }

@@ -80,7 +80,7 @@ public class MainActivity extends BaseActivity implements ActivityCompat
         }
 
         mHomePresenter = new HomePresenter(homeFragment);
-        BDLocationListener myListener = new MyLocationListener(this);
+        BDLocationListener myListener = new MyLocationListener();
         MyApplication.getmLocationClient().registerLocationListener(myListener);
 
 //

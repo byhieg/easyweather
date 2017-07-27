@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.orhanobut.logger.Logger;
+import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.base.BaseFragment;
 import com.weather.byhieg.easyweather.city.adapter.CityListAdapter;
 import com.weather.byhieg.easyweather.tools.MessageEvent;
@@ -86,7 +87,7 @@ public class CityFragment extends BaseFragment implements CityContract.CityView 
         mainLayout = (RelativeLayout) view.findViewById(R.id.fragment_city);
         refreshBar = (RelativeLayout) view.findViewById(R.id.refresh_bar);
         refresh = (ImageView) view.findViewById(R.id.refresh);
-        adapter = new CityListAdapter(cities, getActivity());
+        adapter = new CityListAdapter(cities, MyApplication.getAppContext());
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

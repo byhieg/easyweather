@@ -1,8 +1,16 @@
 package com.weather.byhieg.easyweather.home;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
+import android.widget.Toast;
+
 import com.baidu.location.LocationClientOption;
 import com.orhanobut.logger.Logger;
 import com.weather.byhieg.easyweather.MyApplication;
+import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.data.bean.HWeather;
 import com.weather.byhieg.easyweather.data.source.CityDataSource;
 import com.weather.byhieg.easyweather.data.source.CityRepository;
@@ -107,17 +115,65 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void generateDataInPopView() {
-//        String showCity = getShowCity();
-//        HWeather weather = mWeatherRepository.getLocalWeather(showCity);
         mView.showPopupWindow();
     }
 
     @Override
     public void getNewShowWeather() {
         String showCity = getShowCity();
-        Logger.d(showCity);
         HWeather weather = mWeatherRepository.getLocalWeather(showCity);
         mView.updateView(weather);
+    }
+
+    @Override
+    public void showDialog(final String name, final Context context) {
+        AlertDialog.Builder dialogBuilder;
+        try {
+            if (MyApplication.nightMode2()) {
+                dialogBuilder = new AlertDialog.Builder(context, R.style.NightDialog);
+            } else {
+                dialogBuilder = new AlertDialog.Builder(context);
+            }
+            dialogBuilder.setTitle("系统提示").setMessage("当前定位到的城市为：" + name + ",是否将该城市设为首页").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (mCityRepository.isExistInLoveCity(name)) {
+                        Toast.makeText(context, "该城市已经是喜欢城市", Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (!mCityRepository.isExistInCity(name)) {
+                            Toast.makeText(context, "暂无该城市的天气，期待你的反馈", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        mCityRepository.getLoveCity(1, new CityDataSource.GetLoveCityCallBack() {
+                            @Override
+                            public void onSuccess(List<LoveCityEntity> loveCities) {
+                                mCityRepository.updateCityOrder(loveCities.get(0).getCityName(),
+                                        mCityRepository.getAllLoveCities().size() + 1);
+                                LoveCityEntity newLoveCity = new LoveCityEntity();
+                                newLoveCity.setCityName(name);
+                                newLoveCity.setOrder(1);
+                                mCityRepository.addLoveCity(newLoveCity);
+
+                            }
+
+                            @Override
+                            public void onFailure(String failureMessage) {
+                                Logger.e(failureMessage);
+                            }
+                        });
+
+                        getNewShowWeather();
+
+                    }
+                }
+            }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            }).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

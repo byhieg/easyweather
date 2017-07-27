@@ -254,6 +254,46 @@ Complete
 
 ### 内存泄漏
 
+内存泄漏是指本该被回收的对象，却因为被其他对象强引用，而不会被回收，一直存活。
+
+这里 首先尝试利用MAT工具，先利用Android Device Monitor，搜集简易天气的hprof 文件，然后倒入到MAT，进行分析。
+
+可以看到
+![](/Users/byhieg/Desktop/性能优化截图/MAT内存泄露图.jpg)
+
+MAT功能很强大，但在这里用LeakCanary来真正分析内存泄漏图
+
+#### LeakCanary 内存泄漏
+
+
+- 通过leakCanary发现在CityManagerActivity的页面，出现内存泄漏
+
+>原因是Presenter对象，被设置为static，而presenter对象需要持有view，而View又因为context的缘故而持有Acivity,所以就导致Activity无法被回收。
+>当初设置static的原因是，需要一个Static Handler的类，在handleMessage的时候，通过presenter来执行逻辑，出于省事，就是直接设置了presenter为static。
+
+>现在全部采用EventBus来处理页面之间的消息传递。
+
+- 在进行BackService中，出现内存泄漏。
+
+>对错误的提示，采用Toast提示，自己的封装的Toast类，采用单例模式，这样，就导致单例持有context，而Context则设置的是BackService.this。修改方式是对于Context，采用Application,使封装的Toast不持有对BackService的引用，这样就不会内存泄漏。
+
+- ConnectManager 出现的内存泄漏
+
+> 在MainActivity中，需要针对网络变化做检查，引入了Connectmanager，通过this去getSystemService。在查过资料后，发现Connectmanager 在6.0以上被设置为单例模式，并且需要传入一个Context。在通过this去getSystemService的时候，就会发生单例模式去持有这个Context，也就是this。导致MainActivity无法被回收，发生了内存泄漏。
+在5.1上ConnectivityManager实现为单例但不持有Context的引用，在5.0有以下版本ConnectivityManager既不为单例，也不持有Context的引用。
+
+- ProvinceFragment/CityFragent 出现的内存泄漏
+
+在这两个Fragment中，都是用到了ListView，对于listView的adapter，传入的context是当前的Activity,因此造成内存泄漏。这边，采用的方式同样是传入Applicaition
+
+- 百度地图listener 出现的内存泄漏
+
+> 在覆写百度地图的Listener时，需要显示对话框，这边传入的是Activity，但Dialog的代码在Listener里面，并且将Dialog设置为listener的成员变量，这样就导致了Activity泄漏。
+> 这次，修改的办法就不能将ApplicationContext传入了，因为Dialog需要一个Activity的token。并且整个逻辑应该是放到HomeFragment中，通过presenter去执行逻辑。所以这边，直接用了EventBus来通知HomeFragment去显示以及处理逻辑。
+
+至此，整个简易天气内存泄漏方面就处理完毕。
+
+
 ## 讨论
 邮箱：byhieg@gmail.com
 

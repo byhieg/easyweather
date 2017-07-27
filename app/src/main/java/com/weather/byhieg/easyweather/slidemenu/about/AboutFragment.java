@@ -54,6 +54,10 @@ public class AboutFragment extends BaseFragment {
     }
 
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
 
+    }
 }
 

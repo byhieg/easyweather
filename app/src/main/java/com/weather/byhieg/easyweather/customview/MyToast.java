@@ -28,14 +28,15 @@ public class MyToast {
         return myToast;
     }
 
-    public void ToastShow(Context context, String string) {
-        viewGroup = new ViewGroup(MyApplication.getAppContext()) {
+    public void showToast(Context context, String string) {
+        viewGroup = new ViewGroup(context) {
             @Override
             protected void onLayout(boolean changed, int l, int t, int r, int b) {
 
             }
         };
-        View layout = LayoutInflater.from(context).inflate(R.layout.layout_toast,viewGroup,false);
+        View layout = LayoutInflater.from(context).inflate(R.layout.layout_toast,
+                viewGroup,false);
         TextView textView = (TextView) layout.findViewById(R.id.toast_text);
         ImageView img = (ImageView) layout.findViewById(R.id.toast_img);
         textView.setText(string);

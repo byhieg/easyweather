@@ -7,6 +7,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import com.orhanobut.logger.Logger;
 import com.weather.byhieg.easyweather.base.BaseActivity;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
@@ -35,7 +36,6 @@ public class WikiResultActivity extends BaseActivity {
     public void initData() {
         tag = getIntent().getBundleExtra("result").getString("keyWord");
         link = getIntent().getBundleExtra("result").getString("url");
-
     }
 
     @Override

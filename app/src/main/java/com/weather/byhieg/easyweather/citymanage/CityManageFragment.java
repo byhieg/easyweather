@@ -52,11 +52,9 @@ public class CityManageFragment extends BaseFragment implements CityManageContra
     public SlideCutListView cardViewGroup;
 
 
-    private static CityManageContract.Presenter mPresenter;
+    private CityManageContract.Presenter mPresenter;
     private CityManageAdapter mAdapter;
     private List<CityManageContext> mList = new ArrayList<>();
-    private LocalBroadcastManager localBroadcastManager;
-//    private CityManageHandler mHandler;
 
     public CityManageFragment() {
         // Required empty public constructor
@@ -80,7 +78,6 @@ public class CityManageFragment extends BaseFragment implements CityManageContra
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         View view = inflater.inflate(R.layout.fragment_city_manage, container, false);
         ButterKnife.bind(this, view);
         initView();
@@ -170,7 +167,13 @@ public class CityManageFragment extends BaseFragment implements CityManageContra
     @Override
     public void showCities(List<WeatherEntity> cityEntities) {
         mList.clear();
+        if (cityEntities == null || cityEntities.size() == 0) {
+            return;
+        }
         for (WeatherEntity entity : cityEntities) {
+            if (entity == null){
+                return;
+            }
             HWeather weather = convertObject(entity.getWeather(), HWeather.class);
             CityManageContext context = new CityManageContext();
             context.setTime(new SimpleDateFormat("HH:mm").
@@ -192,6 +195,7 @@ public class CityManageFragment extends BaseFragment implements CityManageContra
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -204,25 +208,4 @@ public class CityManageFragment extends BaseFragment implements CityManageContra
         }
     }
 
-//    static class CityManageHandler extends Handler{
-//        WeakReference<CityManageFragment> mWeakReference;
-//
-//        public CityManageHandler(CityManageFragment fragment){
-//            mWeakReference = new WeakReference<>(fragment);
-//        }
-//
-//        @Override
-//        public void handleMessage(Message msg) {
-//            super.handleMessage(msg);
-//            switch (msg.what){
-//                case UPDATE_CITY:
-//                    Logger.d(msg.what);
-//                    mPresenter.loadCities();
-//                    break;
-//
-//                default:
-//                    break;
-//            }
-//        }
-//    }
 }
