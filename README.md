@@ -196,7 +196,10 @@ D/TimeMonitor: StartActivity_start:204
 可以看出，Appliction初始化时间占据了大头，对Applicaition初始化优化主要工作:
 
 对于数据库或者网络等组件，采用异步初始化，或者懒加载，尽快结束Application初始化
+
+```
 D/TimeMonitor: ApplicationCreated:47
+```
 
 上面是针对数据库采用懒加载的用的，只用真正存库的时候，才会初始化数据库。
 针对网络请求框架，采用异步加载的形式，
