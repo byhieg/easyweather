@@ -17,12 +17,17 @@ import com.weather.byhieg.easyweather.data.source.CityRepository;
 import com.weather.byhieg.easyweather.data.source.WeatherRepository;
 import com.weather.byhieg.easyweather.data.source.local.entity.LoveCityEntity;
 import com.weather.byhieg.easyweather.tools.MainThreadAction;
+import com.weather.byhieg.easyweather.tools.MessageEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static com.weather.byhieg.easyweather.tools.Constants.UPDATE_WEATHER;
 
 /**
  * Created by byhieg on 17/5/27.
@@ -68,6 +73,7 @@ public class HomePresenter implements HomeContract.Presenter {
                 }
             });
         }
+
     }
 
     @Override

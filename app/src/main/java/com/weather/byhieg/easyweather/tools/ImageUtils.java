@@ -10,7 +10,9 @@ import android.graphics.Paint;
 import android.graphics.PathEffect;
 import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
+import com.orhanobut.logger.Logger;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.data.bean.HWeather;
 import com.weather.byhieg.easyweather.data.source.WeatherRepository;
@@ -37,7 +39,7 @@ public class ImageUtils {
     private static WeatherRepository mWeatherRepository = WeatherRepository.getInstance();
 
 
-    public static File drawImage(Context context, int flag) {
+    public static void drawImage(Context context, int flag) {
         HWeather weather = getData();
         int width = ScreenUtil.getScreenW(context);
         int height = DisplayUtil.dip2px(context, 150);
@@ -103,6 +105,8 @@ public class ImageUtils {
 
         switch (flag) {
             case BRIEF:
+                Logger.d("111");
+
                 canvas.save();
                 canvas.drawColor(ContextCompat.getColor(context, R.color.dodgerblue));
                 canvas.drawText(city,
@@ -126,16 +130,18 @@ public class ImageUtils {
                         paint);
 
                 imgFile[0] = new File(context.getExternalFilesDir(null),
-                        "IMG-BRIEF" + System.currentTimeMillis() + ".png");//创建一个文件
+                        "IMG-BRIEF"  + ".png");//创建一个文件
                 try {
                     OutputStream os = new FileOutputStream(imgFile[0]);//创建输出流
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);//通过输出流将图片保存
+
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
                 canvas.restore();
-                return imgFile[0];
             case DETAIL:
+                Logger.d("12121");
+
                 canvas.save();
                 canvas.drawColor(ContextCompat.getColor(context, R.color.orange));
                 canvas.drawText(tmp,
@@ -174,16 +180,17 @@ public class ImageUtils {
                         textPaint);
 
                 imgFile[1] = new File(context.getExternalFilesDir(null),
-                        "IMG-DETAIL" + System.currentTimeMillis() + ".png");//创建一个文件
+                        "IMG-DETAIL" + ".png");//创建一个文件
                 try {
                     OutputStream os = new FileOutputStream(imgFile[1]);//创建输出流
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);//通过输出流将图片保存
-                } catch (FileNotFoundException e) {
+                  } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
                 canvas.restore();
-                return imgFile[1];
             case FUTURE:
+                Logger.d("13131");
+
                 canvas.save();
                 canvas.drawColor(ContextCompat.getColor(context, R.color.white));
                 for (int i = 0; i < WeatherJsonConverter.getWeather(weather).getDaily_forecast().size(); i++) {
@@ -224,24 +231,24 @@ public class ImageUtils {
                     canvas.restore();
                 }
                 imgFile[2] = new File(context.getExternalFilesDir(null),
-                        "IMG-FUTURE" + System.currentTimeMillis() + ".png");//创建一个文件
+                        "IMG-FUTURE"  + ".png");//创建一个文件
                 try {
                     OutputStream os = new FileOutputStream(imgFile[2]);//创建输出流
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);//通过输出流将图片保存
+                    bitmap.recycle();
+
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
 
                 canvas.restore();
-                return imgFile[2];
 
         }
-
-        return null;
     }
 
 
     private static HWeather getData() {
+
         return mWeatherRepository.getLocalWeather(mWeatherRepository.getShowCity());
 
     }

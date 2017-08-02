@@ -137,7 +137,6 @@ public class CityManageFragment extends BaseFragment implements CityManageContra
                                             "该城市已经是首页城市",Toast.LENGTH_SHORT).show();
                                 }else{
                                     mPresenter.updateShowCity(name);
-//
                                     EventBus.getDefault().post(new MessageEvent(UPDATE_SHOW_CITY));
                                 }
                             }
@@ -201,9 +200,7 @@ public class CityManageFragment extends BaseFragment implements CityManageContra
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onHandleMessageEvent(MessageEvent messageEvent){
         if (messageEvent.getMessage() == UPDATE_CITY){
-            Logger.d(messageEvent.getMessage());
             mPresenter.loadCities();
-
 
         }
     }

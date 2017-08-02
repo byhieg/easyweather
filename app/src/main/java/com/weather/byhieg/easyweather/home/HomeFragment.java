@@ -41,6 +41,7 @@ import com.weather.byhieg.easyweather.data.source.CityDataSource;
 import com.weather.byhieg.easyweather.data.source.local.entity.LoveCityEntity;
 import com.weather.byhieg.easyweather.tools.DateUtil;
 import com.weather.byhieg.easyweather.tools.DisplayUtil;
+import com.weather.byhieg.easyweather.tools.ImageUtils;
 import com.weather.byhieg.easyweather.tools.LogUtils;
 import com.weather.byhieg.easyweather.home.adapter.PopupWindowAdapter;
 import com.weather.byhieg.easyweather.data.bean.HoursWeather;
@@ -58,6 +59,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import static com.weather.byhieg.easyweather.tools.Constants.UPDATE_SHOW_CITY;
 import static com.weather.byhieg.easyweather.tools.DisplayUtil.getViewHeight;
+import static com.weather.byhieg.easyweather.tools.ImageUtils.BRIEF;
 import static com.weather.byhieg.easyweather.tools.Knife.*;
 
 import java.text.SimpleDateFormat;
@@ -324,6 +326,15 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Swi
             hw.setUpdate(WeatherJsonConverter.getWeather(weather).getHourly_forecast().get(i).getDate());
             hoursWeathers.add(hw);
         }
+
+
+//        new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    ImageUtils.drawImage(MyApplication.getAppContext(),BRIEF);
+//
+//                }
+//            }).start();
     }
 
     @Override
@@ -466,6 +477,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Swi
     public void onHandleMessageEvent(MessageEvent event){
         if (event.getMessage() == UPDATE_SHOW_CITY){
             mPresenter.getNewShowWeather();
+//
         }
     }
 
