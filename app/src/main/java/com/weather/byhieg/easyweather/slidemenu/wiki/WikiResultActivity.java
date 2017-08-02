@@ -13,6 +13,7 @@ import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class WikiResultActivity extends BaseActivity {
 
@@ -34,6 +35,7 @@ public class WikiResultActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        ButterKnife.bind(this);
         tag = getIntent().getBundleExtra("result").getString("keyWord");
         link = getIntent().getBundleExtra("result").getString("url");
     }

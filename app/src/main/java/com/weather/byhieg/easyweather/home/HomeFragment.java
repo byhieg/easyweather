@@ -474,6 +474,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Swi
     public void onHandleCityName(CityNameMessage message) {
 
         String cityName = message.getCityName();
+        Logger.d("调用了");
         mPresenter.showDialog(cityName,getActivity());
     }
 
