@@ -6,6 +6,9 @@ import android.view.View;
 import com.weather.byhieg.easyweather.BasePresenter;
 import com.weather.byhieg.easyweather.BaseView;
 import com.weather.byhieg.easyweather.data.bean.HWeather;
+import com.weather.byhieg.easyweather.data.bean.WeekWeather;
+
+import java.util.List;
 
 /**
  * Created by byhieg on 17/5/27.
@@ -29,6 +32,8 @@ public interface HomeContract {
         void registerBroadCast();
 
         void generateTextView(android.view.View v);
+
+        void updateWeeksView(List<WeekWeather> weathers, String[] weeks,List<Integer> lists);
     }
 
 
@@ -49,6 +54,8 @@ public interface HomeContract {
         void getNewShowWeather();
 
         void showDialog(String name,Context context);
+
+        void updateDataInWeeks();
 
     }
 }

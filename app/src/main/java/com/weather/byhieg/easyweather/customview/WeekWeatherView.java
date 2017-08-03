@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathEffect;
 import android.graphics.Typeface;
+import android.os.Debug;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
@@ -43,7 +44,6 @@ public class WeekWeatherView extends View {
     private Paint highTempPaint;
     private Path mPath;
     private Path dPath;
-    private HWeather weather;
     private List<Integer> lists = new ArrayList<>();
     private List<WeekWeather> weekWeathers = new ArrayList<>();
     private float[] lowTempX = new float[7];
@@ -72,11 +72,6 @@ public class WeekWeatherView extends View {
     }
 
     private void init(Context context) {
-        try {
-            getData();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         baseLinePaint = new Paint();
         baseLinePaint.setColor(ContextCompat.getColor(context, R.color.maincolor));
         baseLinePaint.setAntiAlias(true);
@@ -182,6 +177,7 @@ public class WeekWeatherView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
         int translateLength = (viewWidth - 2 * padding) / 7;
         textPaint.setTextSize(translateLength / 4);
         lowTempPaint.setTextSize(translateLength / 4);
@@ -205,7 +201,7 @@ public class WeekWeatherView extends View {
             canvas.drawPath(dPath, verticalLinePaint);
             canvas.restore();
         }
-
+        if (weeks[0] == null) return;
         //画日期
         for (int i = 0; i < weeks.length; i++) {
             canvas.save();
@@ -256,42 +252,40 @@ public class WeekWeatherView extends View {
     }
 
 
-    @SuppressLint("SimpleDateFormat")
-    private void getData() throws Exception {
-        weekWeathers.clear();
-        if(weather == null) return;
-        for (int i = 0; i < WeatherJsonConverter.getWeather(weather).getDaily_forecast().size(); i++) {
-            WeekWeather weekWeather = new WeekWeather();
-            String weatherCond = WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(i).getCond().getTxt_d();
-            weekWeather.setLowTemp(Integer.parseInt(WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(i).getTmp().getMin()));
-            lists.add(Integer.parseInt(WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(i).getTmp().getMin()));
-            weekWeather.setHighTemp(Integer.parseInt(WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(i).getTmp().getMax()));
-            weekWeather.setDate(WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(i).getDate());
-            if (weatherCond.contains("/")) {
-                weekWeather.setCond(weatherCond.split("/")[1]);
-            }else{
-                weekWeather.setCond(weatherCond);
-            }
-            weekWeathers.add(weekWeather);
-        }
-        weeks = DateUtil.
-                getNextWeek(new SimpleDateFormat("yyyy-MM-dd").
-                        parse(WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(0).getDate()));
+//    @SuppressLint("SimpleDateFormat")
+//    private void getData() throws Exception {
+//        weekWeathers.clear();
+//        if(weather == null) return;
+//        for (int i = 0; i < WeatherJsonConverter.getWeather(weather).getDaily_forecast().size(); i++) {
+//            WeekWeather weekWeather = new WeekWeather();
+//            String weatherCond = WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(i).getCond().getTxt_d();
+//            weekWeather.setLowTemp(Integer.parseInt(WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(i).getTmp().getMin()));
+//            lists.add(Integer.parseInt(WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(i).getTmp().getMin()));
+//            weekWeather.setHighTemp(Integer.parseInt(WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(i).getTmp().getMax()));
+//            weekWeather.setDate(WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(i).getDate());
+//            if (weatherCond.contains("/")) {
+//                weekWeather.setCond(weatherCond.split("/")[1]);
+//            }else{
+//                weekWeather.setCond(weatherCond);
+//            }
+//            weekWeathers.add(weekWeather);
+//        }
+//        weeks = DateUtil.
+//                getNextWeek(new SimpleDateFormat("yyyy-MM-dd").
+//                        parse(WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(0).getDate()));
+//
+//    }
 
-    }
+    public void setData(List<WeekWeather> weathers,String[] weeks,List<Integer> lists){
 
-    public void setData(HWeather weather){
-        this.weather = weather;
+        this.weekWeathers = weathers;
+        this.weeks = weeks;
+        this.lists = lists;
     }
 
     public void notifyDateChanged(){
-        try {
-            getData();
-            invalidate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        postInvalidate();
+        Debug.stopMethodTracing();
     }
 
 }

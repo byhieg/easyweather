@@ -12,15 +12,21 @@ import com.orhanobut.logger.Logger;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.R;
 import com.weather.byhieg.easyweather.data.bean.HWeather;
+import com.weather.byhieg.easyweather.data.bean.WeekWeather;
 import com.weather.byhieg.easyweather.data.source.CityDataSource;
 import com.weather.byhieg.easyweather.data.source.CityRepository;
 import com.weather.byhieg.easyweather.data.source.WeatherRepository;
 import com.weather.byhieg.easyweather.data.source.local.entity.LoveCityEntity;
+import com.weather.byhieg.easyweather.tools.DateUtil;
 import com.weather.byhieg.easyweather.tools.MainThreadAction;
 import com.weather.byhieg.easyweather.tools.MessageEvent;
+import com.weather.byhieg.easyweather.tools.WeatherJsonConverter;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -62,6 +68,7 @@ public class HomePresenter implements HomeContract.Presenter {
     @Override
     public void loadWeather() {
         String showCity = getShowCity();
+
         final HWeather weather = mWeatherRepository.getLocalWeather(showCity);
         if (weather == null) {
             doRefreshInNoData();
@@ -100,7 +107,10 @@ public class HomePresenter implements HomeContract.Presenter {
                         public void run() {
                             try {
                                 mWeatherRepository.updateCityWeather(loveCities.get(index).getCityName());
-                                loadWeather();
+                                if (index == 0) {
+                                    loadWeather();
+                                    updateDataInWeeks();
+                                }
                             } catch (Exception e) {
                                 Logger.e(e.getMessage());
                                 mView.setNetWork();
@@ -180,6 +190,43 @@ public class HomePresenter implements HomeContract.Presenter {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void updateDataInWeeks() {
+        String showCity = getShowCity();
+        final HWeather weather = mWeatherRepository.getLocalWeather(showCity);
+        final List<WeekWeather> weekWeathers = new ArrayList<>();
+        String[] weeks = new String[7];
+        final List<Integer> lists = new ArrayList<>();
+        if (weather == null) return;
+        for (int i = 0; i < WeatherJsonConverter.getWeather(weather).getDaily_forecast().size(); i++) {
+            WeekWeather weekWeather = new WeekWeather();
+            String weatherCond = WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(i).getCond().getTxt_d();
+            weekWeather.setLowTemp(Integer.parseInt(WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(i).getTmp().getMin()));
+            lists.add(Integer.parseInt(WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(i).getTmp().getMin()));
+            weekWeather.setHighTemp(Integer.parseInt(WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(i).getTmp().getMax()));
+            weekWeather.setDate(WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(i).getDate());
+            if (weatherCond.contains("/")) {
+                weekWeather.setCond(weatherCond.split("/")[1]);
+            } else {
+                weekWeather.setCond(weatherCond);
+            }
+            weekWeathers.add(weekWeather);
+        }
+        try {
+            weeks = DateUtil.
+                    getNextWeek(new SimpleDateFormat("yyyy-MM-dd").
+                            parse(WeatherJsonConverter.getWeather(weather).getDaily_forecast().get(0).getDate()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        final String[] finalWeeks = weeks;
+
+        mView.updateWeeksView(weekWeathers, finalWeeks, lists);
+
+
     }
 
 

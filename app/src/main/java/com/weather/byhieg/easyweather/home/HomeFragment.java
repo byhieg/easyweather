@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Debug;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -37,6 +38,7 @@ import android.widget.Toast;
 import com.orhanobut.logger.Logger;
 import com.weather.byhieg.easyweather.MyApplication;
 import com.weather.byhieg.easyweather.base.BaseFragment;
+import com.weather.byhieg.easyweather.data.bean.WeekWeather;
 import com.weather.byhieg.easyweather.data.source.CityDataSource;
 import com.weather.byhieg.easyweather.data.source.local.entity.LoveCityEntity;
 import com.weather.byhieg.easyweather.tools.DateUtil;
@@ -127,7 +129,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Swi
     public ScrollView scrollView;
     @BindView(R.id.refresh)
     public ImageView refresh;
-
     @BindView(R.id.swipe_refresh)
     public SwipeRefreshLayout mSwipeLayout;
     @BindView(R.id.updateTime)
@@ -262,8 +263,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Swi
         refresh.setVisibility(View.GONE);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         date.setText("今天" + simpleDateFormat.format(new Date()));
-        weekWeatherView.setData(weather);
-        weekWeatherView.notifyDateChanged();
         Date sqlDate = convertDate(WeatherJsonConverter.getWeather(weather).getBasic()
                 .getUpdate().getLoc());
         long time = DateUtil.getDifferenceofDate(new Date(), sqlDate) / (1000 * 60);
@@ -329,15 +328,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Swi
             hw.setUpdate(WeatherJsonConverter.getWeather(weather).getHourly_forecast().get(i).getDate());
             hoursWeathers.add(hw);
         }
-
-
-//        new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    ImageUtils.drawImage(MyApplication.getAppContext(),BRIEF);
-//
-//                }
-//            }).start();
     }
 
     @Override
@@ -435,14 +425,10 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Swi
 
     @Override
     public void registerBroadCast() {
-//        localBroadcastManager = LocalBroadcastManager.getInstance(getActivity().getApplicationContext());
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-//        intentFilter.addAction("com.weather.byhieg.easyweather.Activity.LOCAL_BROADCAST");
-//        localReceiver = new LocalReceiver();
         networkChangeReceiver = new NetworkChangeReceiver();
         getActivity().registerReceiver(networkChangeReceiver, intentFilter);
-//        localBroadcastManager.registerReceiver(localReceiver, intentFilter);
     }
 
     @Override
@@ -468,6 +454,13 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Swi
         textView.setTextColor(ContextCompat.getColor(getActivity(), R.color.white));
         textView.setLayoutParams(lp);
         action_bar.addView(textView);
+    }
+
+    @Override
+    public void updateWeeksView(List<WeekWeather> weathers, String[] weeks,List<Integer> lists) {
+        weekWeatherView.setData(weathers,weeks,lists);
+        Debug.startMethodTracing();
+        weekWeatherView.notifyDateChanged();
     }
 
     @Override
