@@ -76,9 +76,9 @@ MVP中M和V还是与MVC中一样，而P层则全面处理View事件的转发。A
 ### gradle 编译优化
 
 通过
- 
+
 ```
-gralde build -profile 
+gralde build -profile
 ```
 记录gradle 性能
 
@@ -90,17 +90,17 @@ gralde build -profile
 
 ```
 :monitor	0.562s	(total)
-:monitor:processReleaseResources	0.485s	
+:monitor:processReleaseResources	0.485s
 
 ```
 ```
 :app	22.244s	(total)
 :app:transformClassesWithDexForDebug	17.429s
-:app:compileDebugJavaWithJavac	1.408s	
-:app:mergeDebugResources	0.851s	
-:app:processDebugResources	0.631s	
-:app:clean	0.214s	
-:app:greendao	0.190s	
+:app:compileDebugJavaWithJavac	1.408s
+:app:mergeDebugResources	0.851s
+:app:processDebugResources	0.631s
+:app:clean	0.214s
+:app:greendao	0.190s
 ```
 
 ```
@@ -123,9 +123,9 @@ betterloadNet	0s	(total)
 
 ```
 :app	3.361s	(total)
-:app:compileDebugJavaWithJavac	1.027s	
-:app:mergeDebugResources	0.896s	
-:app:processDebugResources	0.738s	
+:app:compileDebugJavaWithJavac	1.027s
+:app:mergeDebugResources	0.896s
+:app:processDebugResources	0.738s
 ```
 
 可以增加一点速度。
@@ -158,7 +158,7 @@ tasks.whenTaskAdded{ task->
 
 但目前对于我这个项目，这个优化，就先放下了。
 
-### 启动优化 
+### 启动优化
 
 首先通过adb命令查看启动到第一个过度透明Activity的时间
 
@@ -262,6 +262,7 @@ Complete
 这里 首先尝试利用MAT工具，先利用Android Device Monitor，搜集简易天气的hprof 文件，然后倒入到MAT，进行分析。
 
 可以看到
+
 ![](https://github.com/byhieg/easyweather/blob/99e85f2e89cdcfd5e20cb67988d3b1e04a7ab1ed/images/MAT%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E5%9B%BE.jpg)
 
 MAT功能很强大，但在这里用LeakCanary来真正分析内存泄漏图
@@ -295,6 +296,27 @@ MAT功能很强大，但在这里用LeakCanary来真正分析内存泄漏图
 > 这次，修改的办法就不能将ApplicationContext传入了，因为Dialog需要一个Activity的token。并且整个逻辑应该是放到HomeFragment中，通过presenter去执行逻辑。所以这边，直接用了EventBus来通知HomeFragment去显示以及处理逻辑。
 
 至此，整个简易天气内存泄漏方面就处理完毕。
+
+
+### 绘制与卡顿优化
+
+这边，利用的工具是TraceView，首先，找到明显卡顿的地方，通过TraceView分析，方法调用，执行的时间。
+
+TraceView有两种用法，一种是利用DDMS中，开启traceView，另一种是在代码中，调用
+
+```
+Debug.startMethodTracing();
+Debug.stopMethodTracing();
+
+```
+
+在简易天气之中，点击分享的时候，会非常卡，经过traceView分析，在进入该Activity时，在Oncreate中，调用一个绘制图片的方法，该方法耗时过长。导致进入该Activity时间过长。
+
+解决办法：
+
+将绘制的图片，保存成图片，然后在首页，采用异步线程去绘制。这里，是用的EventBus，background方法
+
+然后在分享的，启动的Activity直接读取绘制后的图片，而不是每次启动都会现绘制。
 
 
 ## 讨论

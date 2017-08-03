@@ -58,6 +58,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import static com.weather.byhieg.easyweather.tools.Constants.UPDATE_SHOW_CITY;
+import static com.weather.byhieg.easyweather.tools.Constants.UPDATE_WEATHER;
 import static com.weather.byhieg.easyweather.tools.DisplayUtil.getViewHeight;
 import static com.weather.byhieg.easyweather.tools.ImageUtils.BRIEF;
 import static com.weather.byhieg.easyweather.tools.Knife.*;
@@ -181,6 +182,8 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Swi
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
+        EventBus.getDefault().post(new MessageEvent(UPDATE_WEATHER));
+
     }
 
     void setCallBack(Callback callBack) {
@@ -477,7 +480,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Swi
     public void onHandleMessageEvent(MessageEvent event){
         if (event.getMessage() == UPDATE_SHOW_CITY){
             mPresenter.getNewShowWeather();
-//
         }
     }
 
@@ -488,6 +490,13 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Swi
         String cityName = message.getCityName();
         Logger.d("调用了");
         mPresenter.showDialog(cityName,getActivity());
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onHandleBackground(MessageEvent event){
+        if (event.getMessage() == UPDATE_WEATHER){
+            ImageUtils.drawImage(MyApplication.getAppContext(),ImageUtils.BRIEF);
+        }
     }
 
     class NetworkChangeReceiver extends BroadcastReceiver {

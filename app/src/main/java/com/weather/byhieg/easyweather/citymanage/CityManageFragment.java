@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
@@ -41,6 +42,7 @@ import butterknife.ButterKnife;
 
 import static com.weather.byhieg.easyweather.city.CityFragment.UPDATE_CITY;
 import static com.weather.byhieg.easyweather.tools.Constants.UPDATE_SHOW_CITY;
+import static com.weather.byhieg.easyweather.tools.Constants.UPDATE_WEATHER;
 import static com.weather.byhieg.easyweather.tools.Knife.convertObject;
 
 /**
@@ -137,7 +139,7 @@ public class CityManageFragment extends BaseFragment implements CityManageContra
                                             "该城市已经是首页城市",Toast.LENGTH_SHORT).show();
                                 }else{
                                     mPresenter.updateShowCity(name);
-                                    EventBus.getDefault().post(new MessageEvent(UPDATE_SHOW_CITY));
+                                    EventBus.getDefault().post(new MessageEvent(UPDATE_WEATHER));
                                 }
                             }
                         }).setNegativeButton("否", new DialogInterface.OnClickListener() {
