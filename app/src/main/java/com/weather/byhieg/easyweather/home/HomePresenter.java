@@ -112,8 +112,12 @@ public class HomePresenter implements HomeContract.Presenter {
                                     updateDataInWeeks();
                                 }
                             } catch (Exception e) {
-                                Logger.e(e.getMessage());
-                                mView.setNetWork();
+                                MainThreadAction.getInstance().post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mView.setNetWork();
+                                    }
+                                });
                             }
                         }
                     });
