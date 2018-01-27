@@ -105,7 +105,6 @@ public class ImageUtils {
 
         switch (flag) {
             case BRIEF:
-                Logger.d("111");
 
                 canvas.save();
                 canvas.drawColor(ContextCompat.getColor(context, R.color.dodgerblue));
@@ -140,7 +139,6 @@ public class ImageUtils {
                 }
                 canvas.restore();
             case DETAIL:
-                Logger.d("12121");
 
                 canvas.save();
                 canvas.drawColor(ContextCompat.getColor(context, R.color.orange));
@@ -189,7 +187,6 @@ public class ImageUtils {
                 }
                 canvas.restore();
             case FUTURE:
-                Logger.d("13131");
 
                 canvas.save();
                 canvas.drawColor(ContextCompat.getColor(context, R.color.white));

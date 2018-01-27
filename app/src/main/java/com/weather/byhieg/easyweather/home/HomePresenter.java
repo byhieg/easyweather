@@ -167,8 +167,9 @@ public class HomePresenter implements HomeContract.Presenter {
                         mCityRepository.getLoveCity(1, new CityDataSource.GetLoveCityCallBack() {
                             @Override
                             public void onSuccess(List<LoveCityEntity> loveCities) {
-                                mCityRepository.updateCityOrder(loveCities.get(0).getCityName(),
-                                        mCityRepository.getAllLoveCities().size() + 1);
+                                Logger.d(loveCities.get(0).getCityName() + "  "+ loveCities.get(0).getOrder());
+                                mCityRepository.updateLocaitonCityOrder(loveCities.get(0).getCityName(),
+                                        mCityRepository.getAllLoveCities().size()+1);
                                 LoveCityEntity newLoveCity = new LoveCityEntity();
                                 newLoveCity.setCityName(name);
                                 newLoveCity.setOrder(1);

@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import static com.weather.byhieg.easyweather.tools.Knife.checkNotNull;
 import static com.weather.byhieg.easyweather.tools.Knife.convertDate;
 import static com.weather.byhieg.easyweather.tools.Knife.convertObject;
 import static com.weather.byhieg.easyweather.tools.Knife.isListEmpty;
@@ -39,7 +40,7 @@ import static com.weather.byhieg.easyweather.tools.Knife.isListEmpty;
  * Contact with byhieg@gmail.com
  */
 
-public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource{
+public class WeatherLocalDataSource implements WeatherDataSource, CityDataSource {
 
     private final static String TAG = "WeatherLocalDataSource";
     private ProvinceEntityDao mProvinceDao;
@@ -57,7 +58,7 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
 
     @Override
     public String getShowCity() {
-        List<LoveCityEntity> entity =  mLoveCityDao.queryBuilder().
+        List<LoveCityEntity> entity = mLoveCityDao.queryBuilder().
                 where(LoveCityEntityDao.Properties.Order.eq(1)).
                 list();
         return entity.get(0).getCityName();
@@ -83,9 +84,9 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
                 where(WeatherEntityDao.Properties.CityName.eq(cityName)).list();
         if (isListEmpty(res)) {
             callBack.onFailure("没有该城市的天气");
-        }else{
+        } else {
             byte[] bytes = res.get(res.size() - 1).getWeather();
-            callBack.onSuccess(convertObject(bytes,HWeather.class));
+            callBack.onSuccess(convertObject(bytes, HWeather.class));
         }
     }
 
@@ -95,7 +96,7 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
                 where(WeatherEntityDao.Properties.CityName.eq(cityName)).list();
         if (isListEmpty(res)) {
             callBack.onFailure("没有该城市的天气数据");
-        }else{
+        } else {
             callBack.onSuccess(res.get(res.size() - 1));
         }
     }
@@ -106,13 +107,14 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
                 where(WeatherEntityDao.Properties.CityName.eq(cityName)).list();
         if (!isListEmpty(res)) {
             return res.get(res.size() - 1);
-        }else{
+        } else {
             return null;
         }
     }
 
     /**
      * 该方法由repository实现
+     *
      * @param cityName
      * @throws Exception
      */
@@ -126,7 +128,7 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
         WeatherEntity entity = getWeatherEntity(cityName);
         if (entity == null) {
             return null;
-        }else{
+        } else {
             return convertObject(entity.getWeather(), HWeather.class);
         }
     }
@@ -154,6 +156,7 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
 
     /**
      * 该方法由remoteDataSource实现
+     *
      * @param cityName
      * @return
      * @throws Exception
@@ -194,7 +197,7 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
                 list();
         if (isListEmpty(res)) {
             callBack.onFailure("该省份下没有城市");
-        }else{
+        } else {
             callBack.onSuccess(res);
         }
     }
@@ -204,7 +207,7 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
         List<CityEntity> res = mCityDao.loadAll();
         if (isListEmpty(res)) {
             callBack.onFailure("该省份下没有城市");
-        }else{
+        } else {
             callBack.onSuccess(res);
         }
     }
@@ -217,7 +220,7 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
 
         if (isListEmpty(res)) {
             callBack.onFailure("该省份下没有城市");
-        }else{
+        } else {
             callBack.onSuccess(res);
         }
     }
@@ -229,7 +232,7 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
                 list();
         if (isListEmpty(res)) {
             return false;
-        }else{
+        } else {
             return true;
         }
     }
@@ -241,14 +244,14 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
 
     @Override
     public List<CityEntity> getCities(String name) {
-        return  mCityDao.queryBuilder().
+        return mCityDao.queryBuilder().
                 where(CityEntityDao.Properties.CityName.like("%" + name + "%")).
                 list();
     }
 
     @Override
     public List<ProvinceEntity> getProvinces(String name) {
-        return  mProvinceDao.queryBuilder().
+        return mProvinceDao.queryBuilder().
                 where(ProvinceEntityDao.Properties.ProvinceName.like("%" + name + "%")).
                 list();
     }
@@ -262,7 +265,7 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
 
         if (!isExistInProvince()) {
             for (int i = 0; i < provinces.length; i++) {
-                ProvinceEntity entity = new ProvinceEntity(null,provinces[i]);
+                ProvinceEntity entity = new ProvinceEntity(null, provinces[i]);
                 addProvince(entity);
             }
         }
@@ -300,7 +303,7 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
 
         if (isListEmpty(res)) {
             callBack.onFailure("没有含有该名字省份");
-        }else{
+        } else {
             callBack.onSuccess(res);
         }
     }
@@ -324,7 +327,7 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
 
         if (isListEmpty(res)) {
             callBack.onFailure("没有喜欢的城市");
-        }else{
+        } else {
             callBack.onSuccess(res);
         }
     }
@@ -334,17 +337,26 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
         List<LoveCityEntity> res = mLoveCityDao.queryBuilder().
                 where(LoveCityEntityDao.Properties.Order.eq(order)).list();
 
-        if (isListEmpty(res)){
+        if (isListEmpty(res)) {
             callBack.onFailure("没有喜欢的城市");
-        }else{
+        } else {
             callBack.onSuccess(res);
         }
     }
 
     @Override
     public LoveCityEntity getLoveCity(int order) {
-        return mLoveCityDao.queryBuilder().
-                where(LoveCityEntityDao.Properties.Order.eq(order)).list().get(0);
+        List<LoveCityEntity> list = mLoveCityDao.queryBuilder().
+                where(LoveCityEntityDao.Properties.Order.eq(order)).list();
+        List<LoveCityEntity> tmpList = mLoveCityDao.queryBuilder().list();
+        for (int i = 0; i < tmpList.size(); i++) {
+            Logger.d(tmpList.get(i).getCityName() + " " + tmpList.get(i).getOrder());
+        }
+        if (!isListEmpty(list)) {
+            return list.get(0);
+        } else {
+            return null;
+        }
 
     }
 
@@ -354,9 +366,9 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
                 orderAsc(LoveCityEntityDao.Properties.Order).
                 list();
 
-        if (isListEmpty(res)){
+        if (isListEmpty(res)) {
             callBack.onFailure("没有喜欢的城市");
-        }else{
+        } else {
             callBack.onSuccess(res);
         }
     }
@@ -374,13 +386,13 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
 
         if (isListEmpty(res)) {
             return false;
-        }else{
+        } else {
             return true;
         }
     }
 
     @Override
-    public void updateCityOrder(String cityName, final int order) {
+    public void updateCityOrder(final String cityName, final int order) {
         getLoveCity(cityName, new GetLoveCityCallBack() {
             @Override
             public void onSuccess(List<LoveCityEntity> loveCities) {
@@ -401,6 +413,24 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
     }
 
     @Override
+    public void updateLocaitonCityOrder(String cityName, final int order) {
+        getLoveCity(cityName, new GetLoveCityCallBack() {
+            @Override
+            public void onSuccess(List<LoveCityEntity> loveCities) {
+                LoveCityEntity old = loveCities.get(0);
+                old.setOrder(order);
+                mLoveCityDao.update(old);
+            }
+
+            @Override
+            public void onFailure(String failureMessage) {
+
+            }
+        });
+    }
+
+
+    @Override
     public void deleteCity(String cityName) {
         getLoveCity(cityName, new GetLoveCityCallBack() {
             @Override
@@ -414,7 +444,6 @@ public class WeatherLocalDataSource implements WeatherDataSource ,CityDataSource
             }
         });
     }
-
 
 
 }

@@ -22,7 +22,6 @@ public class MyLocationListener implements BDLocationListener {
         if (city != null) {
             final String name = city.substring(0, city.length() - 1);
             EventBus.getDefault().post(new CityNameMessage(name));
-            Logger.d("发送了");
         } else if (location.getLocType() == BDLocation.TypeNetWorkException) {
 
             Toast.makeText(MyApplication.getAppContext(), "网络不同导致定位失败，请检查网络是否通畅", Toast.LENGTH_LONG).show();

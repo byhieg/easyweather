@@ -76,6 +76,8 @@ public interface CityDataSource {
 
     void updateCityOrder(String cityName, int order);
 
+    void updateLocaitonCityOrder(String cityName,int order);
+
     void deleteCity(String cityName);
 
     interface GetLoveCityCallBack {

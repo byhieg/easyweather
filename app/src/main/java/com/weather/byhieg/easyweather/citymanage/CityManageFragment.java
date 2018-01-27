@@ -145,7 +145,8 @@ public class CityManageFragment extends BaseFragment implements CityManageContra
                         }).setNegativeButton("否", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
+                                LogUtils.e("name",name);
+                                LogUtils.e("show",mPresenter.getShowCity());
                             }
                         }).show();
                 return true;

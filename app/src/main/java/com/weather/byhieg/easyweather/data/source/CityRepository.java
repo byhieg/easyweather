@@ -157,6 +157,11 @@ public class CityRepository implements CityDataSource{
     }
 
     @Override
+    public void updateLocaitonCityOrder(String cityName, int order) {
+        mWeatherLocalDataSource.updateLocaitonCityOrder(cityName,order);
+    }
+
+    @Override
     public void deleteCity(String cityName) {
         mWeatherLocalDataSource.deleteCity(cityName);
     }
